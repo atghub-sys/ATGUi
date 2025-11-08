@@ -1,12 +1,6 @@
---[[
-    Fluent Interface Suite
-    This script is not intended to be modified.
-    To view the source code, see the 'src' folder on GitHub!
+do local a=game:GetService("TweenService")local b=game:GetService("ContentProvider")local c=game:GetService("CoreGui")local d=game:GetService("Lighting")local e=game:GetService("RunService")local f=game:GetService("Players")local g=f.LocalPlayer;local h=workspace.CurrentCamera;local i="rbxassetid://90989180960460"local j=true;local k="ATG HUB"local l=Enum.Font.GothamBold;-- ปรับตรงนี้
+local m=0.35;local n=0.8;local o=0.35;local p=0.82;local q=1.12;local r=0.6;local s=18;local t=0.9;local u=8;local v=true;if c:FindFirstChild("CoreSplash")then c.CoreSplash:Destroy()end;pcall(function()b:PreloadAsync({i})end)local function w(x,y,z,A,B)local C=TweenInfo.new(z,A or Enum.EasingStyle.Sine,B or Enum.EasingDirection.Out)local D=a:Create(x,C,y)D:Play()return D end;local E=Instance.new("ScreenGui")E.Name="CoreSplash"E.IgnoreGuiInset=true;E.ResetOnSpawn=false;E.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;E.DisplayOrder=999999999;E.Parent=c;local function F()return h and h.ViewportSize or Vector2.new(1280,720)end;local function G()local H=F()local I=math.min(H.X,H.Y)local J=I/1080;local K=math.clamp(r*J,0.18,0.72)return{imageScale=K,textSize=math.clamp(26*J,14,56),particleSize=math.clamp(10*J,6,22)}end;local L=Instance.new("Frame")L.Name="Overlay"L.Size=UDim2.fromScale(1,1)L.Position=UDim2.fromScale(0,0)L.BackgroundColor3=Color3.fromRGB(6,6,6)L.BackgroundTransparency=1;L.BorderSizePixel=0;L.ZIndex=99999999;L.Parent=E;local function M(B)local N=Instance.new("Frame")N.Size=UDim2.fromScale(1,0.18)if B=="top"then N.AnchorPoint=Vector2.new(0,0)N.Position=UDim2.fromScale(0,0)elseif B=="bottom"then N.AnchorPoint=Vector2.new(0,1)N.Position=UDim2.fromScale(0,1)end;N.BackgroundTransparency=1;N.ZIndex=99999998;N.Parent=E;local O=Instance.new("UIGradient",N)O.Transparency=NumberSequence.new{NumberSequenceKeypoint.new(0,0.8),NumberSequenceKeypoint.new(1,1)}return N end;local P=M("top")local Q=M("bottom")local R;do R=d:FindFirstChild("CoreSplashBlur")or Instance.new("BlurEffect")R.Name="CoreSplashBlur"R.Parent=d;R.Size=0;R.Enabled=true end;local S=Instance.new("Frame")S.Name="Center"S.AnchorPoint=Vector2.new(0.5,0.5)S.Position=UDim2.fromScale(0.5,0.5)S.Size=UDim2.fromOffset(0,0)S.BackgroundTransparency=1;S.ZIndex=99999999;S.Parent=E;local T=Instance.new("ImageLabel")T.Name="Logo"T.AnchorPoint=Vector2.new(0.5,0.5)T.Position=UDim2.fromScale(0.5,0.5)T.Size=UDim2.fromScale(0.4,0.4)T.BackgroundTransparency=1;T.Image=i;T.ImageTransparency=1;T.ScaleType=Enum.ScaleType.Fit;T.ZIndex=99999999;T.Parent=S;local U=Instance.new("ImageLabel")U.Name="Rim"U.AnchorPoint=Vector2.new(0.5,0.5)U.Position=UDim2.fromScale(0.5,0.5)U.Size=UDim2.fromScale(1,1)U.BackgroundTransparency=1;U.Image=i;U.ImageTransparency=0.985;U.ScaleType=Enum.ScaleType.Fit;U.ZIndex=99999999;U.Parent=T;local V=Instance.new("TextLabel")V.Name="TextShadow"V.AnchorPoint=Vector2.new(0.5,0)V.Position=UDim2.new(0.5,1,0,16)V.Size=UDim2.new(0.9,0,0,30)V.BackgroundTransparency=1;V.ZIndex=99999999;V.Text=j and k or""V.TextColor3=Color3.fromRGB(10,10,10)V.TextTransparency=0.35;V.Font=l;V.TextSize=18;V.Parent=S;local W=Instance.new("TextLabel")W.Name="Text"W.AnchorPoint=Vector2.new(0.5,0)W.Position=V.Position;W.Size=V.Size;W.BackgroundTransparency=1;W.ZIndex=99999999;W.Text=j and k or""W.TextColor3=Color3.fromRGB(255,255,255)W.TextStrokeTransparency=0.7;W.Font=l;W.TextSize=18;W.Parent=S;local function X()local Y=G()local Z=Y.imageScale;T.Size=UDim2.fromScale(Z,Z)U.Size=UDim2.fromScale(1,1)local H=F()S.Size=UDim2.fromOffset(math.max(400,H.X*Z*0.95),math.max(300,H.Y*Z*0.8))W.TextSize=Y.textSize;V.TextSize=Y.textSize;local _=T.AbsoluteSize.Y;local a0=math.clamp(_/2+Y.textSize*0.9+18,48,420)W.Position=UDim2.new(0.5,0,0.5,a0)V.Position=UDim2.new(0.5,2,0.5,a0+2)end;local a1=Instance.new("Frame")a1.Name="Shimmer"a1.AnchorPoint=Vector2.new(0.5,0.5)a1.Position=UDim2.fromScale(0.5,0.5)a1.Size=UDim2.fromScale(0.95,0.95)a1.BackgroundTransparency=1;a1.ZIndex=99999999;a1.Parent=T;local a2=Instance.new("ImageLabel")a2.Size=UDim2.fromScale(1.6,0.35)a2.AnchorPoint=Vector2.new(0.5,0.5)a2.Position=UDim2.fromScale(0.5,0.5)a2.BackgroundTransparency=1;a2.ImageTransparency=1;a2.Image=i;a2.ScaleType=Enum.ScaleType.Slice;a2.SliceCenter=Rect.new(8,8,8,8)a2.ZIndex=99999999;a2.Parent=a1;X()local a3;a3=h:GetPropertyChangedSignal("ViewportSize"):Connect(function()X()end)task.spawn(function()w(L,{BackgroundTransparency=0.45},0.35,Enum.EasingStyle.Quad)w(R,{Size=u},0.45,Enum.EasingStyle.Quad)local Y=G()T.Size=UDim2.fromScale(Y.imageScale*p,Y.imageScale*p)w(T,{ImageTransparency=0},m,Enum.EasingStyle.Sine)w(T,{Size=UDim2.fromScale(Y.imageScale*1.02,Y.imageScale*1.02)},m,Enum.EasingStyle.Quart)task.spawn(function()while T.Parent and T.ImageTransparency==0 do a2.Rotation=(math.random()-0.5)*30;a2.ImageTransparency=0.85;w(a2,{ImageTransparency=1},0.7,Enum.EasingStyle.Sine)task.wait(0.12+math.random()*0.3)end end)task.wait(m*0.9)for a4=1,s do local a5=math.rad((a4-1)/s*360+math.random(-12,12))local a6=G().particleSize*(0.8+math.random()*1.4)spawn(function()spawnParticle(a5,0,a6)end)task.wait(0.02)end;local a7=w(T,{Size=UDim2.fromScale(Y.imageScale*1.06,Y.imageScale*1.06)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)a7.Completed:Connect(function()if T and T.Parent then w(T,{Size=UDim2.fromScale(Y.imageScale*1.02,Y.imageScale*1.02)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)end end)task.wait(m+n)w(L,{BackgroundTransparency=1},o,Enum.EasingStyle.Quad)w(R,{Size=0},o,Enum.EasingStyle.Quad)w(T,{ImageTransparency=1,Size=UDim2.fromScale(Y.imageScale*q,Y.imageScale*q)},o,Enum.EasingStyle.Quad)w(W,{TextTransparency=1},o*0.9,Enum.EasingStyle.Quad)w(V,{TextTransparency=1},o*0.9,Enum.EasingStyle.Quad)for a4=1,18 do local a5=math.rad(math.random()*360)local a6=G().particleSize*(0.9+math.random()*2.0)spawn(function()spawnParticle(a5,200,a6)end)end;task.wait(o+0.05)if v then if a3 then a3:Disconnect()end;pcall(function()E:Destroy()if R and R.Parent then R:Destroy()end end)else E.Parent=E.Parent end end)end
 
-    Author: dawid
-    License: MIT
-    GitHub: https://github.com/dawid-scripts/Fluent
---]]
 local a, b = {
     {
         1,
@@ -20,12 +14,27 @@ local a, b = {
                 "ModuleScript",
                 {"Themes"},
                 {
-                    {50, "ModuleScript", {"Dark"}},
+                    {50, "ModuleScript", {"Dark V2"}},
                     {52, "ModuleScript", {"Light"}},
-                    {51, "ModuleScript", {"Darker"}},
+                    {51, "ModuleScript", {"Darker V2"}},
                     {53, "ModuleScript", {"Rose"}},
                     {49, "ModuleScript", {"Aqua"}},
-                    {48, "ModuleScript", {"Amethyst"}}
+                    {48, "ModuleScript", {"Amethyst"}},
+                    {54, "ModuleScript", {"Ocean"}},
+                    {55, "ModuleScript", {"Forest"}},
+                    {56, "ModuleScript", {"Sunset"}},
+                    {57, "ModuleScript", {"Midnight"}},
+                    {58, "ModuleScript", {"Cherry"}},
+                    {59, "ModuleScript", {"Lavender"}},
+                    {60, "ModuleScript", {"Gold"}},
+                    {61, "ModuleScript", {"Mint"}},
+                    {62, "ModuleScript", {"Crimson"}},
+                    {63, "ModuleScript", {"Sapphire"}},
+                    {64, "ModuleScript", {"Peach"}},
+                    {65, "ModuleScript", {"Galaxy"}},
+                    {66, "ModuleScript", {"RGB"}},
+                    {67, "ModuleScript", {"Dark"}},
+                    {68, "ModuleScript", {"Darker"}}
                 }
             },
             {
@@ -122,7 +131,7 @@ local aa = {
         v(w)
         t:Init(w)
         local x = {
-            Version = "1.1.0",
+            Version = "1.5.0",
             OpenFrames = {},
             Options = {},
             Themes = e(o.Themes).Names,
@@ -1439,181 +1448,240 @@ local aa = {
         end
     end,
     [16] = function()
-        local c, d, e, f, g = b(16)
-        local h, i = d.Parent.Parent, e(d.Parent.Assets)
-        local j, k = e(h.Creator), e(h.Packages.Flipper)
-        local l, m = j.New, j.AddSignal
-        return function(n)
-            local o, p, q =
-                {},
-                e(h),
-                function(o, p, q, r)
-                    local s = {Callback = r or function()
-                            end}
-                    s.Frame =
+    local c, d, e, f, g = b(16)
+    local h, i = d.Parent.Parent, e(d.Parent.Assets)
+    local j, k = e(h.Creator), e(h.Packages.Flipper)
+    local l, m = j.New, j.AddSignal
+    return function(n)
+        local o, p, q =
+            {},
+            e(h),
+            function(o, p, q, r)
+                local s = {Callback = r or function()
+                        end}
+                s.Frame =
+                    l(
+                    "TextButton",
+                    {
+                        Size = UDim2.new(0, 34, 1, -8),
+                        AnchorPoint = Vector2.new(1, 0),
+                        BackgroundTransparency = 1,
+                        Parent = q,
+                        Position = p,
+                        Text = "",
+                        ThemeTag = {BackgroundColor3 = "Text"}
+                    },
+                    {
+                        l("UICorner", {CornerRadius = UDim.new(0, 7)}),
                         l(
-                        "TextButton",
-                        {
-                            Size = UDim2.new(0, 34, 1, -8),
-                            AnchorPoint = Vector2.new(1, 0),
-                            BackgroundTransparency = 1,
-                            Parent = q,
-                            Position = p,
-                            Text = "",
-                            ThemeTag = {BackgroundColor3 = "Text"}
-                        },
-                        {
-                            l("UICorner", {CornerRadius = UDim.new(0, 7)}),
-                            l(
-                                "ImageLabel",
-                                {
-                                    Image = o,
-                                    Size = UDim2.fromOffset(16, 16),
-                                    Position = UDim2.fromScale(0.5, 0.5),
-                                    AnchorPoint = Vector2.new(0.5, 0.5),
-                                    BackgroundTransparency = 1,
-                                    Name = "Icon",
-                                    ThemeTag = {ImageColor3 = "Text"}
-                                }
-                            )
-                        }
-                    )
-                    local t, u = j.SpringMotor(1, s.Frame, "BackgroundTransparency")
-                    m(
-                        s.Frame.MouseEnter,
-                        function()
-                            u(0.94)
-                        end
-                    )
-                    m(
-                        s.Frame.MouseLeave,
-                        function()
-                            u(1, true)
-                        end
-                    )
-                    m(
-                        s.Frame.MouseButton1Down,
-                        function()
-                            u(0.96)
-                        end
-                    )
-                    m(
-                        s.Frame.MouseButton1Up,
-                        function()
-                            u(0.94)
-                        end
-                    )
-                    m(s.Frame.MouseButton1Click, s.Callback)
-                    s.SetCallback = function(v)
-                        s.Callback = v
-                    end
-                    return s
-                end
-            o.Frame =
-                l(
-                "Frame",
-                {Size = UDim2.new(1, 0, 0, 42), BackgroundTransparency = 1, Parent = n.Parent},
-                {
-                    l(
-                        "Frame",
-                        {Size = UDim2.new(1, -16, 1, 0), Position = UDim2.new(0, 16, 0, 0), BackgroundTransparency = 1},
-                        {
-                            l(
-                                "UIListLayout",
-                                {
-                                    Padding = UDim.new(0, 5),
-                                    FillDirection = Enum.FillDirection.Horizontal,
-                                    SortOrder = Enum.SortOrder.LayoutOrder
-                                }
-                            ),
-                            l(
-                                "TextLabel",
-                                {
-                                    RichText = true,
-                                    Text = n.Title,
-                                    FontFace = Font.new(
-                                        "rbxasset://fonts/families/GothamSSm.json",
-                                        Enum.FontWeight.Regular,
-                                        Enum.FontStyle.Normal
-                                    ),
-                                    TextSize = 12,
-                                    TextXAlignment = "Left",
-                                    TextYAlignment = "Center",
-                                    Size = UDim2.fromScale(0, 1),
-                                    AutomaticSize = Enum.AutomaticSize.X,
-                                    BackgroundTransparency = 1,
-                                    ThemeTag = {TextColor3 = "Text"}
-                                }
-                            ),
-                            l(
-                                "TextLabel",
-                                {
-                                    RichText = true,
-                                    Text = n.SubTitle,
-                                    TextTransparency = 0.4,
-                                    FontFace = Font.new(
-                                        "rbxasset://fonts/families/GothamSSm.json",
-                                        Enum.FontWeight.Regular,
-                                        Enum.FontStyle.Normal
-                                    ),
-                                    TextSize = 12,
-                                    TextXAlignment = "Left",
-                                    TextYAlignment = "Center",
-                                    Size = UDim2.fromScale(0, 1),
-                                    AutomaticSize = Enum.AutomaticSize.X,
-                                    BackgroundTransparency = 1,
-                                    ThemeTag = {TextColor3 = "Text"}
-                                }
-                            )
-                        }
-                    ),
-                    l(
-                        "Frame",
-                        {
-                            BackgroundTransparency = 0.5,
-                            Size = UDim2.new(1, 0, 0, 1),
-                            Position = UDim2.new(0, 0, 1, 0),
-                            ThemeTag = {BackgroundColor3 = "TitleBarLine"}
-                        }
-                    )
-                }
-            )
-            o.CloseButton =
-                q(
-                i.Close,
-                UDim2.new(1, -4, 0, 4),
-                o.Frame,
-                function()
-                    p.Window:Dialog {
-                        Title = "Close",
-                        Content = "Are you sure you want to unload the interface?",
-                        Buttons = {{Title = "Yes", Callback = function()
-                                    p:Destroy()
-                                end}, {Title = "No"}}
+                            "ImageLabel",
+                            {
+                                Image = o,
+                                Size = UDim2.fromOffset(16, 16),
+                                Position = UDim2.fromScale(0.5, 0.5),
+                                AnchorPoint = Vector2.new(0.5, 0.5),
+                                BackgroundTransparency = 1,
+                                Name = "Icon",
+                                ThemeTag = {ImageColor3 = "Text"}
+                            }
+                        )
                     }
+                )
+                local t, u = j.SpringMotor(1, s.Frame, "BackgroundTransparency")
+                m(
+                    s.Frame.MouseEnter,
+                    function()
+                        u(0.94)
+                    end
+                )
+                m(
+                    s.Frame.MouseLeave,
+                    function()
+                        u(1, true)
+                    end
+                )
+                m(
+                    s.Frame.MouseButton1Down,
+                    function()
+                        u(0.96)
+                    end
+                )
+                m(
+                    s.Frame.MouseButton1Up,
+                    function()
+                        u(0.94)
+                    end
+                )
+                m(s.Frame.MouseButton1Click, s.Callback)
+                s.SetCallback = function(v)
+                    s.Callback = v
                 end
-            )
-            o.MaxButton =
-                q(
-                i.Max,
-                UDim2.new(1, -40, 0, 4),
-                o.Frame,
-                function()
-                    n.Window.Maximize(not n.Window.Maximized)
-                end
-            )
-            o.MinButton =
-                q(
-                i.Min,
-                UDim2.new(1, -80, 0, 4),
-                o.Frame,
-                function()
-                    p.Window:Minimize()
-                end
-            )
-            return o
-        end
-    end,
+                return s
+            end
+        o.Frame =
+            l(
+            "Frame",
+            {Size = UDim2.new(1, 0, 0, 42), BackgroundTransparency = 1, Parent = n.Parent},
+            {
+                l(
+                    "Frame",
+                    -- ขยับซ้ายเล็กน้อย: Position 16 -> 8, ลด margin ขวาให้สมดุล
+                    {Size = UDim2.new(1, -8, 1, 0), Position = UDim2.new(0, 8, 0, 0), BackgroundTransparency = 1},
+                    {
+                        -- UIListLayout: แนวนอนและจัดกึ่งกลางแนวตั้ง
+                        l(
+                            "UIListLayout",
+                            {
+                                Padding = UDim.new(0, 6),
+                                FillDirection = Enum.FillDirection.Horizontal,
+                                SortOrder = Enum.SortOrder.LayoutOrder,
+                                VerticalAlignment = Enum.VerticalAlignment.Center
+                            }
+                        ),
+
+                        -- ไอคอนขนาดใหญ่ขึ้นและจัดด้วย layout
+                        l(
+                            "ImageLabel",
+                            {
+                                Name = "WindowIcon",
+                                Image = n.Icon or "rbxassetid://90989180960460",
+                                Size = UDim2.fromOffset(32, 32), -- ขยายเป็น 32x32
+                                BackgroundTransparency = 1,
+                                LayoutOrder = 1,
+                                ScaleType = Enum.ScaleType.Fit,
+                                ThemeTag = {ImageColor3 = "Text"}
+                            }
+                        ),
+
+                        -- Title (ขนาดฟอนต์เพิ่มเล็กน้อย)
+                        l(
+                            "TextLabel",
+                            {
+                                RichText = true,
+                                Text = n.Title or "",
+                                FontFace = Font.new(
+                                    "rbxasset://fonts/families/GothamSSm.json",
+                                    Enum.FontWeight.Regular,
+                                    Enum.FontStyle.Normal
+                                ),
+                                TextSize = 14,
+                                TextXAlignment = "Left",
+                                TextYAlignment = "Center",
+                                AutomaticSize = Enum.AutomaticSize.X,
+                                BackgroundTransparency = 1,
+                                LayoutOrder = 2,
+                                ThemeTag = {TextColor3 = "Text"}
+                            }
+                        ),
+
+                        -- SubTitle (ถ้ามี)
+                        l(
+                            "TextLabel",
+                            {
+                                RichText = true,
+                                Text = n.SubTitle or "",
+                                TextTransparency = 0.4,
+                                FontFace = Font.new(
+                                    "rbxasset://fonts/families/GothamSSm.json",
+                                    Enum.FontWeight.Regular,
+                                    Enum.FontStyle.Normal
+                                ),
+                                TextSize = 13,
+                                TextXAlignment = "Left",
+                                TextYAlignment = "Center",
+                                AutomaticSize = Enum.AutomaticSize.X,
+                                BackgroundTransparency = 1,
+                                LayoutOrder = 3,
+                                ThemeTag = {TextColor3 = "Text"}
+                            }
+                        )
+                    }
+                ),
+                l(
+                    "Frame",
+                    {
+                        BackgroundTransparency = 0.5,
+                        Size = UDim2.new(1, 0, 0, 1),
+                        Position = UDim2.new(0, 0, 1, 0),
+                        ThemeTag = {BackgroundColor3 = "TitleBarLine"}
+                    }
+                )
+            }
+        )
+
+        -- Close: now does a full cleanup + destroy related UI
+        o.CloseButton =
+            q(
+            i.Close,
+            UDim2.new(1, -4, 0, 4),
+            o.Frame,
+            function()
+                p.Window:Dialog {
+                    Title = "Close",
+                    Content = "Are you sure you want to unload the interface?",
+                    Buttons = {
+                        {
+                            Title = "Yes",
+                            Callback = function()
+                                -- 1) Destroy the primary window/object (p)
+                                pcall(function() if p and type(p.Destroy) == "function" then p:Destroy() end end)
+
+                                -- 2) Try to destroy global Window if present
+                                pcall(function() if Window and type(Window.Destroy) == "function" then Window:Destroy() end end)
+                                pcall(function() Window = nil end)
+
+                                -- 3) Remove any toggle UI or helper GUIs we created (search CoreGui and PlayerGui)
+                                local function destroyMarked(parent)
+                                    for _, gui in ipairs(parent:GetChildren()) do
+                                        if gui:IsA("ScreenGui") then
+                                            local name = (gui.Name or ""):lower()
+                                            if name:find("fluent") or name:find("atg") or name:find("fluenttoggle") or name:find("fluenttogglegui") then
+                                                pcall(function() gui:Destroy() end)
+                                            end
+                                        end
+                                    end
+                                end
+                                pcall(function() destroyMarked(game:GetService("CoreGui")) end)
+                                pcall(function() destroyMarked(playerGui) end)
+
+                                -- 4) Clear getgenv config / flags that might keep loops running
+                                if getgenv then
+                                    pcall(function() getgenv().ATGButtonUI = nil end)
+                                    pcall(function() getgenv().FluentToggleGui = nil end)
+                                    pcall(function() getgenv().ATGButtonUI_Running = false end)
+                                end
+
+                                -- 5) Try to force-garbage collect some global resources (best-effort)
+                                pcall(function() collectgarbage("collect") end)
+                            end
+                        },
+                        {Title = "No"}
+                    }
+                }
+            end
+        )
+
+        o.MaxButton =
+            q(
+            i.Max,
+            UDim2.new(1, -40, 0, 4),
+            o.Frame,
+            function()
+                n.Window.Maximize(not n.Window.Maximized)
+            end
+        )
+        o.MinButton =
+            q(
+            i.Min,
+            UDim2.new(1, -80, 0, 4),
+            o.Frame,
+            function()
+                p.Window:Minimize()
+            end
+        )
+        return o
+    end
+end,
     [17] = function()
         local c, d, e, f, g = b(17)
         local h, i, j, k =
@@ -2627,231 +2695,461 @@ local aa = {
         return u
     end,
     [22] = function()
-        local aa, ab, ac, ad, ae = b(22)
-        local af, ag, ah, ai, aj =
-            game:GetService "TweenService",
-            game:GetService "UserInputService",
-            game:GetService "Players".LocalPlayer:GetMouse(),
-            game:GetService "Workspace".CurrentCamera,
-            ab.Parent.Parent
-        local c, d = ac(aj.Creator), ac(aj.Packages.Flipper)
-        local e, f, g = c.New, aj.Components, {}
-        g.__index = g
-        g.__type = "Dropdown"
-        function g.New(h, i, j)
-            local k, l, m =
-                h.Library,
+    local aa, ab, ac, ad, ae = b(22)
+    local af, ag, ah, ai, aj =
+        game:GetService "TweenService",
+        game:GetService "UserInputService",
+        game:GetService "Players".LocalPlayer:GetMouse(),
+        game:GetService "Workspace".CurrentCamera,
+        ab.Parent.Parent
+    local c, d = ac(aj.Creator), ac(aj.Packages.Flipper)
+    local e, f, g = c.New, aj.Components, {}
+    g.__index = g
+    g.__type = "Dropdown"
+    function g.New(h, i, j)
+        local k, l, m =
+            h.Library,
+            {
+                Values = j.Values,
+                Value = j.Default,
+                Multi = j.Multi,
+                Buttons = {},
+                Opened = false,
+                Type = "Dropdown",
+                SearchText = "",
+                Callback = j.Callback or function()
+                    end
+            },
+            ac(f.Element)(j.Title, j.Description, h.Container, false)
+        m.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+        l.SetTitle = m.SetTitle
+        l.SetDesc = m.SetDesc
+        local n, o =
+            e(
+                "TextLabel",
                 {
-                    Values = j.Values,
-                    Value = j.Default,
-                    Multi = j.Multi,
-                    Buttons = {},
-                    Opened = false,
-                    Type = "Dropdown",
-                    Callback = j.Callback or function()
-                        end
-                },
-                ac(f.Element)(j.Title, j.Description, h.Container, false)
-            m.DescLabel.Size = UDim2.new(1, -170, 0, 14)
-            l.SetTitle = m.SetTitle
-            l.SetDesc = m.SetDesc
-            local n, o =
-                e(
-                    "TextLabel",
-                    {
-                        FontFace = Font.new(
-                            "rbxasset://fonts/families/GothamSSm.json",
-                            Enum.FontWeight.Regular,
-                            Enum.FontStyle.Normal
-                        ),
-                        Text = "Value",
-                        TextColor3 = Color3.fromRGB(240, 240, 240),
-                        TextSize = 13,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Size = UDim2.new(1, -30, 0, 14),
-                        Position = UDim2.new(0, 8, 0.5, 0),
-                        AnchorPoint = Vector2.new(0, 0.5),
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BackgroundTransparency = 1,
-                        TextTruncate = Enum.TextTruncate.AtEnd,
-                        ThemeTag = {TextColor3 = "Text"}
-                    }
-                ),
-                e(
-                    "ImageLabel",
-                    {
-                        Image = "rbxassetid://10709790948",
-                        Size = UDim2.fromOffset(16, 16),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        Position = UDim2.new(1, -8, 0.5, 0),
-                        BackgroundTransparency = 1,
-                        ThemeTag = {ImageColor3 = "SubText"}
-                    }
-                )
-            local p, s =
-                e(
-                    "TextButton",
-                    {
-                        Size = UDim2.fromOffset(160, 30),
-                        Position = UDim2.new(1, -10, 0.5, 0),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        BackgroundTransparency = 0.9,
-                        Parent = m.Frame,
-                        ThemeTag = {BackgroundColor3 = "DropdownFrame"}
-                    },
-                    {
-                        e("UICorner", {CornerRadius = UDim.new(0, 5)}),
-                        e(
-                            "UIStroke",
-                            {
-                                Transparency = 0.5,
-                                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                                ThemeTag = {Color = "InElementBorder"}
-                            }
-                        ),
-                        o,
-                        n
-                    }
-                ),
-                e("UIListLayout", {Padding = UDim.new(0, 3)})
-            local t =
-                e(
-                "ScrollingFrame",
-                {
-                    Size = UDim2.new(1, -5, 1, -10),
-                    Position = UDim2.fromOffset(5, 5),
+                    FontFace = Font.new(
+                        "rbxasset://fonts/families/GothamSSm.json",
+                        Enum.FontWeight.Regular,
+                        Enum.FontStyle.Normal
+                    ),
+                    Text = "Value",
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    TextSize = 13,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    Size = UDim2.new(1, -30, 0, 14),
+                    Position = UDim2.new(0, 8, 0.5, 0),
+                    AnchorPoint = Vector2.new(0, 0.5),
+                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     BackgroundTransparency = 1,
-                    BottomImage = "rbxassetid://6889812791",
-                    MidImage = "rbxassetid://6889812721",
-                    TopImage = "rbxassetid://6276641225",
-                    ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
-                    ScrollBarImageTransparency = 0.95,
-                    ScrollBarThickness = 4,
-                    BorderSizePixel = 0,
-                    CanvasSize = UDim2.fromScale(0, 0)
-                },
-                {s}
-            )
-            local u =
-                e(
-                "Frame",
-                {Size = UDim2.fromScale(1, 0.6), ThemeTag = {BackgroundColor3 = "DropdownHolder"}},
+                    TextTruncate = Enum.TextTruncate.AtEnd,
+                    ThemeTag = {TextColor3 = "Text"}
+                }
+            ),
+            e(
+                "ImageLabel",
                 {
-                    t,
-                    e("UICorner", {CornerRadius = UDim.new(0, 7)}),
+                    Image = "rbxassetid://10709790948",
+                    Size = UDim2.fromOffset(16, 16),
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    Position = UDim2.new(1, -8, 0.5, 0),
+                    BackgroundTransparency = 1,
+                    ThemeTag = {ImageColor3 = "SubText"}
+                }
+            )
+        local p =
+            e(
+                "TextButton",
+                {
+                    Size = UDim2.fromOffset(160, 30),
+                    Position = UDim2.new(1, -10, 0.5, 0),
+                    AnchorPoint = Vector2.new(1, 0.5),
+                    BackgroundTransparency = 0.9,
+                    Parent = m.Frame,
+                    ThemeTag = {BackgroundColor3 = "DropdownFrame"}
+                },
+                {
+                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
                     e(
                         "UIStroke",
-                        {ApplyStrokeMode = Enum.ApplyStrokeMode.Border, ThemeTag = {Color = "DropdownBorder"}}
-                    ),
-                    e(
-                        "ImageLabel",
                         {
-                            BackgroundTransparency = 1,
-                            Image = "http://www.roblox.com/asset/?id=5554236805",
-                            ScaleType = Enum.ScaleType.Slice,
-                            SliceCenter = Rect.new(23, 23, 277, 277),
-                            Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30),
-                            Position = UDim2.fromOffset(-15, -15),
-                            ImageColor3 = Color3.fromRGB(0, 0, 0),
-                            ImageTransparency = 0.1
+                            Transparency = 0.5,
+                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            ThemeTag = {Color = "InElementBorder"}
+                        }
+                    ),
+                    o,
+                    n
+                }
+            )
+        
+        -- Search Box
+        local searchBox = e(
+            "TextBox",
+            {
+                Size = UDim2.new(1, -50, 0, 30),
+                Position = UDim2.fromOffset(5, 5),
+                BackgroundTransparency = 0.9,
+                PlaceholderText = "🔍 Search...",
+                Text = "",
+                TextColor3 = Color3.fromRGB(240, 240, 240),
+                PlaceholderColor3 = Color3.fromRGB(150, 150, 150),
+                TextSize = 13,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+                ThemeTag = {BackgroundColor3 = "Input", TextColor3 = "Text"}
+            },
+            {
+                e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                e("UIPadding", {PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8)}),
+                e(
+                    "UIStroke",
+                    {
+                        Transparency = 0.5,
+                        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                        ThemeTag = {Color = "InElementBorder"}
+                    }
+                )
+            }
+        )
+        
+        -- Clear Button (X)
+        local clearButton = e(
+            "TextButton",
+            {
+                Size = UDim2.fromOffset(30, 30),
+                Position = UDim2.new(1, -10, 0, 5),
+                AnchorPoint = Vector2.new(1, 0),
+                BackgroundTransparency = 0.9,
+                Text = "❌",
+                TextColor3 = Color3.fromRGB(255, 80, 80),
+                TextSize = 16,
+                Visible = false,
+                ThemeTag = {BackgroundColor3 = "DialogButton"}
+            },
+            {
+                e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                e(
+                    "UIStroke",
+                    {
+                        Transparency = 0.5,
+                        Color = Color3.fromRGB(255, 80, 80),
+                        ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                    }
+                )
+            }
+        )
+        
+        -- Select All Button (เฉพาะ Multi-select)
+        local selectAllButton = nil
+        
+        if j.Multi then
+            selectAllButton = e(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, -10, 0, 28),
+                    Position = UDim2.fromOffset(5, 40),
+                    BackgroundTransparency = 0.9,
+                    Text = "✅ Select All",
+                    TextColor3 = Color3.fromRGB(76, 194, 255),
+                    TextSize = 13,
+                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium),
+                    ThemeTag = {BackgroundColor3 = "DialogButton"}
+                },
+                {
+                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                    e(
+                        "UIStroke",
+                        {
+                            Transparency = 0.5,
+                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            ThemeTag = {Color = "Accent"}
                         }
                     )
                 }
             )
-            local v =
-                e(
-                "Frame",
-                {BackgroundTransparency = 1, Size = UDim2.fromOffset(170, 300), Parent = h.Library.GUI, Visible = false},
-                {u, e("UISizeConstraint", {MinSize = Vector2.new(170, 0)})}
+        end
+        
+        local s = e("UIListLayout", {Padding = UDim.new(0, 3)})
+        local scrollYPos = j.Multi and 73 or 40
+        local scrollYSize = j.Multi and -78 or -45
+        
+        local t =
+            e(
+            "ScrollingFrame",
+            {
+                Size = UDim2.new(1, -10, 1, scrollYSize),
+                Position = UDim2.fromOffset(5, scrollYPos),
+                BackgroundTransparency = 1,
+                BottomImage = "rbxassetid://6889812791",
+                MidImage = "rbxassetid://6889812721",
+                TopImage = "rbxassetid://6276641225",
+                ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+                ScrollBarImageTransparency = 0.95,
+                ScrollBarThickness = 4,
+                BorderSizePixel = 0,
+                CanvasSize = UDim2.fromScale(0, 0)
+            },
+            {s}
+        )
+        
+        local uChildren = {
+            searchBox,
+            clearButton,
+            t,
+            e("UICorner", {CornerRadius = UDim.new(0, 7)}),
+            e(
+                "UIStroke",
+                {ApplyStrokeMode = Enum.ApplyStrokeMode.Border, ThemeTag = {Color = "DropdownBorder"}}
+            ),
+            e(
+                "ImageLabel",
+                {
+                    BackgroundTransparency = 1,
+                    Image = "http://www.roblox.com/asset/?id=5554236805",
+                    ScaleType = Enum.ScaleType.Slice,
+                    SliceCenter = Rect.new(23, 23, 277, 277),
+                    Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30),
+                    Position = UDim2.fromOffset(-15, -15),
+                    ImageColor3 = Color3.fromRGB(0, 0, 0),
+                    ImageTransparency = 0.1
+                }
             )
-            table.insert(k.OpenFrames, v)
-            local w, x = function()
-                    local w = 0
-                    if ai.ViewportSize.Y - p.AbsolutePosition.Y < v.AbsoluteSize.Y - 5 then
-                        w = v.AbsoluteSize.Y - 5 - (ai.ViewportSize.Y - p.AbsolutePosition.Y) + 40
-                    end
-                    v.Position = UDim2.fromOffset(p.AbsolutePosition.X - 1, p.AbsolutePosition.Y - 5 - w)
-                end, 0
-            local y, z = function()
-                    if #l.Values > 10 then
-                        v.Size = UDim2.fromOffset(x, 392)
-                    else
-                        v.Size = UDim2.fromOffset(x, s.AbsoluteContentSize.Y + 10)
-                    end
-                end, function()
-                    t.CanvasSize = UDim2.fromOffset(0, s.AbsoluteContentSize.Y)
-                end
-            w()
-            y()
-            c.AddSignal(p:GetPropertyChangedSignal "AbsolutePosition", w)
-            c.AddSignal(
-                p.MouseButton1Click,
-                function()
+        }
+        
+        if j.Multi then
+            table.insert(uChildren, selectAllButton)
+        end
+        
+        local u =
+            e(
+            "Frame",
+            {Size = UDim2.fromScale(1, 0.5), ThemeTag = {BackgroundColor3 = "DropdownHolder"}},
+            uChildren
+        )
+        
+        local v =
+            e(
+            "Frame",
+            {
+                BackgroundTransparency = 1, 
+                Size = UDim2.fromOffset(170, 250), 
+                Parent = h.Library.GUI, 
+                Visible = false
+            },
+            {u, e("UISizeConstraint", {MinSize = Vector2.new(170, 0), MaxSize = Vector2.new(250, 300)})}
+        )
+        table.insert(k.OpenFrames, v)
+        
+        -- Position dropdown with smart positioning
+        local w = function()
+            local mainFrame = p.AbsolutePosition
+            local mainSize = p.AbsoluteSize
+            local dropdownWidth = 170
+            local viewportSize = ai.ViewportSize
+            
+            -- Try right side first
+            local xPos = mainFrame.X + mainSize.X + 10
+            
+            -- If goes off screen on right, try left side
+            if xPos + dropdownWidth > viewportSize.X then
+                xPos = mainFrame.X - dropdownWidth - 10
+            end
+            
+            -- If still off screen on left, clamp to screen
+            if xPos < 0 then
+                xPos = math.min(mainFrame.X + mainSize.X + 10, viewportSize.X - dropdownWidth - 10)
+                xPos = math.max(xPos, 10)
+            end
+            
+            local yPos = mainFrame.Y - 5
+            
+            -- Make sure Y position is within screen
+            local maxY = viewportSize.Y - v.AbsoluteSize.Y - 10
+            if yPos > maxY then
+                yPos = maxY
+            end
+            if yPos < 10 then
+                yPos = 10
+            end
+            
+            v.Position = UDim2.fromOffset(xPos, yPos)
+        end
+        
+        local x = 170
+        local y = function()
+            local maxHeight = 230
+            local contentHeight = s.AbsoluteContentSize.Y + (j.Multi and 83 or 50)
+            local finalHeight = math.min(contentHeight, maxHeight)
+            v.Size = UDim2.fromOffset(x, finalHeight)
+        end
+        
+        local z = function()
+            t.CanvasSize = UDim2.fromOffset(0, s.AbsoluteContentSize.Y)
+        end
+        
+        w()
+        y()
+        c.AddSignal(p:GetPropertyChangedSignal "AbsolutePosition", w)
+        
+        -- Toggle dropdown on click
+        c.AddSignal(
+            p.MouseButton1Click,
+            function()
+                if l.Opened then
+                    l:Close()
+                else
                     l:Open()
                 end
-            )
-            c.AddSignal(
-                ag.InputBegan,
-                function(A)
-                    if A.UserInputType == Enum.UserInputType.MouseButton1 or A.UserInputType == Enum.UserInputType.Touch then
+            end
+        )
+        
+        c.AddSignal(
+            ag.InputBegan,
+            function(A)
+                if A.UserInputType == Enum.UserInputType.MouseButton1 or A.UserInputType == Enum.UserInputType.Touch then
+                    if l.Opened then
                         local B, C = u.AbsolutePosition, u.AbsoluteSize
-                        if ah.X < B.X or ah.X > B.X + C.X or ah.Y < (B.Y - 20 - 1) or ah.Y > B.Y + C.Y then
+                        local pB, pC = p.AbsolutePosition, p.AbsoluteSize
+                        
+                        -- Check if click is outside dropdown and outside button
+                        local outsideDropdown = ah.X < B.X or ah.X > B.X + C.X or ah.Y < B.Y or ah.Y > B.Y + C.Y
+                        local outsideButton = ah.X < pB.X or ah.X > pB.X + pC.X or ah.Y < pB.Y or ah.Y > pB.Y + pC.Y
+                        
+                        if outsideDropdown and outsideButton then
                             l:Close()
                         end
                     end
                 end
-            )
-            local A = h.ScrollFrame
-            function l.Open(B)
-                l.Opened = true
-                A.ScrollingEnabled = false
-                v.Visible = true
-                af:Create(
-                    u,
-                    TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-                    {Size = UDim2.fromScale(1, 1)}
-                ):Play()
             end
-            function l.Close(B)
-                l.Opened = false
-                A.ScrollingEnabled = true
-                u.Size = UDim2.fromScale(1, 0.6)
-                v.Visible = false
+        )
+        
+        -- Search functionality
+        c.AddSignal(
+            searchBox:GetPropertyChangedSignal("Text"),
+            function()
+                l.SearchText = searchBox.Text:lower()
+                l:BuildDropdownList()
             end
-            function l.Display(B)
-                local C, D = l.Values, ""
+        )
+        
+        -- Clear button functionality
+        c.AddSignal(
+            clearButton.MouseButton1Click,
+            function()
                 if j.Multi then
-                    for E, F in next, C do
-                        if l.Value[F] then
-                            D = D .. F .. ", "
+                    l.Value = {}
+                else
+                    l.Value = nil
+                end
+                
+                -- Update buttons without rebuilding
+                for button, buttonData in pairs(l.Buttons) do
+                    buttonData:UpdateButton()
+                end
+                
+                l:Display()
+                k:SafeCallback(l.Callback, l.Value)
+                k:SafeCallback(l.Changed, l.Value)
+            end
+        )
+        
+        -- Select All button functionality
+        if j.Multi and selectAllButton then
+            c.AddSignal(
+                selectAllButton.MouseButton1Click,
+                function()
+                    -- Get all visible values (filtered by search)
+                    for _, value in pairs(l.Values) do
+                        if l.SearchText == "" or value:lower():find(l.SearchText, 1, true) then
+                            l.Value[value] = true
                         end
                     end
-                    D = D:sub(1, #D - 2)
-                else
-                    D = l.Value or ""
-                end
-                n.Text = (D == "" and "--" or D)
-            end
-            function l.GetActiveValues(B)
-                if j.Multi then
-                    local C = {}
-                    for D, E in next, l.Value do
-                        table.insert(C, D)
+                    
+                    -- Update buttons without rebuilding
+                    for button, buttonData in pairs(l.Buttons) do
+                        buttonData:UpdateButton()
                     end
-                    return C
-                else
-                    return l.Value and 1 or 0
+                    
+                    l:Display()
+                    k:SafeCallback(l.Callback, l.Value)
+                    k:SafeCallback(l.Changed, l.Value)
                 end
-            end
-            function l.BuildDropdownList(B)
-                local C, D = l.Values, {}
-                for E, F in next, t:GetChildren() do
-                    if not F:IsA "UIListLayout" then
-                        F:Destroy()
+            )
+        end
+        
+        local A = h.ScrollFrame
+        function l.Open(B)
+            if l.Opened then return end
+            l.Opened = true
+            A.ScrollingEnabled = false
+            v.Visible = true
+            searchBox.Text = ""
+            l.SearchText = ""
+            w()
+            y()
+            af:Create(
+                u,
+                TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                {Size = UDim2.fromScale(1, 1)}
+            ):Play()
+        end
+        
+        function l.Close(B)
+            if not l.Opened then return end
+            l.Opened = false
+            A.ScrollingEnabled = true
+            
+            local closeTween = af:Create(
+                u,
+                TweenInfo.new(0.15, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+                {Size = UDim2.fromScale(1, 0.5)}
+            )
+            closeTween:Play()
+            closeTween.Completed:Connect(function()
+                v.Visible = false
+            end)
+        end
+        
+        function l.Display(B)
+            local C, D = l.Values, ""
+            local hasSelection = false
+            if j.Multi then
+                for E, F in next, C do
+                    if l.Value[F] then
+                        D = D .. F .. ", "
+                        hasSelection = true
                     end
                 end
-                local G = 0
-                for H, I in next, C do
+                D = D:sub(1, #D - 2)
+            else
+                D = l.Value or ""
+                hasSelection = l.Value ~= nil and l.Value ~= ""
+            end
+            n.Text = (D == "" and "--" or D)
+            clearButton.Visible = hasSelection
+        end
+        function l.GetActiveValues(B)
+            if j.Multi then
+                local C = {}
+                for D, E in next, l.Value do
+                    table.insert(C, D)
+                end
+                return C
+            else
+                return l.Value and 1 or 0
+            end
+        end
+        function l.BuildDropdownList(B)
+            local C, D = l.Values, {}
+            for E, F in next, t:GetChildren() do
+                if not F:IsA "UIListLayout" then
+                    F:Destroy()
+                end
+            end
+            local G = 0
+            for H, I in next, C do
+                if l.SearchText == "" or I:lower():find(l.SearchText, 1, true) then
                     local J = {}
                     G = G + 1
                     local K, L =
@@ -2887,14 +3185,26 @@ local aa = {
                         (e(
                         "TextButton",
                         {
-                            Size = UDim2.new(1, -5, 0, 32),
+                            Size = UDim2.new(1, -10, 0, 32),
                             BackgroundTransparency = 1,
                             ZIndex = 23,
                             Text = "",
                             Parent = t,
                             ThemeTag = {BackgroundColor3 = "DropdownOption"}
                         },
-                        {K, L, e("UICorner", {CornerRadius = UDim.new(0, 6)})}
+                        {
+                            K, 
+                            L, 
+                            e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                            e(
+                                "UIStroke",
+                                {
+                                    Transparency = 0.7,
+                                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                                    ThemeTag = {Color = "InElementBorder"}
+                                }
+                            )
+                        }
                     ))
                     if j.Multi then
                         N = l.Value[I]
@@ -2974,93 +3284,86 @@ local aa = {
                         end
                     )
                     J:UpdateButton()
-                    l:Display()
                     D[M] = J
+                    l.Buttons[M] = J
                 end
-                x = 0
-                for J, K in next, D do
-                    if J.ButtonLabel then
-                        if J.ButtonLabel.TextBounds.X > x then
-                            x = J.ButtonLabel.TextBounds.X
-                        end
+            end
+            l:Display()
+            z()
+            y()
+        end
+        function l.SetValues(B, C)
+            if C then
+                l.Values = C
+            end
+            l:BuildDropdownList()
+        end
+        function l.OnChanged(B, C)
+            l.Changed = C
+            C(l.Value)
+        end
+        function l.SetValue(B, C)
+            if l.Multi then
+                local D = {}
+                for E, F in next, C do
+                    if table.find(l.Values, E) then
+                        D[E] = true
                     end
                 end
-                x = x + 30
-                z()
-                y()
-            end
-            function l.SetValues(B, C)
-                if C then
-                    l.Values = C
+                l.Value = D
+            else
+                if not C then
+                    l.Value = nil
+                elseif table.find(l.Values, C) then
+                    l.Value = C
                 end
-                l:BuildDropdownList()
             end
-            function l.OnChanged(B, C)
-                l.Changed = C
-                C(l.Value)
+            l:BuildDropdownList()
+            k:SafeCallback(l.Callback, l.Value)
+            k:SafeCallback(l.Changed, l.Value)
+        end
+        function l.Destroy(B)
+            m:Destroy()
+            k.Options[i] = nil
+        end
+        l:BuildDropdownList()
+        l:Display()
+        local B = {}
+        if type(j.Default) == "string" then
+            local C = table.find(l.Values, j.Default)
+            if C then
+                table.insert(B, C)
             end
-            function l.SetValue(B, C)
-                if l.Multi then
-                    local D = {}
-                    for E, F in next, C do
-                        if table.find(l.Values, E) then
-                            D[E] = true
-                        end
-                    end
-                    l.Value = D
+        elseif type(j.Default) == "table" then
+            for C, D in next, j.Default do
+                local E = table.find(l.Values, D)
+                if E then
+                    table.insert(B, E)
+                end
+            end
+        elseif type(j.Default) == "number" and l.Values[j.Default] ~= nil then
+            table.insert(B, j.Default)
+        end
+        if next(B) then
+            for C = 1, #B do
+                local D = B[C]
+                if j.Multi then
+                    l.Value[l.Values[D]] = true
                 else
-                    if not C then
-                        l.Value = nil
-                    elseif table.find(l.Values, C) then
-                        l.Value = C
-                    end
+                    l.Value = l.Values[D]
                 end
-                l:BuildDropdownList()
-                k:SafeCallback(l.Callback, l.Value)
-                k:SafeCallback(l.Changed, l.Value)
-            end
-            function l.Destroy(B)
-                m:Destroy()
-                k.Options[i] = nil
+                if not j.Multi then
+                    break
+                end
             end
             l:BuildDropdownList()
             l:Display()
-            local B = {}
-            if type(j.Default) == "string" then
-                local C = table.find(l.Values, j.Default)
-                if C then
-                    table.insert(B, C)
-                end
-            elseif type(j.Default) == "table" then
-                for C, D in next, j.Default do
-                    local E = table.find(l.Values, D)
-                    if E then
-                        table.insert(B, E)
-                    end
-                end
-            elseif type(j.Default) == "number" and l.Values[j.Default] ~= nil then
-                table.insert(B, j.Default)
-            end
-            if next(B) then
-                for C = 1, #B do
-                    local D = B[C]
-                    if j.Multi then
-                        l.Value[l.Values[D]] = true
-                    else
-                        l.Value = l.Values[D]
-                    end
-                    if not j.Multi then
-                        break
-                    end
-                end
-                l:BuildDropdownList()
-                l:Display()
-            end
-            k.Options[i] = l
-            return l
         end
-        return g
-    end,
+        k.Options[i] = l
+        return l
+    end
+    return g
+end,
     [23] = function()
         local aa, ab, ac, ad, ae = b(23)
         local af = ab.Parent.Parent
@@ -3375,6 +3678,8 @@ local aa = {
                     ThemeTag = {ImageColor3 = "Accent"}
                 }
             )
+
+            -- แก้ตรงนี้: เปลี่ยนจาก TextLabel -> TextBox เพื่อให้พิมพ์ค่าได้
             local l, m, n =
                 ai(
                     "Frame",
@@ -3387,21 +3692,27 @@ local aa = {
                     {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
                 ),
                 ai(
-                    "TextLabel",
+                    "TextBox",
                     {
                         FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
                         Text = "Value",
                         TextSize = 12,
+                        ClearTextOnFocus = false,
                         TextWrapped = true,
                         TextXAlignment = Enum.TextXAlignment.Right,
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         BackgroundTransparency = 1,
                         Size = UDim2.new(0, 100, 0, 14),
-                        Position = UDim2.new(0, -4, 0.5, 0),
+                        -- ปรับตำแหน่งให้เลื่อนไปทางซ้ายเล็กน้อย
+                        Position = UDim2.new(0, -12, 0.5, 0),
                         AnchorPoint = Vector2.new(1, 0.5),
-                        ThemeTag = {TextColor3 = "SubText"}
+                        ThemeTag = {TextColor3 = "SubText"},
+                        -- Allow numbers input; keyboard will show on mobile
+                        ClearTextOnFocus = false,
+                        TextEditable = true
                     }
                 )
+
             local o =
                 ai(
                 "Frame",
@@ -3421,6 +3732,11 @@ local aa = {
                     l
                 }
             )
+
+            -- ถ้ามีการพิมพ์อยู่ หยุดการ drag ไว้
+            local editingNumber = false
+
+            -- ถ้าคลิกที่ไอคอน จะเริ่ม drag (เหมือนเดิม)
             ah.AddSignal(
                 k.InputBegan,
                 function(p)
@@ -3437,9 +3753,40 @@ local aa = {
                     end
                 end
             )
+
+            -- ขณะพิมพ์ หยุดตอบสนองการลาก
+            n.Focused:Connect(function()
+                editingNumber = true
+                -- ป้องกันค่า i (drag) ขณะพิมพ์
+                i = false
+            end)
+
+            n.FocusLost:Connect(function(enterPressed)
+                editingNumber = false
+                -- ถ้ากด Enter หรือคลิกออก ให้อ่านค่าและอัปเดต slider
+                local text = n.Text
+                -- support comma เป็นจุดทศนิยมด้วย (เช่น "1,5")
+                text = tostring(text):gsub(",", ".")
+                local num = tonumber(text)
+                if num then
+                    local newVal = g:Round(math.clamp(num, h.Min, h.Max), h.Rounding)
+                    h:SetValue(newVal)
+                else
+                    -- revert to current value
+                    if h.Value ~= nil then
+                        n.Text = tostring(h.Value)
+                    else
+                        n.Text = tostring(f.Default)
+                    end
+                end
+            end)
+
             ah.AddSignal(
                 af.InputChanged,
                 function(p)
+                    if editingNumber then
+                        return
+                    end
                     if
                         i and
                             (p.UserInputType == Enum.UserInputType.MouseMovement or
@@ -3458,6 +3805,7 @@ local aa = {
                 p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
                 k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
                 m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
+                -- อัปเดตข้อความใน TextBox ให้ตรงค่า
                 n.Text = tostring(p.Value)
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
@@ -4373,7 +4721,9 @@ local aa = {
                 ["lucide-x-octagon"] = "rbxassetid://10747384037",
                 ["lucide-x-square"] = "rbxassetid://10747384217",
                 ["lucide-zoom-in"] = "rbxassetid://10747384552",
-                ["lucide-zoom-out"] = "rbxassetid://10747384679"
+                ["lucide-zoom-out"] = "rbxassetid://10747384679",
+                ["lucide-castle"] = "rbxassetid://89680811679779",
+                ["lucide-dog"] = "rbxassetid://128027287498958"
             }
         }
     end,
@@ -5064,95 +5414,796 @@ local aa = {
     end,
     [47] = function()
         local aa, ab, ac, ad, ae = b(47)
-        local af = {Names = {"Dark", "Darker", "Light", "Aqua", "Amethyst", "Rose"}}
+        local af = { Names = {"Dark", "Darker", "Dark V2", "Darker V2", "Light", "Aqua", "Amethyst", "Rose", "Ocean", "Forest", "Sunset", "Midnight", "Cherry", "Lavender", "Gold", "Mint", "Crimson", "Sapphire", "Peach", "Galaxy", "RGB"} }
         for ag, ah in next, ab:GetChildren() do
             local aj = ac(ah)
             af[aj.Name] = aj
         end
         return af
     end,
+
     [48] = function()
         local aa, ab, ac, ad, ae = b(48)
         return {
             Name = "Amethyst",
-            Accent = Color3.fromRGB(97, 62, 167),
-            AcrylicMain = Color3.fromRGB(20, 20, 20),
-            AcrylicBorder = Color3.fromRGB(110, 90, 130),
-            AcrylicGradient = ColorSequence.new(Color3.fromRGB(85, 57, 139), Color3.fromRGB(40, 25, 65)),
+            Accent = Color3.fromRGB(147, 51, 234),
+            AcrylicMain = Color3.fromRGB(15, 10, 20),
+            AcrylicBorder = Color3.fromRGB(147, 51, 234),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(100, 40, 160), Color3.fromRGB(50, 20, 80)),
             AcrylicNoise = 0.92,
-            TitleBarLine = Color3.fromRGB(95, 75, 110),
-            Tab = Color3.fromRGB(160, 140, 180),
-            Element = Color3.fromRGB(140, 120, 160),
-            ElementBorder = Color3.fromRGB(60, 50, 70),
-            InElementBorder = Color3.fromRGB(100, 90, 110),
-            ElementTransparency = 0.87,
-            ToggleSlider = Color3.fromRGB(140, 120, 160),
-            ToggleToggled = Color3.fromRGB(0, 0, 0),
-            SliderRail = Color3.fromRGB(140, 120, 160),
-            DropdownFrame = Color3.fromRGB(170, 160, 200),
-            DropdownHolder = Color3.fromRGB(60, 45, 80),
-            DropdownBorder = Color3.fromRGB(50, 40, 65),
-            DropdownOption = Color3.fromRGB(140, 120, 160),
-            Keybind = Color3.fromRGB(140, 120, 160),
-            Input = Color3.fromRGB(140, 120, 160),
-            InputFocused = Color3.fromRGB(20, 10, 30),
-            InputIndicator = Color3.fromRGB(170, 150, 190),
-            Dialog = Color3.fromRGB(60, 45, 80),
-            DialogHolder = Color3.fromRGB(45, 30, 65),
-            DialogHolderLine = Color3.fromRGB(40, 25, 60),
-            DialogButton = Color3.fromRGB(60, 45, 80),
-            DialogButtonBorder = Color3.fromRGB(95, 80, 110),
-            DialogBorder = Color3.fromRGB(85, 70, 100),
-            DialogInput = Color3.fromRGB(70, 55, 85),
-            DialogInputLine = Color3.fromRGB(175, 160, 190),
-            Text = Color3.fromRGB(240, 240, 240),
-            SubText = Color3.fromRGB(170, 170, 170),
-            Hover = Color3.fromRGB(140, 120, 160),
-            HoverChange = 0.04
+            TitleBarLine = Color3.fromRGB(147, 51, 234),
+            Tab = Color3.fromRGB(200, 150, 255),
+            Element = Color3.fromRGB(25, 15, 35),
+            ElementBorder = Color3.fromRGB(147, 51, 234),
+            InElementBorder = Color3.fromRGB(120, 80, 180),
+            ElementTransparency = 0.12,
+            ToggleSlider = Color3.fromRGB(200, 150, 255),
+            ToggleToggled = Color3.fromRGB(10, 5, 15),
+            SliderRail = Color3.fromRGB(200, 150, 255),
+            DropdownFrame = Color3.fromRGB(25, 15, 35),
+            DropdownHolder = Color3.fromRGB(20, 12, 28),
+            DropdownBorder = Color3.fromRGB(147, 51, 234),
+            DropdownOption = Color3.fromRGB(200, 150, 255),
+            Keybind = Color3.fromRGB(200, 150, 255),
+            Input = Color3.fromRGB(200, 150, 255),
+            InputFocused = Color3.fromRGB(15, 10, 20),
+            InputIndicator = Color3.fromRGB(220, 180, 255),
+            Dialog = Color3.fromRGB(20, 12, 28),
+            DialogHolder = Color3.fromRGB(15, 10, 20),
+            DialogHolderLine = Color3.fromRGB(147, 51, 234),
+            DialogButton = Color3.fromRGB(25, 15, 35),
+            DialogButtonBorder = Color3.fromRGB(147, 51, 234),
+            DialogBorder = Color3.fromRGB(147, 51, 234),
+            DialogInput = Color3.fromRGB(30, 20, 40),
+            DialogInputLine = Color3.fromRGB(200, 150, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(200, 180, 220),
+            Hover = Color3.fromRGB(200, 150, 255),
+            HoverChange = 0.08
         }
     end,
+
     [49] = function()
         local aa, ab, ac, ad, ae = b(49)
         return {
             Name = "Aqua",
-            Accent = Color3.fromRGB(60, 165, 165),
-            AcrylicMain = Color3.fromRGB(20, 20, 20),
-            AcrylicBorder = Color3.fromRGB(50, 100, 100),
-            AcrylicGradient = ColorSequence.new(Color3.fromRGB(60, 140, 140), Color3.fromRGB(40, 80, 80)),
-            AcrylicNoise = 0.92,
-            TitleBarLine = Color3.fromRGB(60, 120, 120),
-            Tab = Color3.fromRGB(140, 180, 180),
-            Element = Color3.fromRGB(110, 160, 160),
-            ElementBorder = Color3.fromRGB(40, 70, 70),
-            InElementBorder = Color3.fromRGB(80, 110, 110),
-            ElementTransparency = 0.84,
-            ToggleSlider = Color3.fromRGB(110, 160, 160),
-            ToggleToggled = Color3.fromRGB(0, 0, 0),
-            SliderRail = Color3.fromRGB(110, 160, 160),
-            DropdownFrame = Color3.fromRGB(160, 200, 200),
-            DropdownHolder = Color3.fromRGB(40, 80, 80),
-            DropdownBorder = Color3.fromRGB(40, 65, 65),
-            DropdownOption = Color3.fromRGB(110, 160, 160),
-            Keybind = Color3.fromRGB(110, 160, 160),
-            Input = Color3.fromRGB(110, 160, 160),
-            InputFocused = Color3.fromRGB(20, 10, 30),
-            InputIndicator = Color3.fromRGB(130, 170, 170),
-            Dialog = Color3.fromRGB(40, 80, 80),
-            DialogHolder = Color3.fromRGB(30, 60, 60),
-            DialogHolderLine = Color3.fromRGB(25, 50, 50),
-            DialogButton = Color3.fromRGB(40, 80, 80),
-            DialogButtonBorder = Color3.fromRGB(80, 110, 110),
-            DialogBorder = Color3.fromRGB(50, 100, 100),
-            DialogInput = Color3.fromRGB(45, 90, 90),
-            DialogInputLine = Color3.fromRGB(130, 170, 170),
-            Text = Color3.fromRGB(240, 240, 240),
-            SubText = Color3.fromRGB(170, 170, 170),
-            Hover = Color3.fromRGB(110, 160, 160),
-            HoverChange = 0.04
+            Accent = Color3.fromRGB(0, 255, 255),
+            AcrylicMain = Color3.fromRGB(10, 20, 25),
+            AcrylicBorder = Color3.fromRGB(0, 200, 200),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(0, 150, 180), Color3.fromRGB(0, 80, 100)),
+            AcrylicNoise = 0.90,
+            TitleBarLine = Color3.fromRGB(0, 255, 255),
+            Tab = Color3.fromRGB(100, 255, 255),
+            Element = Color3.fromRGB(15, 25, 30),
+            ElementBorder = Color3.fromRGB(0, 255, 255),
+            InElementBorder = Color3.fromRGB(0, 200, 200),
+            ElementTransparency = 0.10,
+            ToggleSlider = Color3.fromRGB(100, 255, 255),
+            ToggleToggled = Color3.fromRGB(5, 10, 12),
+            SliderRail = Color3.fromRGB(100, 255, 255),
+            DropdownFrame = Color3.fromRGB(15, 25, 30),
+            DropdownHolder = Color3.fromRGB(10, 18, 22),
+            DropdownBorder = Color3.fromRGB(0, 255, 255),
+            DropdownOption = Color3.fromRGB(100, 255, 255),
+            Keybind = Color3.fromRGB(100, 255, 255),
+            Input = Color3.fromRGB(100, 255, 255),
+            InputFocused = Color3.fromRGB(10, 20, 25),
+            InputIndicator = Color3.fromRGB(150, 255, 255),
+            Dialog = Color3.fromRGB(10, 18, 22),
+            DialogHolder = Color3.fromRGB(8, 15, 18),
+            DialogHolderLine = Color3.fromRGB(0, 255, 255),
+            DialogButton = Color3.fromRGB(15, 25, 30),
+            DialogButtonBorder = Color3.fromRGB(0, 255, 255),
+            DialogBorder = Color3.fromRGB(0, 255, 255),
+            DialogInput = Color3.fromRGB(20, 30, 35),
+            DialogInputLine = Color3.fromRGB(100, 255, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(180, 230, 240),
+            Hover = Color3.fromRGB(100, 255, 255),
+            HoverChange = 0.08
         }
     end,
+
     [50] = function()
         local aa, ab, ac, ad, ae = b(50)
+        return {
+            Name = "Dark V2",
+            Accent = Color3.fromRGB(96, 205, 255),
+            AcrylicMain = Color3.fromRGB(20, 20, 20),
+            AcrylicBorder = Color3.fromRGB(200, 200, 200),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(30, 30, 30), Color3.fromRGB(15, 15, 15)),
+            AcrylicNoise = 0.88,
+            TitleBarLine = Color3.fromRGB(200, 200, 200),
+            Tab = Color3.fromRGB(180, 180, 180),
+            Element = Color3.fromRGB(25, 25, 25),
+            ElementBorder = Color3.fromRGB(200, 200, 200),
+            InElementBorder = Color3.fromRGB(160, 160, 160),
+            ElementTransparency = 0.08,
+            ToggleSlider = Color3.fromRGB(180, 180, 180),
+            ToggleToggled = Color3.fromRGB(10, 10, 10),
+            SliderRail = Color3.fromRGB(180, 180, 180),
+            DropdownFrame = Color3.fromRGB(25, 25, 25),
+            DropdownHolder = Color3.fromRGB(18, 18, 18),
+            DropdownBorder = Color3.fromRGB(200, 200, 200),
+            DropdownOption = Color3.fromRGB(180, 180, 180),
+            Keybind = Color3.fromRGB(180, 180, 180),
+            Input = Color3.fromRGB(180, 180, 180),
+            InputFocused = Color3.fromRGB(15, 15, 15),
+            InputIndicator = Color3.fromRGB(200, 200, 200),
+            Dialog = Color3.fromRGB(18, 18, 18),
+            DialogHolder = Color3.fromRGB(15, 15, 15),
+            DialogHolderLine = Color3.fromRGB(200, 200, 200),
+            DialogButton = Color3.fromRGB(25, 25, 25),
+            DialogButtonBorder = Color3.fromRGB(200, 200, 200),
+            DialogBorder = Color3.fromRGB(200, 200, 200),
+            DialogInput = Color3.fromRGB(30, 30, 30),
+            DialogInputLine = Color3.fromRGB(180, 180, 180),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(200, 200, 200),
+            Hover = Color3.fromRGB(180, 180, 180),
+            HoverChange = 0.10
+        }
+    end,
+
+    [51] = function()
+        local aa, ab, ac, ad, ae = b(51)
+        return {
+            Name = "Darker V2",
+            Accent = Color3.fromRGB(72, 138, 182),
+            AcrylicMain = Color3.fromRGB(12, 12, 12),
+            AcrylicBorder = Color3.fromRGB(180, 180, 180),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(18, 18, 18), Color3.fromRGB(8, 8, 8)),
+            AcrylicNoise = 0.92,
+            TitleBarLine = Color3.fromRGB(180, 180, 180),
+            Tab = Color3.fromRGB(160, 160, 160),
+            Element = Color3.fromRGB(15, 15, 15),
+            ElementBorder = Color3.fromRGB(180, 180, 180),
+            InElementBorder = Color3.fromRGB(140, 140, 140),
+            ElementTransparency = 0.06,
+            ToggleSlider = Color3.fromRGB(160, 160, 160),
+            ToggleToggled = Color3.fromRGB(5, 5, 5),
+            SliderRail = Color3.fromRGB(160, 160, 160),
+            DropdownFrame = Color3.fromRGB(15, 15, 15),
+            DropdownHolder = Color3.fromRGB(10, 10, 10),
+            DropdownBorder = Color3.fromRGB(180, 180, 180),
+            DropdownOption = Color3.fromRGB(160, 160, 160),
+            Keybind = Color3.fromRGB(160, 160, 160),
+            Input = Color3.fromRGB(160, 160, 160),
+            InputFocused = Color3.fromRGB(8, 8, 8),
+            InputIndicator = Color3.fromRGB(180, 180, 180),
+            Dialog = Color3.fromRGB(10, 10, 10),
+            DialogHolder = Color3.fromRGB(8, 8, 8),
+            DialogHolderLine = Color3.fromRGB(180, 180, 180),
+            DialogButton = Color3.fromRGB(15, 15, 15),
+            DialogButtonBorder = Color3.fromRGB(180, 180, 180),
+            DialogBorder = Color3.fromRGB(180, 180, 180),
+            DialogInput = Color3.fromRGB(20, 20, 20),
+            DialogInputLine = Color3.fromRGB(160, 160, 160),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(190, 190, 190),
+            Hover = Color3.fromRGB(160, 160, 160),
+            HoverChange = 0.09
+        }
+    end,
+
+    [52] = function()
+        local aa, ab, ac, ad, ae = b(52)
+        return {
+            Name = "Light",
+            Accent = Color3.fromRGB(0, 103, 192),
+            AcrylicMain = Color3.fromRGB(245, 245, 245),
+            AcrylicBorder = Color3.fromRGB(80, 80, 80),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(240, 240, 240)),
+            AcrylicNoise = 0.94,
+            TitleBarLine = Color3.fromRGB(100, 100, 100),
+            Tab = Color3.fromRGB(60, 60, 60),
+            Element = Color3.fromRGB(255, 255, 255),
+            ElementBorder = Color3.fromRGB(100, 100, 100),
+            InElementBorder = Color3.fromRGB(130, 130, 130),
+            ElementTransparency = 0.50,
+            ToggleSlider = Color3.fromRGB(60, 60, 60),
+            ToggleToggled = Color3.fromRGB(240, 240, 240),
+            SliderRail = Color3.fromRGB(60, 60, 60),
+            DropdownFrame = Color3.fromRGB(255, 255, 255),
+            DropdownHolder = Color3.fromRGB(248, 248, 248),
+            DropdownBorder = Color3.fromRGB(100, 100, 100),
+            DropdownOption = Color3.fromRGB(60, 60, 60),
+            Keybind = Color3.fromRGB(60, 60, 60),
+            Input = Color3.fromRGB(60, 60, 60),
+            InputFocused = Color3.fromRGB(80, 80, 80),
+            InputIndicator = Color3.fromRGB(40, 40, 40),
+            Dialog = Color3.fromRGB(255, 255, 255),
+            DialogHolder = Color3.fromRGB(248, 248, 248),
+            DialogHolderLine = Color3.fromRGB(100, 100, 100),
+            DialogButton = Color3.fromRGB(255, 255, 255),
+            DialogButtonBorder = Color3.fromRGB(100, 100, 100),
+            DialogBorder = Color3.fromRGB(80, 80, 80),
+            DialogInput = Color3.fromRGB(252, 252, 252),
+            DialogInputLine = Color3.fromRGB(100, 100, 100),
+            Text = Color3.fromRGB(10, 10, 10),
+            SubText = Color3.fromRGB(60, 60, 60),
+            Hover = Color3.fromRGB(40, 40, 40),
+            HoverChange = 0.18
+        }
+    end,
+
+    [53] = function()
+        local aa, ab, ac, ad, ae = b(53)
+        return {
+            Name = "Rose",
+            Accent = Color3.fromRGB(255, 20, 147),
+            AcrylicMain = Color3.fromRGB(18, 10, 15),
+            AcrylicBorder = Color3.fromRGB(255, 105, 180),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(200, 50, 120), Color3.fromRGB(120, 30, 70)),
+            AcrylicNoise = 0.90,
+            TitleBarLine = Color3.fromRGB(255, 105, 180),
+            Tab = Color3.fromRGB(255, 120, 160),
+            Element = Color3.fromRGB(25, 12, 18),
+            ElementBorder = Color3.fromRGB(255, 60, 120),
+            InElementBorder = Color3.fromRGB(230, 50, 110),
+            ElementTransparency = 0.09,
+            ToggleSlider = Color3.fromRGB(255, 120, 160),
+            ToggleToggled = Color3.fromRGB(10, 5, 7),
+            SliderRail = Color3.fromRGB(255, 120, 160),
+            DropdownFrame = Color3.fromRGB(25, 12, 18),
+            DropdownHolder = Color3.fromRGB(18, 8, 12),
+            DropdownBorder = Color3.fromRGB(255, 60, 120),
+            DropdownOption = Color3.fromRGB(255, 120, 160),
+            Keybind = Color3.fromRGB(255, 120, 160),
+            Input = Color3.fromRGB(255, 120, 160),
+            InputFocused = Color3.fromRGB(20, 10, 15),
+            InputIndicator = Color3.fromRGB(255, 150, 180),
+            Dialog = Color3.fromRGB(18, 8, 12),
+            DialogHolder = Color3.fromRGB(15, 7, 10),
+            DialogHolderLine = Color3.fromRGB(255, 60, 120),
+            DialogButton = Color3.fromRGB(25, 12, 18),
+            DialogButtonBorder = Color3.fromRGB(255, 60, 120),
+            DialogBorder = Color3.fromRGB(255, 60, 120),
+            DialogInput = Color3.fromRGB(30, 15, 22),
+            DialogInputLine = Color3.fromRGB(255, 120, 160),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(255, 200, 220),
+            Hover = Color3.fromRGB(255, 120, 160),
+            HoverChange = 0.08
+        }
+    end,
+
+    [54] = function()
+        local aa, ab, ac, ad, ae = b(54)
+        return {
+            Name = "Ocean",
+            Accent = Color3.fromRGB(0, 191, 255),
+            AcrylicMain = Color3.fromRGB(8, 18, 30),
+            AcrylicBorder = Color3.fromRGB(0, 191, 255),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(10, 80, 140), Color3.fromRGB(5, 40, 80)),
+            AcrylicNoise = 0.91,
+            TitleBarLine = Color3.fromRGB(0, 191, 255),
+            Tab = Color3.fromRGB(100, 220, 255),
+            Element = Color3.fromRGB(12, 25, 40),
+            ElementBorder = Color3.fromRGB(0, 191, 255),
+            InElementBorder = Color3.fromRGB(0, 160, 220),
+            ElementTransparency = 0.10,
+            ToggleSlider = Color3.fromRGB(100, 220, 255),
+            ToggleToggled = Color3.fromRGB(5, 12, 20),
+            SliderRail = Color3.fromRGB(100, 220, 255),
+            DropdownFrame = Color3.fromRGB(12, 25, 40),
+            DropdownHolder = Color3.fromRGB(8, 18, 30),
+            DropdownBorder = Color3.fromRGB(0, 191, 255),
+            DropdownOption = Color3.fromRGB(100, 220, 255),
+            Keybind = Color3.fromRGB(100, 220, 255),
+            Input = Color3.fromRGB(100, 220, 255),
+            InputFocused = Color3.fromRGB(10, 20, 35),
+            InputIndicator = Color3.fromRGB(150, 235, 255),
+            Dialog = Color3.fromRGB(8, 18, 30),
+            DialogHolder = Color3.fromRGB(6, 15, 25),
+            DialogHolderLine = Color3.fromRGB(0, 191, 255),
+            DialogButton = Color3.fromRGB(12, 25, 40),
+            DialogButtonBorder = Color3.fromRGB(0, 191, 255),
+            DialogBorder = Color3.fromRGB(0, 191, 255),
+            DialogInput = Color3.fromRGB(15, 30, 50),
+            DialogInputLine = Color3.fromRGB(100, 220, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(180, 220, 240),
+            Hover = Color3.fromRGB(100, 220, 255),
+            HoverChange = 0.08
+        }
+    end,
+
+    [55] = function()
+        local aa, ab, ac, ad, ae = b(55)
+        return {
+            Name = "Forest",
+            Accent = Color3.fromRGB(50, 205, 50),
+            AcrylicMain = Color3.fromRGB(10, 18, 12),
+            AcrylicBorder = Color3.fromRGB(50, 205, 50),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(30, 100, 40), Color3.fromRGB(15, 50, 20)),
+            AcrylicNoise = 0.89,
+            TitleBarLine = Color3.fromRGB(50, 205, 50),
+            Tab = Color3.fromRGB(120, 230, 120),
+            Element = Color3.fromRGB(15, 25, 18),
+            ElementBorder = Color3.fromRGB(50, 205, 50),
+            InElementBorder = Color3.fromRGB(40, 180, 40),
+            ElementTransparency = 0.10,
+            ToggleSlider = Color3.fromRGB(120, 230, 120),
+            ToggleToggled = Color3.fromRGB(8, 12, 10),
+            SliderRail = Color3.fromRGB(120, 230, 120),
+            DropdownFrame = Color3.fromRGB(15, 25, 18),
+            DropdownHolder = Color3.fromRGB(10, 18, 12),
+            DropdownBorder = Color3.fromRGB(50, 205, 50),
+            DropdownOption = Color3.fromRGB(120, 230, 120),
+            Keybind = Color3.fromRGB(120, 230, 120),
+            Input = Color3.fromRGB(120, 230, 120),
+            InputFocused = Color3.fromRGB(12, 20, 15),
+            InputIndicator = Color3.fromRGB(150, 240, 150),
+            Dialog = Color3.fromRGB(10, 18, 12),
+            DialogHolder = Color3.fromRGB(8, 15, 10),
+            DialogHolderLine = Color3.fromRGB(50, 205, 50),
+            DialogButton = Color3.fromRGB(15, 25, 18),
+            DialogButtonBorder = Color3.fromRGB(50, 205, 50),
+            DialogBorder = Color3.fromRGB(50, 205, 50),
+            DialogInput = Color3.fromRGB(20, 30, 22),
+            DialogInputLine = Color3.fromRGB(120, 230, 120),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(200, 240, 200),
+            Hover = Color3.fromRGB(120, 230, 120),
+            HoverChange = 0.08
+        }
+    end,
+
+    [56] = function()
+        local aa, ab, ac, ad, ae = b(56)
+        return {
+            Name = "Sunset",
+            Accent = Color3.fromRGB(255, 140, 0),
+            AcrylicMain = Color3.fromRGB(20, 10, 8),
+            AcrylicBorder = Color3.fromRGB(255, 140, 0),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(180, 80, 30), Color3.fromRGB(120, 40, 15)),
+            AcrylicNoise = 0.88,
+            TitleBarLine = Color3.fromRGB(255, 140, 0),
+            Tab = Color3.fromRGB(255, 180, 100),
+            Element = Color3.fromRGB(28, 15, 10),
+            ElementBorder = Color3.fromRGB(255, 140, 0),
+            InElementBorder = Color3.fromRGB(230, 120, 0),
+            ElementTransparency = 0.09,
+            ToggleSlider = Color3.fromRGB(255, 180, 100),
+            ToggleToggled = Color3.fromRGB(12, 6, 4),
+            SliderRail = Color3.fromRGB(255, 180, 100),
+            DropdownFrame = Color3.fromRGB(28, 15, 10),
+            DropdownHolder = Color3.fromRGB(20, 10, 8),
+            DropdownBorder = Color3.fromRGB(255, 140, 0),
+            DropdownOption = Color3.fromRGB(255, 180, 100),
+            Keybind = Color3.fromRGB(255, 180, 100),
+            Input = Color3.fromRGB(255, 180, 100),
+            InputFocused = Color3.fromRGB(22, 12, 9),
+            InputIndicator = Color3.fromRGB(255, 200, 130),
+            Dialog = Color3.fromRGB(20, 10, 8),
+            DialogHolder = Color3.fromRGB(16, 8, 6),
+            DialogHolderLine = Color3.fromRGB(255, 140, 0),
+            DialogButton = Color3.fromRGB(28, 15, 10),
+            DialogButtonBorder = Color3.fromRGB(255, 140, 0),
+            DialogBorder = Color3.fromRGB(255, 140, 0),
+            DialogInput = Color3.fromRGB(35, 20, 12),
+            DialogInputLine = Color3.fromRGB(255, 180, 100),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(255, 220, 180),
+            Hover = Color3.fromRGB(255, 180, 100),
+            HoverChange = 0.10
+        }
+    end,
+
+    [57] = function()
+    local aa, ab, ac, ad, ae = b(57)
+        return {
+            Name = "Midnight",
+            Accent = Color3.fromRGB(180, 200, 255),        -- slightly cooler accent for contrast
+            AcrylicMain = Color3.fromRGB(0, 0, 0),         -- fully black background for maximum contrast
+            AcrylicBorder = Color3.fromRGB(245, 245, 255), -- bright border to stand out on black
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(6, 6, 8), Color3.fromRGB(0, 0, 0)),
+            AcrylicNoise = 0.96,
+            TitleBarLine = Color3.fromRGB(245, 245, 255),
+            Tab = Color3.fromRGB(220, 220, 255),
+            Element = Color3.fromRGB(3, 3, 6),            -- very dark elements
+            ElementBorder = Color3.fromRGB(245, 245, 255),
+            InElementBorder = Color3.fromRGB(180, 180, 220),
+            ElementTransparency = 0.03,                    -- nearly opaque for stronger contrast
+            ToggleSlider = Color3.fromRGB(220, 220, 255),
+            ToggleToggled = Color3.fromRGB(0, 0, 0),
+            SliderRail = Color3.fromRGB(220, 220, 255),
+            DropdownFrame = Color3.fromRGB(3, 3, 6),
+            DropdownHolder = Color3.fromRGB(2, 2, 4),
+            DropdownBorder = Color3.fromRGB(245, 245, 255),
+            DropdownOption = Color3.fromRGB(220, 220, 255),
+            Keybind = Color3.fromRGB(220, 220, 255),
+            Input = Color3.fromRGB(220, 220, 255),
+            InputFocused = Color3.fromRGB(4, 4, 8),
+            InputIndicator = Color3.fromRGB(245, 245, 255),
+            Dialog = Color3.fromRGB(0, 0, 0),
+            DialogHolder = Color3.fromRGB(2, 2, 5),
+            DialogHolderLine = Color3.fromRGB(245, 245, 255),
+            DialogButton = Color3.fromRGB(3, 3, 6),
+            DialogButtonBorder = Color3.fromRGB(245, 245, 255),
+            DialogBorder = Color3.fromRGB(245, 245, 255),
+            DialogInput = Color3.fromRGB(6, 6, 12),
+            DialogInputLine = Color3.fromRGB(220, 220, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(200, 200, 220),
+            Hover = Color3.fromRGB(245, 245, 255),
+            HoverChange = 0.14
+        }
+    end,
+
+    [58] = function()
+        local aa, ab, ac, ad, ae = b(58)
+        return {
+            Name = "Cherry",
+            Accent = Color3.fromRGB(255, 0, 102),
+            AcrylicMain = Color3.fromRGB(18, 8, 12),
+            AcrylicBorder = Color3.fromRGB(255, 60, 120),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(160, 20, 60), Color3.fromRGB(90, 10, 35)),
+            AcrylicNoise = 0.89,
+            TitleBarLine = Color3.fromRGB(255, 60, 120),
+            Tab = Color3.fromRGB(255, 100, 140),
+            Element = Color3.fromRGB(25, 12, 18),
+            ElementBorder = Color3.fromRGB(255, 60, 120),
+            InElementBorder = Color3.fromRGB(230, 40, 90),
+            ElementTransparency = 0.09,
+            ToggleSlider = Color3.fromRGB(255, 100, 140),
+            ToggleToggled = Color3.fromRGB(10, 5, 7),
+            SliderRail = Color3.fromRGB(255, 100, 140),
+            DropdownFrame = Color3.fromRGB(25, 12, 18),
+            DropdownHolder = Color3.fromRGB(18, 8, 12),
+            DropdownBorder = Color3.fromRGB(255, 60, 120),
+            DropdownOption = Color3.fromRGB(255, 100, 140),
+            Keybind = Color3.fromRGB(255, 100, 140),
+            Input = Color3.fromRGB(255, 100, 140),
+            InputFocused = Color3.fromRGB(20, 10, 15),
+            InputIndicator = Color3.fromRGB(255, 140, 170),
+            Dialog = Color3.fromRGB(18, 8, 12),
+            DialogHolder = Color3.fromRGB(15, 7, 10),
+            DialogHolderLine = Color3.fromRGB(255, 60, 120),
+            DialogButton = Color3.fromRGB(25, 12, 18),
+            DialogButtonBorder = Color3.fromRGB(255, 60, 120),
+            DialogBorder = Color3.fromRGB(255, 60, 120),
+            DialogInput = Color3.fromRGB(30, 15, 22),
+            DialogInputLine = Color3.fromRGB(255, 100, 140),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(255, 190, 210),
+            Hover = Color3.fromRGB(255, 100, 140),
+            HoverChange = 0.08
+        }
+    end,
+
+    [59] = function()
+        local aa, ab, ac, ad, ae = b(59)
+        return {
+            Name = "Lavender",
+            Accent = Color3.fromRGB(180, 120, 255),
+            AcrylicMain = Color3.fromRGB(15, 12, 22),
+            AcrylicBorder = Color3.fromRGB(180, 120, 255),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(100, 70, 160), Color3.fromRGB(50, 35, 90)),
+            AcrylicNoise = 0.91,
+            TitleBarLine = Color3.fromRGB(180, 120, 255),
+            Tab = Color3.fromRGB(200, 160, 255),
+            Element = Color3.fromRGB(20, 16, 30),
+            ElementBorder = Color3.fromRGB(180, 120, 255),
+            InElementBorder = Color3.fromRGB(160, 100, 230),
+            ElementTransparency = 0.10,
+            ToggleSlider = Color3.fromRGB(200, 160, 255),
+            ToggleToggled = Color3.fromRGB(8, 6, 12),
+            SliderRail = Color3.fromRGB(200, 160, 255),
+            DropdownFrame = Color3.fromRGB(20, 16, 30),
+            DropdownHolder = Color3.fromRGB(15, 12, 22),
+            DropdownBorder = Color3.fromRGB(180, 120, 255),
+            DropdownOption = Color3.fromRGB(200, 160, 255),
+            Keybind = Color3.fromRGB(200, 160, 255),
+            Input = Color3.fromRGB(200, 160, 255),
+            InputFocused = Color3.fromRGB(17, 14, 25),
+            InputIndicator = Color3.fromRGB(220, 180, 255),
+            Dialog = Color3.fromRGB(15, 12, 22),
+            DialogHolder = Color3.fromRGB(12, 10, 18),
+            DialogHolderLine = Color3.fromRGB(180, 120, 255),
+            DialogButton = Color3.fromRGB(20, 16, 30),
+            DialogButtonBorder = Color3.fromRGB(180, 120, 255),
+            DialogBorder = Color3.fromRGB(180, 120, 255),
+            DialogInput = Color3.fromRGB(25, 20, 38),
+            DialogInputLine = Color3.fromRGB(200, 160, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(220, 200, 250),
+            Hover = Color3.fromRGB(200, 160, 255),
+            HoverChange = 0.08
+        }
+    end,
+
+    [60] = function()
+        local aa, ab, ac, ad, ae = b(60)
+        return {
+            Name = "Gold",
+            Accent = Color3.fromRGB(255, 215, 0),
+            AcrylicMain = Color3.fromRGB(20, 18, 10),
+            AcrylicBorder = Color3.fromRGB(255, 215, 0),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(150, 130, 30), Color3.fromRGB(80, 70, 15)),
+            AcrylicNoise = 0.87,
+            TitleBarLine = Color3.fromRGB(255, 215, 0),
+            Tab = Color3.fromRGB(255, 230, 100),
+            Element = Color3.fromRGB(28, 25, 15),
+            ElementBorder = Color3.fromRGB(255, 215, 0),
+            InElementBorder = Color3.fromRGB(230, 190, 0),
+            ElementTransparency = 0.09,
+            ToggleSlider = Color3.fromRGB(255, 230, 100),
+            ToggleToggled = Color3.fromRGB(12, 10, 5),
+            SliderRail = Color3.fromRGB(255, 230, 100),
+            DropdownFrame = Color3.fromRGB(28, 25, 15),
+            DropdownHolder = Color3.fromRGB(20, 18, 10),
+            DropdownBorder = Color3.fromRGB(255, 215, 0),
+            DropdownOption = Color3.fromRGB(255, 230, 100),
+            Keybind = Color3.fromRGB(255, 230, 100),
+            Input = Color3.fromRGB(255, 230, 100),
+            InputFocused = Color3.fromRGB(23, 20, 12),
+            InputIndicator = Color3.fromRGB(255, 240, 150),
+            Dialog = Color3.fromRGB(20, 18, 10),
+            DialogHolder = Color3.fromRGB(16, 14, 8),
+            DialogHolderLine = Color3.fromRGB(255, 215, 0),
+            DialogButton = Color3.fromRGB(28, 25, 15),
+            DialogButtonBorder = Color3.fromRGB(255, 215, 0),
+            DialogBorder = Color3.fromRGB(255, 215, 0),
+            DialogInput = Color3.fromRGB(35, 30, 18),
+            DialogInputLine = Color3.fromRGB(255, 230, 100),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(255, 240, 180),
+            Hover = Color3.fromRGB(255, 230, 100),
+            HoverChange = 0.10
+        }
+    end,
+
+    [61] = function()
+        local aa, ab, ac, ad, ae = b(61)
+        return {
+            Name = "Mint",
+            Accent = Color3.fromRGB(0, 255, 200),
+            AcrylicMain = Color3.fromRGB(10, 20, 18),
+            AcrylicBorder = Color3.fromRGB(0, 255, 200),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(20, 120, 100), Color3.fromRGB(10, 60, 50)),
+            AcrylicNoise = 0.90,
+            TitleBarLine = Color3.fromRGB(0, 255, 200),
+            Tab = Color3.fromRGB(100, 255, 220),
+            Element = Color3.fromRGB(15, 28, 25),
+            ElementBorder = Color3.fromRGB(0, 255, 200),
+            InElementBorder = Color3.fromRGB(0, 220, 170),
+            ElementTransparency = 0.10,
+            ToggleSlider = Color3.fromRGB(100, 255, 220),
+            ToggleToggled = Color3.fromRGB(5, 12, 10),
+            SliderRail = Color3.fromRGB(100, 255, 220),
+            DropdownFrame = Color3.fromRGB(15, 28, 25),
+            DropdownHolder = Color3.fromRGB(10, 20, 18),
+            DropdownBorder = Color3.fromRGB(0, 255, 200),
+            DropdownOption = Color3.fromRGB(100, 255, 220),
+            Keybind = Color3.fromRGB(100, 255, 220),
+            Input = Color3.fromRGB(100, 255, 220),
+            InputFocused = Color3.fromRGB(12, 23, 20),
+            InputIndicator = Color3.fromRGB(150, 255, 230),
+            Dialog = Color3.fromRGB(10, 20, 18),
+            DialogHolder = Color3.fromRGB(8, 16, 14),
+            DialogHolderLine = Color3.fromRGB(0, 255, 200),
+            DialogButton = Color3.fromRGB(15, 28, 25),
+            DialogButtonBorder = Color3.fromRGB(0, 255, 200),
+            DialogBorder = Color3.fromRGB(0, 255, 200),
+            DialogInput = Color3.fromRGB(20, 35, 30),
+            DialogInputLine = Color3.fromRGB(100, 255, 220),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(200, 255, 240),
+            Hover = Color3.fromRGB(100, 255, 220),
+            HoverChange = 0.08
+        }
+    end,
+
+    [62] = function()
+        local aa, ab, ac, ad, ae = b(62)
+        return {
+            Name = "Crimson",
+            Accent = Color3.fromRGB(255, 0, 60),
+            AcrylicMain = Color3.fromRGB(20, 8, 10),
+            AcrylicBorder = Color3.fromRGB(255, 50, 80),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(150, 30, 40), Color3.fromRGB(80, 15, 20)),
+            AcrylicNoise = 0.88,
+            TitleBarLine = Color3.fromRGB(255, 50, 80),
+            Tab = Color3.fromRGB(255, 100, 120),
+            Element = Color3.fromRGB(28, 12, 15),
+            ElementBorder = Color3.fromRGB(255, 50, 80),
+            InElementBorder = Color3.fromRGB(230, 40, 70),
+            ElementTransparency = 0.09,
+            ToggleSlider = Color3.fromRGB(255, 100, 120),
+            ToggleToggled = Color3.fromRGB(12, 5, 6),
+            SliderRail = Color3.fromRGB(255, 100, 120),
+            DropdownFrame = Color3.fromRGB(28, 12, 15),
+            DropdownHolder = Color3.fromRGB(20, 8, 10),
+            DropdownBorder = Color3.fromRGB(255, 50, 80),
+            DropdownOption = Color3.fromRGB(255, 100, 120),
+            Keybind = Color3.fromRGB(255, 100, 120),
+            Input = Color3.fromRGB(255, 100, 120),
+            InputFocused = Color3.fromRGB(23, 10, 12),
+            InputIndicator = Color3.fromRGB(255, 130, 150),
+            Dialog = Color3.fromRGB(20, 8, 10),
+            DialogHolder = Color3.fromRGB(16, 6, 8),
+            DialogHolderLine = Color3.fromRGB(255, 50, 80),
+            DialogButton = Color3.fromRGB(28, 12, 15),
+            DialogButtonBorder = Color3.fromRGB(255, 50, 80),
+            DialogBorder = Color3.fromRGB(255, 50, 80),
+            DialogInput = Color3.fromRGB(35, 15, 18),
+            DialogInputLine = Color3.fromRGB(255, 100, 120),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(255, 200, 210),
+            Hover = Color3.fromRGB(255, 100, 120),
+            HoverChange = 0.09
+        }
+    end,
+
+    [63] = function()
+        local aa, ab, ac, ad, ae = b(63)
+        return {
+            Name = "Sapphire",
+            Accent = Color3.fromRGB(0, 120, 255),
+            AcrylicMain = Color3.fromRGB(8, 15, 25),
+            AcrylicBorder = Color3.fromRGB(60, 160, 255),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(20, 70, 140), Color3.fromRGB(10, 35, 80)),
+            AcrylicNoise = 0.92,
+            TitleBarLine = Color3.fromRGB(60, 160, 255),
+            Tab = Color3.fromRGB(120, 190, 255),
+            Element = Color3.fromRGB(12, 22, 35),
+            ElementBorder = Color3.fromRGB(60, 160, 255),
+            InElementBorder = Color3.fromRGB(50, 140, 230),
+            ElementTransparency = 0.10,
+            ToggleSlider = Color3.fromRGB(120, 190, 255),
+            ToggleToggled = Color3.fromRGB(5, 8, 14),
+            SliderRail = Color3.fromRGB(120, 190, 255),
+            DropdownFrame = Color3.fromRGB(12, 22, 35),
+            DropdownHolder = Color3.fromRGB(8, 15, 25),
+            DropdownBorder = Color3.fromRGB(60, 160, 255),
+            DropdownOption = Color3.fromRGB(120, 190, 255),
+            Keybind = Color3.fromRGB(120, 190, 255),
+            Input = Color3.fromRGB(120, 190, 255),
+            InputFocused = Color3.fromRGB(10, 18, 30),
+            InputIndicator = Color3.fromRGB(150, 210, 255),
+            Dialog = Color3.fromRGB(8, 15, 25),
+            DialogHolder = Color3.fromRGB(6, 12, 20),
+            DialogHolderLine = Color3.fromRGB(60, 160, 255),
+            DialogButton = Color3.fromRGB(12, 22, 35),
+            DialogButtonBorder = Color3.fromRGB(60, 160, 255),
+            DialogBorder = Color3.fromRGB(60, 160, 255),
+            DialogInput = Color3.fromRGB(15, 28, 45),
+            DialogInputLine = Color3.fromRGB(120, 190, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(200, 230, 255),
+            Hover = Color3.fromRGB(120, 190, 255),
+            HoverChange = 0.08
+        }
+    end,
+
+    [64] = function()
+        local aa, ab, ac, ad, ae = b(64)
+        return {
+            Name = "Peach",
+            Accent = Color3.fromRGB(255, 160, 120),
+            AcrylicMain = Color3.fromRGB(22, 16, 14),
+            AcrylicBorder = Color3.fromRGB(255, 160, 120),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(180, 100, 70), Color3.fromRGB(100, 60, 40)),
+            AcrylicNoise = 0.89,
+            TitleBarLine = Color3.fromRGB(255, 160, 120),
+            Tab = Color3.fromRGB(255, 190, 160),
+            Element = Color3.fromRGB(30, 22, 18),
+            ElementBorder = Color3.fromRGB(255, 160, 120),
+            InElementBorder = Color3.fromRGB(230, 140, 100),
+            ElementTransparency = 0.09,
+            ToggleSlider = Color3.fromRGB(255, 190, 160),
+            ToggleToggled = Color3.fromRGB(12, 8, 7),
+            SliderRail = Color3.fromRGB(255, 190, 160),
+            DropdownFrame = Color3.fromRGB(30, 22, 18),
+            DropdownHolder = Color3.fromRGB(22, 16, 14),
+            DropdownBorder = Color3.fromRGB(255, 160, 120),
+            DropdownOption = Color3.fromRGB(255, 190, 160),
+            Keybind = Color3.fromRGB(255, 190, 160),
+            Input = Color3.fromRGB(255, 190, 160),
+            InputFocused = Color3.fromRGB(25, 18, 15),
+            InputIndicator = Color3.fromRGB(255, 210, 180),
+            Dialog = Color3.fromRGB(22, 16, 14),
+            DialogHolder = Color3.fromRGB(18, 13, 11),
+            DialogHolderLine = Color3.fromRGB(255, 160, 120),
+            DialogButton = Color3.fromRGB(30, 22, 18),
+            DialogButtonBorder = Color3.fromRGB(255, 160, 120),
+            DialogBorder = Color3.fromRGB(255, 160, 120),
+            DialogInput = Color3.fromRGB(38, 28, 22),
+            DialogInputLine = Color3.fromRGB(255, 190, 160),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(255, 230, 210),
+            Hover = Color3.fromRGB(255, 190, 160),
+            HoverChange = 0.09
+        }
+    end,
+
+    [65] = function()
+        local aa, ab, ac, ad, ae = b(65)
+        return {
+            Name = "Galaxy",
+            Accent = Color3.fromRGB(180, 100, 255),
+            AcrylicMain = Color3.fromRGB(8, 5, 15),
+            AcrylicBorder = Color3.fromRGB(180, 100, 255),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(80, 40, 160), Color3.fromRGB(30, 15, 70)),
+            AcrylicNoise = 0.94,
+            TitleBarLine = Color3.fromRGB(180, 100, 255),
+            Tab = Color3.fromRGB(210, 150, 255),
+            Element = Color3.fromRGB(12, 8, 22),
+            ElementBorder = Color3.fromRGB(180, 100, 255),
+            InElementBorder = Color3.fromRGB(160, 80, 230),
+            ElementTransparency = 0.08,
+            ToggleSlider = Color3.fromRGB(210, 150, 255),
+            ToggleToggled = Color3.fromRGB(4, 3, 8),
+            SliderRail = Color3.fromRGB(210, 150, 255),
+            DropdownFrame = Color3.fromRGB(12, 8, 22),
+            DropdownHolder = Color3.fromRGB(8, 5, 15),
+            DropdownBorder = Color3.fromRGB(180, 100, 255),
+            DropdownOption = Color3.fromRGB(210, 150, 255),
+            Keybind = Color3.fromRGB(210, 150, 255),
+            Input = Color3.fromRGB(210, 150, 255),
+            InputFocused = Color3.fromRGB(10, 6, 18),
+            InputIndicator = Color3.fromRGB(230, 180, 255),
+            Dialog = Color3.fromRGB(8, 5, 15),
+            DialogHolder = Color3.fromRGB(6, 4, 12),
+            DialogHolderLine = Color3.fromRGB(180, 100, 255),
+            DialogButton = Color3.fromRGB(12, 8, 22),
+            DialogButtonBorder = Color3.fromRGB(180, 100, 255),
+            DialogBorder = Color3.fromRGB(180, 100, 255),
+            DialogInput = Color3.fromRGB(16, 10, 28),
+            DialogInputLine = Color3.fromRGB(210, 150, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(230, 210, 255),
+            Hover = Color3.fromRGB(210, 150, 255),
+            HoverChange = 0.08
+        }
+    end,
+
+    [66] = function()
+        local aa, ab, ac, ad, ae = b(66)
+        -- RGB Theme with animated rainbow colors flag
+        return {
+            Name = "RGB",
+            Accent = Color3.fromRGB(255, 0, 255), -- will be animated by caller if supported
+            AcrylicMain = Color3.fromRGB(12, 12, 12),
+            AcrylicBorder = Color3.fromRGB(255, 0, 255),
+            AcrylicGradient = ColorSequence.new(Color3.fromRGB(20, 20, 20), Color3.fromRGB(10, 10, 10)),
+            AcrylicNoise = 0.90,
+            TitleBarLine = Color3.fromRGB(255, 0, 255),
+            Tab = Color3.fromRGB(255, 255, 255),
+            Element = Color3.fromRGB(18, 18, 18),
+            ElementBorder = Color3.fromRGB(255, 0, 255),
+            InElementBorder = Color3.fromRGB(255, 0, 255),
+            ElementTransparency = 0.08,
+            ToggleSlider = Color3.fromRGB(255, 255, 255),
+            ToggleToggled = Color3.fromRGB(8, 8, 8),
+            SliderRail = Color3.fromRGB(255, 255, 255),
+            DropdownFrame = Color3.fromRGB(18, 18, 18),
+            DropdownHolder = Color3.fromRGB(12, 12, 12),
+            DropdownBorder = Color3.fromRGB(255, 0, 255),
+            DropdownOption = Color3.fromRGB(255, 255, 255),
+            Keybind = Color3.fromRGB(255, 255, 255),
+            Input = Color3.fromRGB(255, 255, 255),
+            InputFocused = Color3.fromRGB(15, 15, 15),
+            InputIndicator = Color3.fromRGB(255, 0, 255),
+            Dialog = Color3.fromRGB(12, 12, 12),
+            DialogHolder = Color3.fromRGB(10, 10, 10),
+            DialogHolderLine = Color3.fromRGB(255, 0, 255),
+            DialogButton = Color3.fromRGB(18, 18, 18),
+            DialogButtonBorder = Color3.fromRGB(255, 0, 255),
+            DialogBorder = Color3.fromRGB(255, 0, 255),
+            DialogInput = Color3.fromRGB(22, 22, 22),
+            DialogInputLine = Color3.fromRGB(255, 0, 255),
+            Text = Color3.fromRGB(255, 255, 255),
+            SubText = Color3.fromRGB(220, 220, 220),
+            Hover = Color3.fromRGB(255, 255, 255),
+            HoverChange = 0.10,
+            IsRGB = true
+        }
+    end,
+    [67] = function()
+        local aa, ab, ac, ad, ae = b(67)
         return {
             Name = "Dark",
             Accent = Color3.fromRGB(96, 205, 255),
@@ -5191,8 +6242,8 @@ local aa = {
             HoverChange = 0.07
         }
     end,
-    [51] = function()
-        local aa, ab, ac, ad, ae = b(51)
+    [68] = function()
+        local aa, ab, ac, ad, ae = b(68)
         return {
             Name = "Darker",
             Accent = Color3.fromRGB(72, 138, 182),
@@ -5217,86 +6268,6 @@ local aa = {
             DialogBorder = Color3.fromRGB(50, 50, 50),
             DialogInput = Color3.fromRGB(45, 45, 45),
             DialogInputLine = Color3.fromRGB(120, 120, 120)
-        }
-    end,
-    [52] = function()
-        local aa, ab, ac, ad, ae = b(52)
-        return {
-            Name = "Light",
-            Accent = Color3.fromRGB(0, 103, 192),
-            AcrylicMain = Color3.fromRGB(200, 200, 200),
-            AcrylicBorder = Color3.fromRGB(120, 120, 120),
-            AcrylicGradient = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 255, 255)),
-            AcrylicNoise = 0.96,
-            TitleBarLine = Color3.fromRGB(160, 160, 160),
-            Tab = Color3.fromRGB(90, 90, 90),
-            Element = Color3.fromRGB(255, 255, 255),
-            ElementBorder = Color3.fromRGB(180, 180, 180),
-            InElementBorder = Color3.fromRGB(150, 150, 150),
-            ElementTransparency = 0.65,
-            ToggleSlider = Color3.fromRGB(40, 40, 40),
-            ToggleToggled = Color3.fromRGB(255, 255, 255),
-            SliderRail = Color3.fromRGB(40, 40, 40),
-            DropdownFrame = Color3.fromRGB(200, 200, 200),
-            DropdownHolder = Color3.fromRGB(240, 240, 240),
-            DropdownBorder = Color3.fromRGB(200, 200, 200),
-            DropdownOption = Color3.fromRGB(150, 150, 150),
-            Keybind = Color3.fromRGB(120, 120, 120),
-            Input = Color3.fromRGB(200, 200, 200),
-            InputFocused = Color3.fromRGB(100, 100, 100),
-            InputIndicator = Color3.fromRGB(80, 80, 80),
-            Dialog = Color3.fromRGB(255, 255, 255),
-            DialogHolder = Color3.fromRGB(240, 240, 240),
-            DialogHolderLine = Color3.fromRGB(228, 228, 228),
-            DialogButton = Color3.fromRGB(255, 255, 255),
-            DialogButtonBorder = Color3.fromRGB(190, 190, 190),
-            DialogBorder = Color3.fromRGB(140, 140, 140),
-            DialogInput = Color3.fromRGB(250, 250, 250),
-            DialogInputLine = Color3.fromRGB(160, 160, 160),
-            Text = Color3.fromRGB(0, 0, 0),
-            SubText = Color3.fromRGB(40, 40, 40),
-            Hover = Color3.fromRGB(50, 50, 50),
-            HoverChange = 0.16
-        }
-    end,
-    [53] = function()
-        local aa, ab, ac, ad, ae = b(53)
-        return {
-            Name = "Rose",
-            Accent = Color3.fromRGB(180, 55, 90),
-            AcrylicMain = Color3.fromRGB(40, 40, 40),
-            AcrylicBorder = Color3.fromRGB(130, 90, 110),
-            AcrylicGradient = ColorSequence.new(Color3.fromRGB(190, 60, 135), Color3.fromRGB(165, 50, 70)),
-            AcrylicNoise = 0.92,
-            TitleBarLine = Color3.fromRGB(140, 85, 105),
-            Tab = Color3.fromRGB(180, 140, 160),
-            Element = Color3.fromRGB(200, 120, 170),
-            ElementBorder = Color3.fromRGB(110, 70, 85),
-            InElementBorder = Color3.fromRGB(120, 90, 90),
-            ElementTransparency = 0.86,
-            ToggleSlider = Color3.fromRGB(200, 120, 170),
-            ToggleToggled = Color3.fromRGB(0, 0, 0),
-            SliderRail = Color3.fromRGB(200, 120, 170),
-            DropdownFrame = Color3.fromRGB(200, 160, 180),
-            DropdownHolder = Color3.fromRGB(120, 50, 75),
-            DropdownBorder = Color3.fromRGB(90, 40, 55),
-            DropdownOption = Color3.fromRGB(200, 120, 170),
-            Keybind = Color3.fromRGB(200, 120, 170),
-            Input = Color3.fromRGB(200, 120, 170),
-            InputFocused = Color3.fromRGB(20, 10, 30),
-            InputIndicator = Color3.fromRGB(170, 150, 190),
-            Dialog = Color3.fromRGB(120, 50, 75),
-            DialogHolder = Color3.fromRGB(95, 40, 60),
-            DialogHolderLine = Color3.fromRGB(90, 35, 55),
-            DialogButton = Color3.fromRGB(120, 50, 75),
-            DialogButtonBorder = Color3.fromRGB(155, 90, 115),
-            DialogBorder = Color3.fromRGB(100, 70, 90),
-            DialogInput = Color3.fromRGB(135, 55, 80),
-            DialogInputLine = Color3.fromRGB(190, 160, 180),
-            Text = Color3.fromRGB(240, 240, 240),
-            SubText = Color3.fromRGB(170, 170, 170),
-            Hover = Color3.fromRGB(200, 120, 170),
-            HoverChange = 0.04
         }
     end
 }
