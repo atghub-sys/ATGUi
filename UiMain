@@ -3682,46 +3682,46 @@ end,
     end,
     -- แทนที่ [25] Enhanced Paragraph (ลบของเดิมแล้วใส่อันนี้)
 [25] = function()
-    local c, d, e, f, g = b(25)
-    local h = d.Parent.Parent
-    local i, j, k, l = h.Components, e(h.Packages.Flipper), e(h.Creator), {}
-    l.__index = l
-    l.__type = "Paragraph"
+    local aa, ab, ac, ad, ae = b(25)
+    local af = ab.Parent.Parent
+    local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+    aj.__index = aj
+    aj.__type = "Paragraph"
     
-    function l.New(m, n)
-        assert(n.Title, "Paragraph - Missing Title")
-        n.Content = n.Content or ""
+    function aj.New(c, d)
+        assert(d.Title, "Paragraph - Missing Title")
+        d.Content = d.Content or ""
         
-        local o = e(i.Element)(n.Title, n.Content, l.Container, false)
-        o.Frame.BackgroundTransparency = 0.94
-        o.Border.Transparency = 0.7
+        local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
+        e.Frame.BackgroundTransparency = 0.94
+        e.Border.Transparency = 0.7
         
-        local p = k("Frame", {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.97, BorderSizePixel = 0, ZIndex = 0, ThemeTag = {BackgroundColor3 = "Accent"}}, {k("UICorner", {CornerRadius = UDim.new(0, 4)}), k("UIGradient", {Rotation = 45, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.98), NumberSequenceKeypoint.new(0.5, 0.95), NumberSequenceKeypoint.new(1, 0.98)})})})
-        p.Parent = o.Frame
+        local f = ai.New("Frame", {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.97, BorderSizePixel = 0, ZIndex = 0, ThemeTag = {BackgroundColor3 = "Accent"}}, {ai.New("UICorner", {CornerRadius = UDim.new(0, 4)}), ai.New("UIGradient", {Rotation = 45, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.98), NumberSequenceKeypoint.new(0.5, 0.95), NumberSequenceKeypoint.new(1, 0.98)})})})
+        f.Parent = e.Frame
         
-        local q = k("ImageLabel", {Size = UDim2.fromOffset(18, 18), Position = UDim2.fromOffset(12, 13), BackgroundTransparency = 1, Image = "rbxassetid://10723415903", ImageTransparency = 0.3, ThemeTag = {ImageColor3 = "Accent"}})
-        q.Parent = o.Frame
+        local g = ai.New("ImageLabel", {Size = UDim2.fromOffset(18, 18), Position = UDim2.fromOffset(12, 13), BackgroundTransparency = 1, Image = "rbxassetid://10723415903", ImageTransparency = 0.3, ThemeTag = {ImageColor3 = "Accent"}})
+        g.Parent = e.Frame
         
-        o.LabelHolder.Position = UDim2.fromOffset(38, 0)
-        o.LabelHolder.Size = UDim2.new(1, -48, 0, 0)
+        e.LabelHolder.Position = UDim2.fromOffset(38, 0)
+        e.LabelHolder.Size = UDim2.new(1, -48, 0, 0)
         
-        local r = k("ImageLabel", {Size = UDim2.fromScale(1, 1), Position = UDim2.fromScale(0, 0), BackgroundTransparency = 1, Image = "rbxassetid://5554236805", ScaleType = Enum.ScaleType.Slice, SliceCenter = Rect.new(23, 23, 277, 277), ImageTransparency = 0.96, ImageColor3 = Color3.fromRGB(76, 194, 255), ZIndex = -1, ThemeTag = {ImageColor3 = "Accent"}})
-        r.Parent = o.Frame
+        local h = ai.New("ImageLabel", {Size = UDim2.fromScale(1, 1), Position = UDim2.fromScale(0, 0), BackgroundTransparency = 1, Image = "rbxassetid://5554236805", ScaleType = Enum.ScaleType.Slice, SliceCenter = Rect.new(23, 23, 277, 277), ImageTransparency = 0.96, ImageColor3 = Color3.fromRGB(76, 194, 255), ZIndex = -1, ThemeTag = {ImageColor3 = "Accent"}})
+        h.Parent = e.Frame
         
-        o.Frame.Size = UDim2.new(1, 0, 0, 0)
-        local s = game:GetService("TweenService")
-        local t = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        e.Frame.Size = UDim2.new(1, 0, 0, 0)
+        local i = game:GetService("TweenService")
+        local j = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
         task.wait(0.05)
-        s:Create(o.Frame, t, {Size = UDim2.new(1, 0, 0, o.LabelHolder.AbsoluteSize.Y + 26)}):Play()
+        i:Create(e.Frame, j, {Size = UDim2.new(1, 0, 0, e.LabelHolder.AbsoluteSize.Y + 26)}):Play()
         
-        local u, v = k.SpringMotor(0.94, o.Frame, "BackgroundTransparency")
-        k.AddSignal(o.Frame.MouseEnter, function() v(0.90) end)
-        k.AddSignal(o.Frame.MouseLeave, function() v(0.94) end)
+        local k, l = ai.SpringMotor(0.94, e.Frame, "BackgroundTransparency")
+        ai.AddSignal(e.Frame.MouseEnter, function() l(0.90) end)
+        ai.AddSignal(e.Frame.MouseLeave, function() l(0.94) end)
         
-        return o
+        return e
     end
     
-    return l
+    return aj
 end,
     [26] = function()
         local aa, ab, ac, ad, ae = b(26)
