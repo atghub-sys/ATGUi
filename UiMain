@@ -1,5 +1,4 @@
-do local a=game:GetService("TweenService")local b=game:GetService("ContentProvider")local c=game:GetService("CoreGui")local d=game:GetService("Lighting")local e=game:GetService("RunService")local f=game:GetService("Players")local g=f.LocalPlayer;local h=workspace.CurrentCamera;local i="rbxassetid://90989180960460"local j=true;local k="ATG HUB"local l=Enum.Font.GothamBold;-- ปรับตรงนี้
-local m=0.35;local n=0.8;local o=0.35;local p=0.82;local q=1.12;local r=0.6;local s=18;local t=0.9;local u=8;local v=true;if c:FindFirstChild("CoreSplash")then c.CoreSplash:Destroy()end;pcall(function()b:PreloadAsync({i})end)local function w(x,y,z,A,B)local C=TweenInfo.new(z,A or Enum.EasingStyle.Sine,B or Enum.EasingDirection.Out)local D=a:Create(x,C,y)D:Play()return D end;local E=Instance.new("ScreenGui")E.Name="CoreSplash"E.IgnoreGuiInset=true;E.ResetOnSpawn=false;E.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;E.DisplayOrder=999999999;E.Parent=c;local function F()return h and h.ViewportSize or Vector2.new(1280,720)end;local function G()local H=F()local I=math.min(H.X,H.Y)local J=I/1080;local K=math.clamp(r*J,0.18,0.72)return{imageScale=K,textSize=math.clamp(26*J,14,56),particleSize=math.clamp(10*J,6,22)}end;local L=Instance.new("Frame")L.Name="Overlay"L.Size=UDim2.fromScale(1,1)L.Position=UDim2.fromScale(0,0)L.BackgroundColor3=Color3.fromRGB(6,6,6)L.BackgroundTransparency=1;L.BorderSizePixel=0;L.ZIndex=99999999;L.Parent=E;local function M(B)local N=Instance.new("Frame")N.Size=UDim2.fromScale(1,0.18)if B=="top"then N.AnchorPoint=Vector2.new(0,0)N.Position=UDim2.fromScale(0,0)elseif B=="bottom"then N.AnchorPoint=Vector2.new(0,1)N.Position=UDim2.fromScale(0,1)end;N.BackgroundTransparency=1;N.ZIndex=99999998;N.Parent=E;local O=Instance.new("UIGradient",N)O.Transparency=NumberSequence.new{NumberSequenceKeypoint.new(0,0.8),NumberSequenceKeypoint.new(1,1)}return N end;local P=M("top")local Q=M("bottom")local R;do R=d:FindFirstChild("CoreSplashBlur")or Instance.new("BlurEffect")R.Name="CoreSplashBlur"R.Parent=d;R.Size=0;R.Enabled=true end;local S=Instance.new("Frame")S.Name="Center"S.AnchorPoint=Vector2.new(0.5,0.5)S.Position=UDim2.fromScale(0.5,0.5)S.Size=UDim2.fromOffset(0,0)S.BackgroundTransparency=1;S.ZIndex=99999999;S.Parent=E;local T=Instance.new("ImageLabel")T.Name="Logo"T.AnchorPoint=Vector2.new(0.5,0.5)T.Position=UDim2.fromScale(0.5,0.5)T.Size=UDim2.fromScale(0.4,0.4)T.BackgroundTransparency=1;T.Image=i;T.ImageTransparency=1;T.ScaleType=Enum.ScaleType.Fit;T.ZIndex=99999999;T.Parent=S;local U=Instance.new("ImageLabel")U.Name="Rim"U.AnchorPoint=Vector2.new(0.5,0.5)U.Position=UDim2.fromScale(0.5,0.5)U.Size=UDim2.fromScale(1,1)U.BackgroundTransparency=1;U.Image=i;U.ImageTransparency=0.985;U.ScaleType=Enum.ScaleType.Fit;U.ZIndex=99999999;U.Parent=T;local V=Instance.new("TextLabel")V.Name="TextShadow"V.AnchorPoint=Vector2.new(0.5,0)V.Position=UDim2.new(0.5,1,0,16)V.Size=UDim2.new(0.9,0,0,30)V.BackgroundTransparency=1;V.ZIndex=99999999;V.Text=j and k or""V.TextColor3=Color3.fromRGB(10,10,10)V.TextTransparency=0.35;V.Font=l;V.TextSize=18;V.Parent=S;local W=Instance.new("TextLabel")W.Name="Text"W.AnchorPoint=Vector2.new(0.5,0)W.Position=V.Position;W.Size=V.Size;W.BackgroundTransparency=1;W.ZIndex=99999999;W.Text=j and k or""W.TextColor3=Color3.fromRGB(255,255,255)W.TextStrokeTransparency=0.7;W.Font=l;W.TextSize=18;W.Parent=S;local function X()local Y=G()local Z=Y.imageScale;T.Size=UDim2.fromScale(Z,Z)U.Size=UDim2.fromScale(1,1)local H=F()S.Size=UDim2.fromOffset(math.max(400,H.X*Z*0.95),math.max(300,H.Y*Z*0.8))W.TextSize=Y.textSize;V.TextSize=Y.textSize;local _=T.AbsoluteSize.Y;local a0=math.clamp(_/2+Y.textSize*0.9+18,48,420)W.Position=UDim2.new(0.5,0,0.5,a0)V.Position=UDim2.new(0.5,2,0.5,a0+2)end;local a1=Instance.new("Frame")a1.Name="Shimmer"a1.AnchorPoint=Vector2.new(0.5,0.5)a1.Position=UDim2.fromScale(0.5,0.5)a1.Size=UDim2.fromScale(0.95,0.95)a1.BackgroundTransparency=1;a1.ZIndex=99999999;a1.Parent=T;local a2=Instance.new("ImageLabel")a2.Size=UDim2.fromScale(1.6,0.35)a2.AnchorPoint=Vector2.new(0.5,0.5)a2.Position=UDim2.fromScale(0.5,0.5)a2.BackgroundTransparency=1;a2.ImageTransparency=1;a2.Image=i;a2.ScaleType=Enum.ScaleType.Slice;a2.SliceCenter=Rect.new(8,8,8,8)a2.ZIndex=99999999;a2.Parent=a1;X()local a3;a3=h:GetPropertyChangedSignal("ViewportSize"):Connect(function()X()end)task.spawn(function()w(L,{BackgroundTransparency=0.45},0.35,Enum.EasingStyle.Quad)w(R,{Size=u},0.45,Enum.EasingStyle.Quad)local Y=G()T.Size=UDim2.fromScale(Y.imageScale*p,Y.imageScale*p)w(T,{ImageTransparency=0},m,Enum.EasingStyle.Sine)w(T,{Size=UDim2.fromScale(Y.imageScale*1.02,Y.imageScale*1.02)},m,Enum.EasingStyle.Quart)task.spawn(function()while T.Parent and T.ImageTransparency==0 do a2.Rotation=(math.random()-0.5)*30;a2.ImageTransparency=0.85;w(a2,{ImageTransparency=1},0.7,Enum.EasingStyle.Sine)task.wait(0.12+math.random()*0.3)end end)task.wait(m*0.9)for a4=1,s do local a5=math.rad((a4-1)/s*360+math.random(-12,12))local a6=G().particleSize*(0.8+math.random()*1.4)spawn(function()spawnParticle(a5,0,a6)end)task.wait(0.02)end;local a7=w(T,{Size=UDim2.fromScale(Y.imageScale*1.06,Y.imageScale*1.06)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)a7.Completed:Connect(function()if T and T.Parent then w(T,{Size=UDim2.fromScale(Y.imageScale*1.02,Y.imageScale*1.02)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)end end)task.wait(m+n)w(L,{BackgroundTransparency=1},o,Enum.EasingStyle.Quad)w(R,{Size=0},o,Enum.EasingStyle.Quad)w(T,{ImageTransparency=1,Size=UDim2.fromScale(Y.imageScale*q,Y.imageScale*q)},o,Enum.EasingStyle.Quad)w(W,{TextTransparency=1},o*0.9,Enum.EasingStyle.Quad)w(V,{TextTransparency=1},o*0.9,Enum.EasingStyle.Quad)for a4=1,18 do local a5=math.rad(math.random()*360)local a6=G().particleSize*(0.9+math.random()*2.0)spawn(function()spawnParticle(a5,200,a6)end)end;task.wait(o+0.05)if v then if a3 then a3:Disconnect()end;pcall(function()E:Destroy()if R and R.Parent then R:Destroy()end end)else E.Parent=E.Parent end end)end
+do local a=game:GetService("TweenService")local b=game:GetService("ContentProvider")local c=game:GetService("CoreGui")local d=game:GetService("Lighting")local e=game:GetService("RunService")local f=game:GetService("Players")local g=f.LocalPlayer;local h=workspace.CurrentCamera;local i="rbxassetid://90989180960460"local j=true;local k="ATG HUB"local l=Enum.Font.GothamBold;local m=0.35;local n=0.8;local o=0.35;local p=0.82;local q=1.12;local r=0.6;local s=18;local t=0.9;local u=8;local v=true;if c:FindFirstChild("CoreSplash")then c.CoreSplash:Destroy()end;pcall(function()b:PreloadAsync({i})end)local function w(x,y,z,A,B)local C=TweenInfo.new(z,A or Enum.EasingStyle.Sine,B or Enum.EasingDirection.Out)local D=a:Create(x,C,y)D:Play()return D end;local E=Instance.new("ScreenGui")E.Name="CoreSplash"E.IgnoreGuiInset=true;E.ResetOnSpawn=false;E.ZIndexBehavior=Enum.ZIndexBehavior.Sibling;E.DisplayOrder=999999999;E.Parent=c;local function F()return h and h.ViewportSize or Vector2.new(1280,720)end;local function G()local H=F()local I=math.min(H.X,H.Y)local J=I/1080;local K=math.clamp(r*J,0.18,0.72)return{imageScale=K,textSize=math.clamp(26*J,14,56),particleSize=math.clamp(10*J,6,22)}end;local L=Instance.new("Frame")L.Name="Overlay"L.Size=UDim2.fromScale(1,1)L.Position=UDim2.fromScale(0,0)L.BackgroundColor3=Color3.fromRGB(6,6,6)L.BackgroundTransparency=1;L.BorderSizePixel=0;L.ZIndex=99999999;L.Parent=E;local function M(B)local N=Instance.new("Frame")N.Size=UDim2.fromScale(1,0.18)if B=="top"then N.AnchorPoint=Vector2.new(0,0)N.Position=UDim2.fromScale(0,0)elseif B=="bottom"then N.AnchorPoint=Vector2.new(0,1)N.Position=UDim2.fromScale(0,1)end;N.BackgroundTransparency=1;N.ZIndex=99999998;N.Parent=E;local O=Instance.new("UIGradient",N)O.Transparency=NumberSequence.new{NumberSequenceKeypoint.new(0,0.8),NumberSequenceKeypoint.new(1,1)}return N end;local P=M("top")local Q=M("bottom")local R;do R=d:FindFirstChild("CoreSplashBlur")or Instance.new("BlurEffect")R.Name="CoreSplashBlur"R.Parent=d;R.Size=0;R.Enabled=true end;local S=Instance.new("Frame")S.Name="Center"S.AnchorPoint=Vector2.new(0.5,0.5)S.Position=UDim2.fromScale(0.5,0.5)S.Size=UDim2.fromOffset(0,0)S.BackgroundTransparency=1;S.ZIndex=99999999;S.Parent=E;local T=Instance.new("ImageLabel")T.Name="Logo"T.AnchorPoint=Vector2.new(0.5,0.5)T.Position=UDim2.fromScale(0.5,0.5)T.Size=UDim2.fromScale(0.4,0.4)T.BackgroundTransparency=1;T.Image=i;T.ImageTransparency=1;T.ScaleType=Enum.ScaleType.Fit;T.ZIndex=99999999;T.Parent=S;local U=Instance.new("ImageLabel")U.Name="Rim"U.AnchorPoint=Vector2.new(0.5,0.5)U.Position=UDim2.fromScale(0.5,0.5)U.Size=UDim2.fromScale(1,1)U.BackgroundTransparency=1;U.Image=i;U.ImageTransparency=0.985;U.ScaleType=Enum.ScaleType.Fit;U.ZIndex=99999999;U.Parent=T;local V=Instance.new("TextLabel")V.Name="TextShadow"V.AnchorPoint=Vector2.new(0.5,0)V.Position=UDim2.new(0.5,1,0,16)V.Size=UDim2.new(0.9,0,0,30)V.BackgroundTransparency=1;V.ZIndex=99999999;V.Text=j and k or""V.TextColor3=Color3.fromRGB(10,10,10)V.TextTransparency=0.35;V.Font=l;V.TextSize=18;V.Parent=S;local W=Instance.new("TextLabel")W.Name="Text"W.AnchorPoint=Vector2.new(0.5,0)W.Position=V.Position;W.Size=V.Size;W.BackgroundTransparency=1;W.ZIndex=99999999;W.Text=j and k or""W.TextColor3=Color3.fromRGB(255,255,255)W.TextStrokeTransparency=0.7;W.Font=l;W.TextSize=18;W.Parent=S;local function X()local Y=G()local Z=Y.imageScale;T.Size=UDim2.fromScale(Z,Z)U.Size=UDim2.fromScale(1,1)local H=F()S.Size=UDim2.fromOffset(math.max(400,H.X*Z*0.95),math.max(300,H.Y*Z*0.8))W.TextSize=Y.textSize;V.TextSize=Y.textSize;local _=T.AbsoluteSize.Y;local a0=math.clamp(_/2+Y.textSize*0.9+18,48,420)W.Position=UDim2.new(0.5,0,0.5,a0)V.Position=UDim2.new(0.5,2,0.5,a0+2)end;local a1=Instance.new("Frame")a1.Name="Shimmer"a1.AnchorPoint=Vector2.new(0.5,0.5)a1.Position=UDim2.fromScale(0.5,0.5)a1.Size=UDim2.fromScale(0.95,0.95)a1.BackgroundTransparency=1;a1.ZIndex=99999999;a1.Parent=T;local a2=Instance.new("ImageLabel")a2.Size=UDim2.fromScale(1.6,0.35)a2.AnchorPoint=Vector2.new(0.5,0.5)a2.Position=UDim2.fromScale(0.5,0.5)a2.BackgroundTransparency=1;a2.ImageTransparency=1;a2.Image=i;a2.ScaleType=Enum.ScaleType.Slice;a2.SliceCenter=Rect.new(8,8,8,8)a2.ZIndex=99999999;a2.Parent=a1;local function a3(a4,a5,a6)local a7=T.AbsolutePosition+T.AbsoluteSize/2;local a8=Instance.new("ImageLabel")a8.Name="CoreParticle"a8.AnchorPoint=Vector2.new(0.5,0.5)a8.Size=UDim2.fromOffset(a6,a6)a8.Position=UDim2.new(0,a7.X,0,a7.Y)a8.BackgroundTransparency=1;a8.Image=i;a8.ImageTransparency=0.9;a8.ScaleType=Enum.ScaleType.Fit;a8.ZIndex=99999999;a8.Parent=E;local a9=math.cos(a4)*a5;local aa=math.sin(a4)*a5;local ab=a7.X;local ac=a7.Y;a8.Position=UDim2.new(0,ab,0,ac)local ad=UDim2.new(0,ab+a9,0,ac+aa)pcall(function()w(a8,{Position=ad,ImageTransparency=1,Rotation=math.deg(a4)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.Out)end)delay(1.1,function()if a8 and a8.Parent then a8:Destroy()end end)end;X()local ae;ae=h:GetPropertyChangedSignal("ViewportSize"):Connect(function()X()end)task.spawn(function()w(L,{BackgroundTransparency=0.45},0.35,Enum.EasingStyle.Quad)w(R,{Size=u},0.45,Enum.EasingStyle.Quad)local Y=G()T.Size=UDim2.fromScale(Y.imageScale*p,Y.imageScale*p)w(T,{ImageTransparency=0},m,Enum.EasingStyle.Sine)w(T,{Size=UDim2.fromScale(Y.imageScale*1.02,Y.imageScale*1.02)},m,Enum.EasingStyle.Quart)task.spawn(function()while T.Parent and T.ImageTransparency==0 do a2.Rotation=(math.random()-0.5)*30;a2.ImageTransparency=0.85;w(a2,{ImageTransparency=1},0.7,Enum.EasingStyle.Sine)task.wait(0.12+math.random()*0.3)end end)task.wait(m*0.9)for af=1,s do local ag=math.rad((af-1)/s*360+math.random(-12,12))local ah=G().particleSize*(0.8+math.random()*1.4)spawn(function()a3(ag,0,ah)end)task.wait(0.02)end;local ai=w(T,{Size=UDim2.fromScale(Y.imageScale*1.06,Y.imageScale*1.06)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)ai.Completed:Connect(function()if T and T.Parent then w(T,{Size=UDim2.fromScale(Y.imageScale*1.02,Y.imageScale*1.02)},0.9,Enum.EasingStyle.Quad,Enum.EasingDirection.InOut)end end)task.wait(m+n)w(L,{BackgroundTransparency=1},o,Enum.EasingStyle.Quad)w(R,{Size=0},o,Enum.EasingStyle.Quad)w(T,{ImageTransparency=1,Size=UDim2.fromScale(Y.imageScale*q,Y.imageScale*q)},o,Enum.EasingStyle.Quad)w(W,{TextTransparency=1},o*0.9,Enum.EasingStyle.Quad)w(V,{TextTransparency=1},o*0.9,Enum.EasingStyle.Quad)for af=1,18 do local ag=math.rad(math.random()*360)local ah=G().particleSize*(0.9+math.random()*2.0)spawn(function()a3(ag,200,ah)end)end;task.wait(o+0.05)if v then if ae then ae:Disconnect()end;pcall(function()E:Destroy()if R and R.Parent then R:Destroy()end end)else E.Parent=E.Parent end end)end
 
 local a, b = {
     {
@@ -899,253 +898,305 @@ local aa = {
             return q
         end
     end,
-    [12] = function()
-        local c, d, e, f, g = b(12)
-        local h = d.Parent.Parent
-        local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
-        local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        function o.Init(p, q)
-            o.Holder =
-                n(
-                "Frame",
-                {
-                    Position = UDim2.new(1, -30, 1, -30),
-                    Size = UDim2.new(0, 310, 1, -30),
-                    AnchorPoint = Vector2.new(1, 1),
-                    BackgroundTransparency = 1,
-                    Parent = q
-                },
-                {
-                    n(
-                        "UIListLayout",
-                        {
-                            HorizontalAlignment = Enum.HorizontalAlignment.Center,
-                            SortOrder = Enum.SortOrder.LayoutOrder,
-                            VerticalAlignment = Enum.VerticalAlignment.Bottom,
-                            Padding = UDim.new(0, 20)
-                        }
-                    )
-                }
-            )
+    -- แทนที่ [12] Enhanced Notification (ลบของเดิมแล้วใส่อันนี้)
+[12] = function()
+    local c, d, e, f, g = b(12)
+    local h = d.Parent.Parent
+    local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
+    local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
+    
+    function o.Init(p, q)
+        o.Holder = n(
+            "Frame",
+            {
+                Position = UDim2.new(1, -30, 1, -30),
+                Size = UDim2.new(0, 340, 1, -30),
+                AnchorPoint = Vector2.new(1, 1),
+                BackgroundTransparency = 1,
+                Parent = q
+            },
+            {
+                n("UIListLayout", {
+                    HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    VerticalAlignment = Enum.VerticalAlignment.Bottom,
+                    Padding = UDim.new(0, 12)
+                })
+            }
+        )
+    end
+    
+    function o.New(p, q)
+        q.Title = q.Title or "Notification"
+        q.Content = q.Content or "Content"
+        q.SubContent = q.SubContent or ""
+        q.Duration = q.Duration or nil
+        q.Buttons = q.Buttons or {}
+        
+        local r = {Closed = false}
+        r.AcrylicPaint = k.AcrylicPaint()
+        
+        -- Icon & color mapping
+        local s = "rbxassetid://10723415903"
+        local t = Color3.fromRGB(76, 194, 255)
+        
+        if q.Title:lower():find("success") or q.Title:lower():find("complete") then
+            s = "rbxassetid://10709790387"
+            t = Color3.fromRGB(50, 205, 50)
+        elseif q.Title:lower():find("error") or q.Title:lower():find("fail") then
+            s = "rbxassetid://10734933655"
+            t = Color3.fromRGB(255, 60, 80)
+        elseif q.Title:lower():find("warn") then
+            s = "rbxassetid://10709753149"
+            t = Color3.fromRGB(255, 180, 0)
         end
-        function o.New(p, q)
-            q.Title = q.Title or "Title"
-            q.Content = q.Content or "Content"
-            q.SubContent = q.SubContent or ""
-            q.Duration = q.Duration or nil
-            q.Buttons = q.Buttons or {}
-            local r = {Closed = false}
-            r.AcrylicPaint = k.AcrylicPaint()
-            r.Title =
-                n(
-                "TextLabel",
-                {
-                    Position = UDim2.new(0, 14, 0, 17),
-                    Text = q.Title,
-                    RichText = true,
-                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                    TextTransparency = 0,
-                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                    TextSize = 13,
-                    TextXAlignment = "Left",
-                    TextYAlignment = "Center",
-                    Size = UDim2.new(1, -12, 0, 12),
-                    TextWrapped = true,
+        
+        r.IconFrame = n(
+            "Frame",
+            {
+                Size = UDim2.fromOffset(44, 44),
+                Position = UDim2.fromOffset(12, 12),
+                BackgroundColor3 = t,
+                BackgroundTransparency = 0.9,
+                BorderSizePixel = 0
+            },
+            {
+                n("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                n("ImageLabel", {
+                    Size = UDim2.fromOffset(24, 24),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
                     BackgroundTransparency = 1,
-                    ThemeTag = {TextColor3 = "Text"}
-                }
-            )
-            r.ContentLabel =
-                n(
-                "TextLabel",
-                {
-                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                    Text = q.Content,
-                    TextColor3 = Color3.fromRGB(240, 240, 240),
-                    TextSize = 14,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Size = UDim2.new(1, 0, 0, 14),
-                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                    Image = s,
+                    ImageColor3 = t
+                })
+            }
+        )
+        
+        r.Title = n("TextLabel", {
+            Position = UDim2.new(0, 64, 0, 16),
+            Text = q.Title,
+            RichText = true,
+            TextTransparency = 0,
+            FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+            TextSize = 15,
+            TextXAlignment = "Left",
+            TextYAlignment = "Center",
+            Size = UDim2.new(1, -110, 0, 16),
+            TextWrapped = true,
+            BackgroundTransparency = 1,
+            ThemeTag = {TextColor3 = "Text"}
+        })
+        
+        r.ContentLabel = n("TextLabel", {
+            FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+            Text = q.Content,
+            TextColor3 = Color3.fromRGB(240, 240, 240),
+            TextSize = 13,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Size = UDim2.new(1, 0, 0, 13),
+            BackgroundTransparency = 1,
+            TextWrapped = true,
+            ThemeTag = {TextColor3 = "Text"}
+        })
+        
+        r.SubContentLabel = n("TextLabel", {
+            FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+            Text = q.SubContent,
+            TextColor3 = Color3.fromRGB(200, 200, 200),
+            TextSize = 12,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Size = UDim2.new(1, 0, 0, 12),
+            BackgroundTransparency = 1,
+            TextWrapped = true,
+            ThemeTag = {TextColor3 = "SubText"}
+        })
+        
+        r.LabelHolder = n(
+            "Frame",
+            {
+                AutomaticSize = Enum.AutomaticSize.Y,
+                BackgroundTransparency = 1,
+                Position = UDim2.fromOffset(64, 38),
+                Size = UDim2.new(1, -78, 0, 0)
+            },
+            {
+                n("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    VerticalAlignment = Enum.VerticalAlignment.Center,
+                    Padding = UDim.new(0, 4)
+                }),
+                r.ContentLabel,
+                r.SubContentLabel
+            }
+        )
+        
+        r.ProgressBar = n(
+            "Frame",
+            {
+                Size = UDim2.new(1, 0, 0, 3),
+                Position = UDim2.new(0, 0, 1, -3),
+                BackgroundColor3 = t,
+                BackgroundTransparency = 0.7,
+                BorderSizePixel = 0
+            },
+            {n("UICorner", {CornerRadius = UDim.new(0, 2)})}
+        )
+        
+        r.CloseButton = n(
+            "TextButton",
+            {
+                Text = "",
+                Position = UDim2.new(1, -14, 0, 14),
+                Size = UDim2.fromOffset(22, 22),
+                AnchorPoint = Vector2.new(1, 0),
+                BackgroundTransparency = 0.95,
+                ThemeTag = {BackgroundColor3 = "Element"}
+            },
+            {
+                n("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                n("ImageLabel", {
+                    Image = "rbxassetid://10747384394",
+                    Size = UDim2.fromOffset(14, 14),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
                     BackgroundTransparency = 1,
-                    TextWrapped = true,
-                    ThemeTag = {TextColor3 = "Text"}
-                }
-            )
-            r.SubContentLabel =
-                n(
-                "TextLabel",
-                {
-                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                    Text = q.SubContent,
-                    TextColor3 = Color3.fromRGB(240, 240, 240),
-                    TextSize = 14,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Size = UDim2.new(1, 0, 0, 14),
-                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    BackgroundTransparency = 1,
-                    TextWrapped = true,
-                    ThemeTag = {TextColor3 = "SubText"}
-                }
-            )
-            r.LabelHolder =
-                n(
-                "Frame",
-                {
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    BackgroundTransparency = 1,
-                    Position = UDim2.fromOffset(14, 40),
-                    Size = UDim2.new(1, -28, 0, 0)
-                },
-                {
-                    n(
-                        "UIListLayout",
-                        {
-                            SortOrder = Enum.SortOrder.LayoutOrder,
-                            VerticalAlignment = Enum.VerticalAlignment.Center,
-                            Padding = UDim.new(0, 3)
-                        }
-                    ),
-                    r.ContentLabel,
-                    r.SubContentLabel
-                }
-            )
-            r.CloseButton =
-                n(
-                "TextButton",
-                {
-                    Text = "",
-                    Position = UDim2.new(1, -14, 0, 13),
-                    Size = UDim2.fromOffset(20, 20),
-                    AnchorPoint = Vector2.new(1, 0),
-                    BackgroundTransparency = 1
-                },
-                {
-                    n(
-                        "ImageLabel",
-                        {
-                            Image = e(d.Parent.Assets).Close,
-                            Size = UDim2.fromOffset(16, 16),
-                            Position = UDim2.fromScale(0.5, 0.5),
-                            AnchorPoint = Vector2.new(0.5, 0.5),
-                            BackgroundTransparency = 1,
-                            ThemeTag = {ImageColor3 = "Text"}
-                        }
-                    )
-                }
-            )
-            r.Root =
-                n(
-                "Frame",
-                {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Position = UDim2.fromScale(1, 0)},
-                {r.AcrylicPaint.Frame, r.Title, r.CloseButton, r.LabelHolder}
-            )
-            if q.Content == "" then
-                r.ContentLabel.Visible = false
-            end
-            if q.SubContent == "" then
-                r.SubContentLabel.Visible = false
-            end
-            r.Holder =
-                n("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 200), Parent = o.Holder}, {r.Root})
-            local s = i.GroupMotor.new {Scale = 1, Offset = 60}
-            s:onStep(
-                function(t)
-                    r.Root.Position = UDim2.new(t.Scale, t.Offset, 0, 0)
-                end
-            )
-            j.AddSignal(
-                r.CloseButton.MouseButton1Click,
-                function()
-                    r:Close()
-                end
-            )
-            function r.Open(t)
-                local u = r.LabelHolder.AbsoluteSize.Y
-                r.Holder.Size = UDim2.new(1, 0, 0, 58 + u)
-                s:setGoal {Scale = l(0, {frequency = 5}), Offset = l(0, {frequency = 5})}
-            end
-            function r.Close(t)
-                if not r.Closed then
-                    r.Closed = true
-                    task.spawn(
-                        function()
-                            s:setGoal {Scale = l(1, {frequency = 5}), Offset = l(60, {frequency = 5})}
-                            task.wait(0.4)
-                            if e(h).UseAcrylic then
-                                r.AcrylicPaint.Model:Destroy()
-                            end
-                            r.Holder:Destroy()
-                        end
-                    )
-                end
-            end
-            r:Open()
-            if q.Duration then
-                task.delay(
-                    q.Duration,
-                    function()
-                        r:Close()
-                    end
-                )
-            end
-            return r
+                    ThemeTag = {ImageColor3 = "SubText"}
+                })
+            }
+        )
+        
+        r.Shadow = n("ImageLabel", {
+            Size = UDim2.new(1, 30, 1, 30),
+            Position = UDim2.fromOffset(-15, -15),
+            BackgroundTransparency = 1,
+            Image = "rbxassetid://5554236805",
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(23, 23, 277, 277),
+            ImageTransparency = 0.88,
+            ImageColor3 = Color3.fromRGB(0, 0, 0),
+            ZIndex = 0
+        })
+        
+        r.Root = n(
+            "Frame",
+            {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Position = UDim2.fromScale(1, 0)},
+            {r.Shadow, r.AcrylicPaint.Frame, r.IconFrame, r.Title, r.CloseButton, r.LabelHolder, r.ProgressBar}
+        )
+        
+        if q.Content == "" then r.ContentLabel.Visible = false end
+        if q.SubContent == "" then r.SubContentLabel.Visible = false end
+        
+        r.Holder = n("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 100), Parent = o.Holder}, {r.Root})
+        
+        local u = i.GroupMotor.new({Scale = 1, Offset = 60, Rotation = 5})
+        u:onStep(function(v)
+            r.Root.Position = UDim2.new(v.Scale, v.Offset, 0, 0)
+            r.Root.Rotation = v.Rotation
+        end)
+        
+        j.AddSignal(r.CloseButton.MouseButton1Click, function() r:Close() end)
+        
+        local w, x = j.SpringMotor(0.95, r.CloseButton, "BackgroundTransparency")
+        j.AddSignal(r.CloseButton.MouseEnter, function() x(0.85) end)
+        j.AddSignal(r.CloseButton.MouseLeave, function() x(0.95) end)
+        
+        function r.Open(y)
+            local z = r.LabelHolder.AbsoluteSize.Y
+            r.Holder.Size = UDim2.new(1, 0, 0, math.max(68, 56 + z))
+            u:setGoal({Scale = l(0, {frequency = 5, dampingRatio = 0.7}), Offset = l(0, {frequency = 5, dampingRatio = 0.7}), Rotation = l(0, {frequency = 6, dampingRatio = 0.8})})
+            r.IconFrame.Size = UDim2.fromOffset(0, 0)
+            local A = game:GetService("TweenService")
+            local B = TweenInfo.new(0.5, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
+            task.wait(0.1)
+            A:Create(r.IconFrame, B, {Size = UDim2.fromOffset(44, 44)}):Play()
         end
-        return o
-    end,
-    [13] = function()
-        local c, d, e, f, g = b(13)
-        local h = d.Parent.Parent
-        local i = e(h.Creator)
-        local j = i.New
-        return function(k, l)
-            local m = {}
-            m.Layout = j("UIListLayout", {Padding = UDim.new(0, 5)})
-            m.Container =
-                j(
-                "Frame",
-                {Size = UDim2.new(1, 0, 0, 26), Position = UDim2.fromOffset(0, 24), BackgroundTransparency = 1},
-                {m.Layout}
-            )
-            m.Root =
-                j(
-                "Frame",
-                {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 26), LayoutOrder = 7, Parent = l},
-                {
-                    j(
-                        "TextLabel",
-                        {
-                            RichText = true,
-                            Text = k,
-                            TextTransparency = 0,
-                            FontFace = Font.new(
-                                "rbxassetid://12187365364",
-                                Enum.FontWeight.SemiBold,
-                                Enum.FontStyle.Normal
-                            ),
-                            TextSize = 18,
-                            TextXAlignment = "Left",
-                            TextYAlignment = "Center",
-                            Size = UDim2.new(1, -16, 0, 18),
-                            Position = UDim2.fromOffset(0, 2),
-                            ThemeTag = {TextColor3 = "Text"}
-                        }
-                    ),
-                    m.Container
-                }
-            )
-            i.AddSignal(
-                m.Layout:GetPropertyChangedSignal "AbsoluteContentSize",
-                function()
-                    m.Container.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y)
-                    m.Root.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y + 25)
-                end
-            )
-            return m
+        
+        function r.Close(y)
+            if not r.Closed then
+                r.Closed = true
+                task.spawn(function()
+                    u:setGoal({Scale = l(1, {frequency = 5}), Offset = l(80, {frequency = 5}), Rotation = l(-5, {frequency = 6})})
+                    task.wait(0.5)
+                    if e(h).UseAcrylic then r.AcrylicPaint.Model:Destroy() end
+                    r.Holder:Destroy()
+                end)
+            end
         end
-    end,
+        
+        r:Open()
+        
+        if q.Duration then
+            r.ProgressBar.Size = UDim2.new(1, 0, 0, 3)
+            local A = game:GetService("TweenService")
+            local B = TweenInfo.new(q.Duration, Enum.EasingStyle.Linear)
+            A:Create(r.ProgressBar, B, {Size = UDim2.new(0, 0, 0, 3)}):Play()
+            task.delay(q.Duration, function() r:Close() end)
+        end
+        
+        return r
+    end
+    
+    return o
+end,
+
+-- แทนที่ [13] Enhanced Section (ลบของเดิมแล้วใส่อันนี้)
+[13] = function()
+    local c, d, e, f, g = b(13)
+    local h = d.Parent.Parent
+    local i = e(h.Creator)
+    local j = i.New
+    
+    return function(k, l)
+        local m = {}
+        m.Layout = j("UIListLayout", {Padding = UDim.new(0, 5)})
+        m.Container = j("Frame", {Size = UDim2.new(1, 0, 0, 26), Position = UDim2.fromOffset(0, 30), BackgroundTransparency = 1}, {m.Layout})
+        
+        m.AccentBar = j(
+            "Frame",
+            {Size = UDim2.new(0, 3, 0, 0), Position = UDim2.fromOffset(-3, 8), BackgroundColor3 = Color3.fromRGB(76, 194, 255), BorderSizePixel = 0, ThemeTag = {BackgroundColor3 = "Accent"}},
+            {
+                j("UICorner", {CornerRadius = UDim.new(1, 0)}),
+                j("UIGradient", {Rotation = 90, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 0.3)})})
+            }
+        )
+        
+        m.AccentGlow = j(
+            "Frame",
+            {Size = UDim2.new(0, 12, 1, 0), Position = UDim2.fromOffset(-7, 0), BackgroundColor3 = Color3.fromRGB(76, 194, 255), BackgroundTransparency = 0.7, BorderSizePixel = 0, Parent = m.AccentBar, ThemeTag = {BackgroundColor3 = "Accent"}},
+            {j("UICorner", {CornerRadius = UDim.new(1, 0)}), j("UIGradient", {Rotation = 0, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.5, 0.4), NumberSequenceKeypoint.new(1, 1)})})}
+        )
+        
+        m.TitleLabel = j("TextLabel", {
+            RichText = true, Text = k, TextTransparency = 0,
+            FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
+            TextSize = 20, TextXAlignment = "Left", TextYAlignment = "Center",
+            Size = UDim2.new(1, -20, 0, 22), Position = UDim2.fromOffset(8, 2),
+            ThemeTag = {TextColor3 = "Text"}
+        })
+        
+        m.DecorLine = j(
+            "Frame",
+            {Size = UDim2.new(1, -12, 0, 2), Position = UDim2.fromOffset(6, 26), BackgroundTransparency = 0.85, BorderSizePixel = 0, ThemeTag = {BackgroundColor3 = "Accent"}},
+            {j("UICorner", {CornerRadius = UDim.new(1, 0)}), j("UIGradient", {Rotation = 0, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.1, 0.3), NumberSequenceKeypoint.new(0.9, 0.3), NumberSequenceKeypoint.new(1, 1)})})}
+        )
+        
+        m.Root = j("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 30), LayoutOrder = 7, Parent = l}, {m.AccentBar, m.TitleLabel, m.DecorLine, m.Container})
+        
+        local n = game:GetService("TweenService")
+        local o = TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+        n:Create(m.AccentBar, o, {Size = UDim2.new(0, 3, 0, 18)}):Play()
+        
+        i.AddSignal(m.Layout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
+            m.Container.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y)
+            m.Root.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y + 32)
+        end)
+        
+        return m
+    end
+end,
     [14] = function()
         local c, d, e, f, g = b(14)
         local h = d.Parent.Parent
@@ -3629,22 +3680,49 @@ end,
         end
         return c
     end,
-    [25] = function()
-        local aa, ab, ac, ad, ae = b(25)
-        local af = ab.Parent.Parent
-        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
-        aj.__index = aj
-        aj.__type = "Paragraph"
-        function aj.New(c, d)
-            assert(d.Title, "Paragraph - Missing Title")
-            d.Content = d.Content or ""
-            local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
-            e.Frame.BackgroundTransparency = 0.92
-            e.Border.Transparency = 0.6
-            return e
-        end
-        return aj
-    end,
+    -- แทนที่ [25] Enhanced Paragraph (ลบของเดิมแล้วใส่อันนี้)
+[25] = function()
+    local c, d, e, f, g = b(25)
+    local h = d.Parent.Parent
+    local i, j, k, l = h.Components, e(h.Packages.Flipper), e(h.Creator), {}
+    l.__index = l
+    l.__type = "Paragraph"
+    
+    function l.New(m, n)
+        assert(n.Title, "Paragraph - Missing Title")
+        n.Content = n.Content or ""
+        
+        local o = e(i.Element)(n.Title, n.Content, l.Container, false)
+        o.Frame.BackgroundTransparency = 0.94
+        o.Border.Transparency = 0.7
+        
+        local p = k("Frame", {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.97, BorderSizePixel = 0, ZIndex = 0, ThemeTag = {BackgroundColor3 = "Accent"}}, {k("UICorner", {CornerRadius = UDim.new(0, 4)}), k("UIGradient", {Rotation = 45, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.98), NumberSequenceKeypoint.new(0.5, 0.95), NumberSequenceKeypoint.new(1, 0.98)})})})
+        p.Parent = o.Frame
+        
+        local q = k("ImageLabel", {Size = UDim2.fromOffset(18, 18), Position = UDim2.fromOffset(12, 13), BackgroundTransparency = 1, Image = "rbxassetid://10723415903", ImageTransparency = 0.3, ThemeTag = {ImageColor3 = "Accent"}})
+        q.Parent = o.Frame
+        
+        o.LabelHolder.Position = UDim2.fromOffset(38, 0)
+        o.LabelHolder.Size = UDim2.new(1, -48, 0, 0)
+        
+        local r = k("ImageLabel", {Size = UDim2.fromScale(1, 1), Position = UDim2.fromScale(0, 0), BackgroundTransparency = 1, Image = "rbxassetid://5554236805", ScaleType = Enum.ScaleType.Slice, SliceCenter = Rect.new(23, 23, 277, 277), ImageTransparency = 0.96, ImageColor3 = Color3.fromRGB(76, 194, 255), ZIndex = -1, ThemeTag = {ImageColor3 = "Accent"}})
+        r.Parent = o.Frame
+        
+        o.Frame.Size = UDim2.new(1, 0, 0, 0)
+        local s = game:GetService("TweenService")
+        local t = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        task.wait(0.05)
+        s:Create(o.Frame, t, {Size = UDim2.new(1, 0, 0, o.LabelHolder.AbsoluteSize.Y + 26)}):Play()
+        
+        local u, v = k.SpringMotor(0.94, o.Frame, "BackgroundTransparency")
+        k.AddSignal(o.Frame.MouseEnter, function() v(0.90) end)
+        k.AddSignal(o.Frame.MouseLeave, function() v(0.94) end)
+        
+        return o
+    end
+    
+    return l
+end,
     [26] = function()
         local aa, ab, ac, ad, ae = b(26)
         local af, ag = game:GetService "UserInputService", ab.Parent.Parent
@@ -4723,7 +4801,8 @@ end,
                 ["lucide-zoom-in"] = "rbxassetid://10747384552",
                 ["lucide-zoom-out"] = "rbxassetid://10747384679",
                 ["lucide-castle"] = "rbxassetid://89680811679779",
-                ["lucide-dog"] = "rbxassetid://128027287498958"
+                ["lucide-dog"] = "rbxassetid://128027287498958",
+                ["lucide-fish"] = "rbxassetid://131247469041952"
             }
         }
     end,
