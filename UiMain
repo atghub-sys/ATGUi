@@ -3681,76 +3681,59 @@ end,
         return c
     end,
 [25] = function()
-    -- 1. ตั้งชื่อตัวแปรให้สื่อความหมาย แทนที่จะเป็น aa, ab, ac, ...
-    local Loader, ModuleContext, newComponent, _, _ = b(25)
-    local RootContext = ModuleContext.Parent.Parent -- Context หลักที่เก็บ Components และ Packages
-
-    -- 2. ดึง Components ที่จำเป็นและกำหนด Class Table
-    local Components = RootContext.Components
-    local Flipper = newComponent(RootContext.Packages.Flipper) -- ใช้สำหรับ Collapse/Expand
-    local Paragraph = {}
+    local aa, ab, ac, ad, ae = b(25)
+    local af = ab.Parent.Parent
+    local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+    aj.__index = aj
+    aj.__type = "Paragraph"
     
-    -- กำหนดโครงสร้างคลาสมาตรฐาน
-    Paragraph.__index = Paragraph
-    Paragraph.__type = "Paragraph"
-    
-    -- 3. กำหนดค่าเริ่มต้น (Default Style) ในตัวคลาสเลย
-    local DEFAULT_STYLE = {
-        BackgroundTransparency = 0.85,  -- โปร่งใสลดลงเล็กน้อย (ดูทึบขึ้น)
-        BorderTransparency     = 0.4,    -- ขอบที่เห็นชัดขึ้น
-        CornerRadius           = UDim.new(0, 12), -- มุมมน (Rounded Corners)
-        IsCollapsible          = true,   -- เปิดใช้งานการยุบ/กาง
-    }
-
-    ---
-    --- Constructor: สร้าง Element ใหม่ของ Paragraph
-    ---
-    function Paragraph.New(self, data)
-        -- assert(d.Title, "Paragraph - Missing Title") ในโค้ดเดิมของคุณ
-        assert(data.Title, "Paragraph.New() - Missing 'Title' in data.")
+    function aj.New(c, d)
+        assert(d.Title, "Paragraph - Missing Title")
+        d.Content = d.Content or ""
         
-        data.Content = data.Content or ""
-        local style = data.Style or DEFAULT_STYLE -- ใช้ Style ที่ส่งมา หรือใช้ค่า Default
+        local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
+        e.Frame.BackgroundTransparency = 1 -- เริ่มจากโปร่งใส
+        e.Border.Transparency = 1
         
-        -- สร้าง Element หลัก (ใช้ ac(ag.Element) ในโค้ดเดิม)
-        local element = newComponent(Components.Element)(
-            data.Title, 
-            data.Content, 
-            Paragraph.Container, 
-            false
-        )
+        -- เพิ่ม Gradient Effect
+        local gradient = ai.New("UIGradient", {
+            Rotation = 90,
+            Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.1),
+                NumberSequenceKeypoint.new(1, 0.3)
+            }),
+            Parent = e.Frame
+        })
         
-        -- **💡 การปรับปรุงด้านภาพ (Visual Enhancement)**
+        -- Fade In Animation
+        local spring = ah.Spring.new
+        local motor = ah.SingleMotor.new(1)
+        motor:onStep(function(value)
+            e.Frame.BackgroundTransparency = value * 0.92
+            e.Border.Transparency = value * 0.6
+        end)
+        motor:setGoal(spring(0.92, {frequency = 3}))
         
-        -- A. ปรับความโปร่งใสและขอบ
-        element.Frame.BackgroundTransparency = style.BackgroundTransparency
-        element.Border.Transparency = style.BorderTransparency
+        -- Hover Effect
+        local hoverMotor = ah.SingleMotor.new(0)
+        hoverMotor:onStep(function(value)
+            gradient.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.1 - value * 0.05),
+                NumberSequenceKeypoint.new(1, 0.3 - value * 0.1)
+            })
+        end)
         
-        -- B. เพิ่มมุมมน (Rounded Corners)
-        local UICorner = newComponent(Components.UICorner) -- สมมติว่ามี Component ชื่อ UICorner
-        local corner = UICorner.new()
-        corner.CornerRadius = style.CornerRadius
-        corner.Parent = element.Frame
+        ai.AddSignal(e.Frame.MouseEnter, function()
+            hoverMotor:setGoal(spring(1, {frequency = 6}))
+        end)
         
-        -- C. **เพิ่มฟังก์ชันการยุบ/กาง (Cool Feature: Collapsible)**
-        if style.IsCollapsible then
-            local flipperInstance = Flipper.new(element.Frame) -- สร้าง Flipper สำหรับ Frame นี้
-            
-            -- ผูกการคลิกที่ Title เพื่อยุบ/กางเนื้อหา
-            element.TitleButton.MouseButton1Click:Connect(function()
-                flipperInstance:Toggle() 
-            end)
-            
-            -- สามารถกำหนดค่าเริ่มต้นให้ถูกยุบไว้ได้
-            if data.StartCollapsed then
-                flipperInstance:Collapse()
-            end
-        end
-
-        return element
+        ai.AddSignal(e.Frame.MouseLeave, function()
+            hoverMotor:setGoal(spring(0, {frequency = 6}))
+        end)
+        
+        return e
     end
-    
-    return Paragraph
+    return aj
 end,
     [26] = function()
         local aa, ab, ac, ad, ae = b(26)
