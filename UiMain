@@ -3227,31 +3227,99 @@ end,
             l.SearchText = ""
             w()
             y()
+            -- initial states for smooth entrance
+            u.Size = UDim2.fromScale(1, 0.92)
+            u.AnchorPoint = Vector2.new(0.5, 0)
+            u.Position = UDim2.new(0, 0, 0, 0)
+            u.BackgroundTransparency = 1
+            -- animate container scale / fade
             af:Create(
                 u,
-                TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-                {Size = UDim2.fromScale(1, 1)}
+                TweenInfo.new(0.36, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0}
             ):Play()
-            -- rotate arrow based on open direction
+            -- rotate arrow based on open direction with smooth ease
             local targetRot = (openDirection == "right") and -90 or 90
-            af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = targetRot}):Play()
+            af:Create(o, TweenInfo.new(0.28, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = targetRot}):Play()
+            -- animate search/clear/selectAll elements (slide+fade)
+            local function animateControl(ctrl, delayTime)
+                if not ctrl then return end
+                ctrl.Position = ctrl.Position + UDim2.fromOffset(0, 6)
+                if ctrl:IsA("TextBox") or ctrl:IsA("TextButton") then
+                    for _, child in pairs(ctrl:GetDescendants()) do
+                        if child:IsA("TextLabel") or child:IsA("TextButton") or child:IsA("TextBox") then
+                            child.TextTransparency = 1
+                        end
+                    end
+                end
+                task.delay(delayTime, function()
+                    af:Create(ctrl, TweenInfo.new(0.32, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = ctrl.Position - UDim2.fromOffset(0, 6)}):Play()
+                    -- fade inner texts
+                    for _, child in pairs(ctrl:GetDescendants()) do
+                        if child:IsA("TextLabel") or child:IsA("TextButton") or child:IsA("TextBox") then
+                            pcall(function()
+                                af:Create(child, TweenInfo.new(0.32, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
+                            end)
+                        end
+                    end
+                end)
+            end
+            animateControl(searchBox, 0.02)
+            animateControl(clearButton, 0.06)
+            animateControl(selectAllButton, 0.08)
+            -- build list and animate items (staggered)
+            l:BuildDropdownList()
+            -- small camera/viewport check for reposition after size settles
+            task.delay(0.06, function() w(); y(); end)
         end
         
         function l.Close(B)
             if not l.Opened then return end
             l.Opened = false
             A.ScrollingEnabled = true
-            
+            -- rotate arrow back
+            af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Rotation = 0}):Play()
+            -- reverse animate items (fade out staggered)
+            local children = {}
+            for _, child in pairs(t:GetChildren()) do
+                if child:IsA("TextButton") then
+                    table.insert(children, child)
+                end
+            end
+            for idx = #children, 1, -1 do
+                local ch = children[idx]
+                local delayTime = (#children - idx) * 0.02
+                task.delay(delayTime, function()
+                    pcall(function()
+                        af:Create(ch, TweenInfo.new(0.14, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {BackgroundTransparency = 1}):Play()
+                        for _, dchild in pairs(ch:GetDescendants()) do
+                            if dchild:IsA("TextLabel") then
+                                af:Create(dchild, TweenInfo.new(0.14, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextTransparency = 1}):Play()
+                            end
+                        end
+                    end)
+                end)
+            end
+            -- close container
             local closeTween = af:Create(
                 u,
-                TweenInfo.new(0.15, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
-                {Size = UDim2.fromScale(1, 0.5)}
+                TweenInfo.new(0.18, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+                {Size = UDim2.fromScale(1, 0.6), BackgroundTransparency = 1}
             )
-            -- rotate back to 0 when closing
-            af:Create(o, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Rotation = 0}):Play()
             closeTween:Play()
             closeTween.Completed:Connect(function()
                 v.Visible = false
+                -- reset tiny states to avoid visual glitches next open
+                for _, child in pairs(t:GetChildren()) do
+                    if child:IsA("TextButton") then
+                        child.BackgroundTransparency = 1
+                        for _, dchild in pairs(child:GetDescendants()) do
+                            if dchild:IsA("TextLabel") then
+                                dchild.TextTransparency = 1
+                            end
+                        end
+                    end
+                end
             end)
         end
         
@@ -3363,6 +3431,7 @@ end,
                             K.Size = UDim2.new(0, 4, 0, T)
                         end
                     )
+                    -- Hover/press feedback (flipper + tween fallback)
                     c.AddSignal(
                         M.MouseEnter,
                         function()
@@ -3397,7 +3466,7 @@ end,
                             N = l.Value == I
                             P(N and 0.89 or 1)
                         end
-                        S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6}))
+                        S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6, dampingRatio = 1}))
                         R(N and 0 or 1)
                     end
                     L.InputBegan:Connect(
@@ -3427,6 +3496,21 @@ end,
                             end
                         end
                     )
+                    -- prepare for nice staggered reveal (initial hidden state)
+                    M.BackgroundTransparency = 1
+                    if L then L.TextTransparency = 1 end
+                    -- show with slight stagger
+                    local stagger = math.clamp(0.02 * G, 0, 0.18)
+                    task.delay(0.04 + stagger, function()
+                        pcall(function()
+                            af:Create(M, TweenInfo.new(0.36, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
+                            if L then
+                                af:Create(L, TweenInfo.new(0.36, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
+                            end
+                            -- tiny pop for accent bar handled by flipper spring
+                            S:setGoal(d.Spring.new(10, {frequency = 8, dampingRatio = 1}))
+                        end)
+                    end)
                     J:UpdateButton()
                     D[M] = J
                     l.Buttons[M] = J
