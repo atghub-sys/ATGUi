@@ -3204,7 +3204,7 @@ end,
                             l.Value[value] = true
                         end
                     end
-                    
+                        
                     -- Update buttons without rebuilding
                     for button, buttonData in pairs(l.Buttons) do
                         buttonData:UpdateButton()
@@ -3227,99 +3227,70 @@ end,
             l.SearchText = ""
             w()
             y()
-            -- initial states for smooth entrance
-            u.Size = UDim2.fromScale(1, 0.92)
-            u.AnchorPoint = Vector2.new(0.5, 0)
+
+            -- Premium open animation: subtle scale overshoot + fade-in + arrow rotation
+            u.Size = UDim2.fromScale(1, 0.85)
             u.Position = UDim2.new(0, 0, 0, 0)
             u.BackgroundTransparency = 1
-            -- animate container scale / fade
-            af:Create(
+            local openTween = af:Create(
                 u,
-                TweenInfo.new(0.36, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+                TweenInfo.new(0.32, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
                 {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0}
-            ):Play()
-            -- rotate arrow based on open direction with smooth ease
+            )
+            openTween:Play()
+
+            -- rotate arrow with a nicer easing
             local targetRot = (openDirection == "right") and -90 or 90
-            af:Create(o, TweenInfo.new(0.28, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = targetRot}):Play()
-            -- animate search/clear/selectAll elements (slide+fade)
-            local function animateControl(ctrl, delayTime)
-                if not ctrl then return end
-                ctrl.Position = ctrl.Position + UDim2.fromOffset(0, 6)
-                if ctrl:IsA("TextBox") or ctrl:IsA("TextButton") then
-                    for _, child in pairs(ctrl:GetDescendants()) do
-                        if child:IsA("TextLabel") or child:IsA("TextButton") or child:IsA("TextBox") then
-                            child.TextTransparency = 1
-                        end
+            af:Create(o, TweenInfo.new(0.32, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Rotation = targetRot}):Play()
+
+            -- Staggered reveal for options: fade + slide up
+            spawn(function()
+                wait(0.06) -- slight delay to let the bubble appear
+                local idx = 0
+                for _, child in pairs(t:GetChildren()) do
+                    if child:IsA("GuiObject") and child.Name ~= "UIListLayout" then
+                        idx = idx + 1
+                        -- prepare initial state
+                        pcall(function()
+                            child.Position = child.Position + UDim2.fromOffset(0, 6)
+                            child.BackgroundTransparency = 1
+                            for _, desc in pairs(child:GetDescendants()) do
+                                if desc:IsA("TextLabel") or desc:IsA("TextButton") then
+                                    desc.TextTransparency = 1
+                                end
+                            end
+                            -- create tweens with slight stagger
+                            local delay = 0.03 * idx
+                            af:Create(child, TweenInfo.new(0.34, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, delay), {BackgroundTransparency = 0}):Play()
+                            for _, desc in pairs(child:GetDescendants()) do
+                                if desc:IsA("TextLabel") or desc:IsA("TextButton") then
+                                    af:Create(desc, TweenInfo.new(0.28, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, delay + 0.02), {TextTransparency = 0}):Play()
+                                end
+                            end
+                            af:Create(child, TweenInfo.new(0.36, Enum.EasingStyle.Quart, Enum.EasingDirection.Out, 0, false, delay), {Position = child.Position - UDim2.fromOffset(0, 6)}):Play()
+                        end)
                     end
                 end
-                task.delay(delayTime, function()
-                    af:Create(ctrl, TweenInfo.new(0.32, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Position = ctrl.Position - UDim2.fromOffset(0, 6)}):Play()
-                    -- fade inner texts
-                    for _, child in pairs(ctrl:GetDescendants()) do
-                        if child:IsA("TextLabel") or child:IsA("TextButton") or child:IsA("TextBox") then
-                            pcall(function()
-                                af:Create(child, TweenInfo.new(0.32, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
-                            end)
-                        end
-                    end
-                end)
-            end
-            animateControl(searchBox, 0.02)
-            animateControl(clearButton, 0.06)
-            animateControl(selectAllButton, 0.08)
-            -- build list and animate items (staggered)
-            l:BuildDropdownList()
-            -- small camera/viewport check for reposition after size settles
-            task.delay(0.06, function() w(); y(); end)
+            end)
         end
         
         function l.Close(B)
             if not l.Opened then return end
             l.Opened = false
             A.ScrollingEnabled = true
-            -- rotate arrow back
-            af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Rotation = 0}):Play()
-            -- reverse animate items (fade out staggered)
-            local children = {}
-            for _, child in pairs(t:GetChildren()) do
-                if child:IsA("TextButton") then
-                    table.insert(children, child)
-                end
-            end
-            for idx = #children, 1, -1 do
-                local ch = children[idx]
-                local delayTime = (#children - idx) * 0.02
-                task.delay(delayTime, function()
-                    pcall(function()
-                        af:Create(ch, TweenInfo.new(0.14, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {BackgroundTransparency = 1}):Play()
-                        for _, dchild in pairs(ch:GetDescendants()) do
-                            if dchild:IsA("TextLabel") then
-                                af:Create(dchild, TweenInfo.new(0.14, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {TextTransparency = 1}):Play()
-                            end
-                        end
-                    end)
-                end)
-            end
-            -- close container
+            
+            -- Premium close: quick scale-in + fade-out with easing
+            af:Create(o, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Rotation = 0}):Play()
             local closeTween = af:Create(
                 u,
-                TweenInfo.new(0.18, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
-                {Size = UDim2.fromScale(1, 0.6), BackgroundTransparency = 1}
+                TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+                {Size = UDim2.fromScale(1, 0.8), BackgroundTransparency = 1}
             )
             closeTween:Play()
             closeTween.Completed:Connect(function()
                 v.Visible = false
-                -- reset tiny states to avoid visual glitches next open
-                for _, child in pairs(t:GetChildren()) do
-                    if child:IsA("TextButton") then
-                        child.BackgroundTransparency = 1
-                        for _, dchild in pairs(child:GetDescendants()) do
-                            if dchild:IsA("TextLabel") then
-                                dchild.TextTransparency = 1
-                            end
-                        end
-                    end
-                end
+                -- reset small transforms to keep consistent next open
+                u.Size = UDim2.fromScale(1, 0.5)
             end)
         end
         
@@ -3365,17 +3336,17 @@ end,
                     local J = {}
                     G = G + 1
                     local K, L =
-                        e(
-                            "Frame",
-                            {
-                                Size = UDim2.fromOffset(4, 14),
-                                BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-                                Position = UDim2.fromOffset(-1, 16),
-                                AnchorPoint = Vector2.new(0, 0.5),
-                                ThemeTag = {BackgroundColor3 = "Accent"}
-                            },
-                            {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
-                        ),
+                        (e(
+                        "Frame",
+                        {
+                            Size = UDim2.fromOffset(4, 14),
+                            BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+                            Position = UDim2.fromOffset(-1, 16),
+                            AnchorPoint = Vector2.new(0, 0.5),
+                            ThemeTag = {BackgroundColor3 = "Accent"}
+                        },
+                        {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
+                        )),
                         e(
                             "TextLabel",
                             {
@@ -3423,50 +3394,61 @@ end,
                     else
                         N = l.Value == I
                     end
+
+                    -- premium interactive motors: keep Flipper for shape but tune frequencies for snappy-yet-smooth feel
                     local O, P = c.SpringMotor(1, M, "BackgroundTransparency")
                     local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
-                    local S = d.SingleMotor.new(6)
+                    local S = d.SingleMotor.new(8) -- slightly higher frequency for crisp accent
                     S:onStep(
                         function(T)
                             K.Size = UDim2.new(0, 4, 0, T)
                         end
                     )
-                    -- Hover/press feedback (flipper + tween fallback)
+
+                    -- initial visual state for entry animation
+                    M.BackgroundTransparency = 1
+                    L.TextTransparency = 1
+
+                    -- hover using TweenService for consistent premium feel
                     c.AddSignal(
                         M.MouseEnter,
                         function()
-                            P(N and 0.85 or 0.89)
+                            -- subtle glow: reduce background transparency and expand accent
+                            af:Create(M, TweenInfo.new(0.12, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = N and 0.85 or 0.9}):Play()
+                            af:Create(K, TweenInfo.new(0.16, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 4, 0, 16)}):Play()
                         end
                     )
                     c.AddSignal(
                         M.MouseLeave,
                         function()
-                            P(N and 0.89 or 1)
+                            af:Create(M, TweenInfo.new(0.12, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = N and 0.89 or 1}):Play()
+                            af:Create(K, TweenInfo.new(0.16, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(0, 4, 0, 6)}):Play()
                         end
                     )
                     c.AddSignal(
                         M.MouseButton1Down,
                         function()
-                            P(0.92)
+                            af:Create(M, TweenInfo.new(0.08, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {BackgroundTransparency = 0.92}):Play()
                         end
                     )
                     c.AddSignal(
                         M.MouseButton1Up,
                         function()
-                            P(N and 0.85 or 0.89)
+                            af:Create(M, TweenInfo.new(0.12, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = N and 0.85 or 0.89}):Play()
                         end
                     )
+
                     function J.UpdateButton(T)
                         if j.Multi then
                             N = l.Value[I]
                             if N then
-                                P(0.89)
+                                P(N and 0.89 or 0.92)
                             end
                         else
                             N = l.Value == I
                             P(N and 0.89 or 1)
                         end
-                        S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6, dampingRatio = 1}))
+                        S:setGoal(d.Spring.new(N and 16 or 8, {frequency = 7}))
                         R(N and 0 or 1)
                     end
                     L.InputBegan:Connect(
@@ -3496,21 +3478,20 @@ end,
                             end
                         end
                     )
-                    -- prepare for nice staggered reveal (initial hidden state)
-                    M.BackgroundTransparency = 1
-                    if L then L.TextTransparency = 1 end
-                    -- show with slight stagger
-                    local stagger = math.clamp(0.02 * G, 0, 0.18)
-                    task.delay(0.04 + stagger, function()
-                        pcall(function()
-                            af:Create(M, TweenInfo.new(0.36, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
-                            if L then
-                                af:Create(L, TweenInfo.new(0.36, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
-                            end
-                            -- tiny pop for accent bar handled by flipper spring
-                            S:setGoal(d.Spring.new(10, {frequency = 8, dampingRatio = 1}))
-                        end)
-                    end)
+
+                    -- entry animation for each option: staggered slide+fade
+                    spawn(function(idx)
+                        local delay = 0.03 * (idx or G)
+                        wait(delay)
+                        af:Create(M, TweenInfo.new(0.34, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
+                        af:Create(L, TweenInfo.new(0.28, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
+                        af:Create(K, TweenInfo.new(0.32, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(0, 4, 0, 6)}):Play()
+                        -- subtle positional 'lift' after fade-in
+                        local startPos = M.Position
+                        M.Position = startPos + UDim2.fromOffset(0, 6)
+                        af:Create(M, TweenInfo.new(0.36, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = startPos}):Play()
+                    end, G)
+
                     J:UpdateButton()
                     D[M] = J
                     l.Buttons[M] = J
