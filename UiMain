@@ -898,7 +898,7 @@ local aa = {
             return q
         end
     end,
-[12] = function()
+    [12] = function()
     local c, d, e, f, g = b(12)
     local h = d.Parent.Parent
     local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
@@ -1214,72 +1214,57 @@ local aa = {
 
     return o
 end,
-
     [13] = function()
-    local moduleId, context, utils, factory, signals = b(13)
-    local root = context.Parent.Parent
-    local ui = utils(root.Creator)
-    local create = ui.New
-
-    return function(titleText, parent)
-        local section = {}
-
-        -- UI Layout
-        section.Layout = create("UIListLayout", {
-            Padding = UDim.new(0, 5),
-        })
-
-        -- Container Frame
-        section.Container = create("Frame", {
-            Size = UDim2.new(1, 0, 0, 26),
-            Position = UDim2.fromOffset(0, 24),
-            BackgroundTransparency = 1,
-        }, {
-            section.Layout
-        })
-
-        -- Root Frame
-        section.Root = create("Frame", {
-            BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 26),
-            LayoutOrder = 7,
-            Parent = parent,
-        }, {
-            -- Title Label
-            create("TextLabel", {
-                RichText = true,
-                Text = titleText,
-                TextTransparency = 0,
-                FontFace = Font.new(
-                    "rbxassetid://12187365364",
-                    Enum.FontWeight.SemiBold,
-                    Enum.FontStyle.Normal
-                ),
-                TextSize = 18,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                TextYAlignment = Enum.TextYAlignment.Center,
-                Size = UDim2.new(1, -16, 0, 18),
-                Position = UDim2.fromOffset(0, 2),
-                ThemeTag = { TextColor3 = "Text" },
-            }),
-
-            section.Container,
-        })
-
-        -- Auto resize when content changes
-        ui.AddSignal(
-            section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"),
-            function()
-                local contentHeight = section.Layout.AbsoluteContentSize.Y
-                section.Container.Size = UDim2.new(1, 0, 0, contentHeight)
-                section.Root.Size = UDim2.new(1, 0, 0, contentHeight + 25)
-            end
-        )
-
-        return section
-    end
-end,
-
+        local c, d, e, f, g = b(13)
+        local h = d.Parent.Parent
+        local i = e(h.Creator)
+        local j = i.New
+        return function(k, l)
+            local m = {}
+            m.Layout = j("UIListLayout", {Padding = UDim.new(0, 5)})
+            m.Container =
+                j(
+                "Frame",
+                {Size = UDim2.new(1, 0, 0, 26), Position = UDim2.fromOffset(0, 24), BackgroundTransparency = 1},
+                {m.Layout}
+            )
+            m.Root =
+                j(
+                "Frame",
+                {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 26), LayoutOrder = 7, Parent = l},
+                {
+                    j(
+                        "TextLabel",
+                        {
+                            RichText = true,
+                            Text = k,
+                            TextTransparency = 0,
+                            FontFace = Font.new(
+                                "rbxassetid://12187365364",
+                                Enum.FontWeight.SemiBold,
+                                Enum.FontStyle.Normal
+                            ),
+                            TextSize = 18,
+                            TextXAlignment = "Left",
+                            TextYAlignment = "Center",
+                            Size = UDim2.new(1, -16, 0, 18),
+                            Position = UDim2.fromOffset(0, 2),
+                            ThemeTag = {TextColor3 = "Text"}
+                        }
+                    ),
+                    m.Container
+                }
+            )
+            i.AddSignal(
+                m.Layout:GetPropertyChangedSignal "AbsoluteContentSize",
+                function()
+                    m.Container.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y)
+                    m.Root.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y + 25)
+                end
+            )
+            return m
+        end
+    end,
     [14] = function()
         local c, d, e, f, g = b(14)
         local h = d.Parent.Parent
@@ -3763,131 +3748,22 @@ end,
         end
         return c
     end,
-[25] = function()
-    local aa, ab, ac, ad, ae = b(25)
-    local af = ab.Parent.Parent
-    local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
-    aj.__index = aj
-    aj.__type = "Paragraph"
-
-    -- escape เบื้องต้นสำหรับ RichText
-    local function escapeRich(s)
-        if not s then return "" end
-        s = s:gsub("&", "&amp;"):gsub("<", "&lt;"):gsub(">", "&gt;")
-        return s
-    end
-
-    -- แปลง inline markdown-like เป็น Roblox RichText
-    local function parseInline(content)
-        if not content then return "" end
-        content = escapeRich(content)
-
-        -- **bold**
-        content = content:gsub("%*%*(.-)%*%*", "<b>%1</b>")
-        -- __underline__
-        content = content:gsub("__(.-)__", "<u>%1</u>")
-        -- *italic* and _italic_
-        content = content:gsub("%*(.-)%*", "<i>%1</i>")
-        content = content:gsub("_(.-)_", "<i>%1</i>")
-        -- inline code `code`
-        content = content:gsub("`(.-)`", "<font color=\"#9EA7B0\">%1</font>")
-        -- URLs (simple)
-        content = content:gsub("(https?://[%w%-%_%.%/%?%&%=%#]+)", "<font color=\"#3b82f6\"><u>%1</u></font>")
-        -- newlines -> <br/>
-        content = content:gsub("\r\n", "\n")
-        content = content:gsub("\n", "<br/>")
-
-        return content
-    end
-
-    function aj.New(c, d)
-        assert(d.Title, "Paragraph - Missing Title")
-        d.Content = d.Content or ""
-
-        -- แยก code blocks (triple backticks) ออกมาเก็บก่อน แล้วแทนที่ด้วย placeholder
-        local code_blocks = {}
-        local contentWithoutBlocks = d.Content:gsub("```(.-)```", function(code)
-            table.insert(code_blocks, code)
-            return "\0CODEBLOCK"..(#code_blocks).." \0"
-        end)
-
-        -- แปลงส่วนที่เป็น inline markup เป็น RichText
-        local richTextContent = parseInline(contentWithoutBlocks)
-
-        -- สร้าง element ปกติ (เรียก constructor เดิม)
-        local e = ac(ag.Element)(d.Title, richTextContent, aj.Container, false)
-        e.Frame.BackgroundTransparency = 0.92
-        e.Border.Transparency = 0.6
-
-        -- ปรับการแสดงผลของ TextLabel หลัก (ถ้ามี)
-        local function tryConfigureMainText()
-            -- ปรับ path นี้ตาม structure ของ ag.Element หากแตกต่าง
-            if e.Frame:FindFirstChild("Content") and e.Frame.Content:IsA("TextLabel") then
-                local txt = e.Frame.Content
-                txt.RichText = true
-                txt.TextWrapped = true
-                txt.TextXAlignment = Enum.TextXAlignment.Left
-                txt.TextYAlignment = Enum.TextYAlignment.Top
-                -- ให้สามารถตั้ง LayoutOrder ผ่าน d.LayoutOrder หรือ d.Order
-                if d.LayoutOrder or d.Order then
-                    txt.LayoutOrder = d.LayoutOrder or d.Order
-                end
-            end
+    [25] = function()
+        local aa, ab, ac, ad, ae = b(25)
+        local af = ab.Parent.Parent
+        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+        aj.__index = aj
+        aj.__type = "Paragraph"
+        function aj.New(c, d)
+            assert(d.Title, "Paragraph - Missing Title")
+            d.Content = d.Content or ""
+            local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
+            e.Frame.BackgroundTransparency = 0.92
+            e.Border.Transparency = 0.6
+            return e
         end
-        pcall(tryConfigureMainText)
-
-        -- หากมี code blocks ให้สร้าง Frame/Label แยกเพื่อแสดง code block เหมือน Discord
-        if #code_blocks > 0 then
-            -- container สำหรับ code block
-            local codeContainer = Instance.new("Frame")
-            codeContainer.Name = "CodeBlocks"
-            codeContainer.BackgroundTransparency = 1
-            codeContainer.Size = UDim2.new(1, 0, 0, 0)
-            codeContainer.Parent = e.Frame
-            codeContainer.AutomaticSize = Enum.AutomaticSize.Y
-
-            local uiList = Instance.new("UIListLayout")
-            uiList.Parent = codeContainer
-            uiList.SortOrder = Enum.SortOrder.LayoutOrder
-            uiList.Padding = UDim.new(0, 6)
-
-            for i, cb in ipairs(code_blocks) do
-                local codeFrame = Instance.new("Frame")
-                codeFrame.Name = "CodeBlock"..i
-                codeFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                codeFrame.BorderSizePixel = 0
-                codeFrame.Size = UDim2.new(1, 0, 0, 0)
-                codeFrame.AutomaticSize = Enum.AutomaticSize.Y
-                codeFrame.Parent = codeContainer
-                codeFrame.LayoutOrder = i
-
-                local padding = Instance.new("UIPadding", codeFrame)
-                padding.PaddingTop = UDim.new(0, 6)
-                padding.PaddingBottom = UDim.new(0, 6)
-                padding.PaddingLeft = UDim.new(0, 6)
-                padding.PaddingRight = UDim.new(0, 6)
-
-                local codeLabel = Instance.new("TextLabel")
-                codeLabel.Name = "Code"
-                codeLabel.BackgroundTransparency = 1
-                codeLabel.Size = UDim2.new(1, 0, 0, 0)
-                codeLabel.AutomaticSize = Enum.AutomaticSize.Y
-                codeLabel.TextWrapped = true
-                codeLabel.RichText = false -- โค้ดภายในไม่ต้อง RichText
-                codeLabel.TextXAlignment = Enum.TextXAlignment.Left
-                codeLabel.TextYAlignment = Enum.TextYAlignment.Top
-                codeLabel.Text = cb
-                -- ไม่ตั้ง Font เป็นพิเศษ (หากต้องการ monospace ให้แก้ Enum.Font ที่นี่)
-                codeLabel.Parent = codeFrame
-            end
-        end
-
-        return e
-    end
-
-    return aj
-end,
-
+        return aj
+    end,
     [26] = function()
         local aa, ab, ac, ad, ae = b(26)
         local af, ag = game:GetService "UserInputService", ab.Parent.Parent
