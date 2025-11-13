@@ -898,7 +898,7 @@ local aa = {
             return q
         end
     end,
-    [12] = function()
+[12] = function()
     local c, d, e, f, g = b(12)
     local h = d.Parent.Parent
     local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
@@ -1214,57 +1214,72 @@ local aa = {
 
     return o
 end,
+
     [13] = function()
-        local c, d, e, f, g = b(13)
-        local h = d.Parent.Parent
-        local i = e(h.Creator)
-        local j = i.New
-        return function(k, l)
-            local m = {}
-            m.Layout = j("UIListLayout", {Padding = UDim.new(0, 5)})
-            m.Container =
-                j(
-                "Frame",
-                {Size = UDim2.new(1, 0, 0, 26), Position = UDim2.fromOffset(0, 24), BackgroundTransparency = 1},
-                {m.Layout}
-            )
-            m.Root =
-                j(
-                "Frame",
-                {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 26), LayoutOrder = 7, Parent = l},
-                {
-                    j(
-                        "TextLabel",
-                        {
-                            RichText = true,
-                            Text = k,
-                            TextTransparency = 0,
-                            FontFace = Font.new(
-                                "rbxassetid://12187365364",
-                                Enum.FontWeight.SemiBold,
-                                Enum.FontStyle.Normal
-                            ),
-                            TextSize = 18,
-                            TextXAlignment = "Left",
-                            TextYAlignment = "Center",
-                            Size = UDim2.new(1, -16, 0, 18),
-                            Position = UDim2.fromOffset(0, 2),
-                            ThemeTag = {TextColor3 = "Text"}
-                        }
-                    ),
-                    m.Container
-                }
-            )
-            i.AddSignal(
-                m.Layout:GetPropertyChangedSignal "AbsoluteContentSize",
-                function()
-                    m.Container.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y)
-                    m.Root.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y + 25)
-                end
-            )
-            return m
-        end
-    end,
+    local moduleId, context, utils, factory, signals = b(13)
+    local root = context.Parent.Parent
+    local ui = utils(root.Creator)
+    local create = ui.New
+
+    return function(titleText, parent)
+        local section = {}
+
+        -- UI Layout
+        section.Layout = create("UIListLayout", {
+            Padding = UDim.new(0, 5),
+        })
+
+        -- Container Frame
+        section.Container = create("Frame", {
+            Size = UDim2.new(1, 0, 0, 26),
+            Position = UDim2.fromOffset(0, 24),
+            BackgroundTransparency = 1,
+        }, {
+            section.Layout
+        })
+
+        -- Root Frame
+        section.Root = create("Frame", {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, 26),
+            LayoutOrder = 7,
+            Parent = parent,
+        }, {
+            -- Title Label
+            create("TextLabel", {
+                RichText = true,
+                Text = titleText,
+                TextTransparency = 0,
+                FontFace = Font.new(
+                    "rbxassetid://12187365364",
+                    Enum.FontWeight.SemiBold,
+                    Enum.FontStyle.Normal
+                ),
+                TextSize = 18,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                TextYAlignment = Enum.TextYAlignment.Center,
+                Size = UDim2.new(1, -16, 0, 18),
+                Position = UDim2.fromOffset(0, 2),
+                ThemeTag = { TextColor3 = "Text" },
+            }),
+
+            section.Container,
+        })
+
+        -- Auto resize when content changes
+        ui.AddSignal(
+            section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"),
+            function()
+                local contentHeight = section.Layout.AbsoluteContentSize.Y
+                section.Container.Size = UDim2.new(1, 0, 0, contentHeight)
+                section.Root.Size = UDim2.new(1, 0, 0, contentHeight + 25)
+            end
+        )
+
+        return section
+    end
+end,
+
     [14] = function()
         local c, d, e, f, g = b(14)
         local h = d.Parent.Parent
@@ -2873,7 +2888,8 @@ end,
                     AnchorPoint = Vector2.new(1, 0.5),
                     Position = UDim2.new(1, -8, 0.5, 0),
                     BackgroundTransparency = 1,
-                    ThemeTag = {ImageColor3 = "SubText"}
+                    ThemeTag = {ImageColor3 = "SubText"},
+                    Rotation = 0
                 }
             )
         local p =
@@ -3061,6 +3077,7 @@ end,
         table.insert(k.OpenFrames, v)
         
         -- Position dropdown with smart positioning
+        local openDirection = "right" -- "right" or "left"
         local w = function()
             local mainFrame = p.AbsolutePosition
             local mainSize = p.AbsoluteSize
@@ -3093,6 +3110,9 @@ end,
             end
             
             v.Position = UDim2.fromOffset(xPos, yPos)
+            
+            -- determine open direction based on final xPos relative to button
+            openDirection = (xPos > mainFrame.X) and "right" or "left"
         end
         
         local x = 170
@@ -3212,6 +3232,9 @@ end,
                 TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
                 {Size = UDim2.fromScale(1, 1)}
             ):Play()
+            -- rotate arrow based on open direction
+            local targetRot = (openDirection == "right") and 90 or -90
+            af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = targetRot}):Play()
         end
         
         function l.Close(B)
@@ -3224,6 +3247,8 @@ end,
                 TweenInfo.new(0.15, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
                 {Size = UDim2.fromScale(1, 0.5)}
             )
+            -- rotate back to 0 when closing
+            af:Create(o, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Rotation = 0}):Play()
             closeTween:Play()
             closeTween.Completed:Connect(function()
                 v.Visible = false
@@ -3483,6 +3508,7 @@ end,
     end
     return g
 end,
+
     [23] = function()
         local aa, ab, ac, ad, ae = b(23)
         local af = ab.Parent.Parent
@@ -3748,7 +3774,7 @@ end,
         end
         return c
     end,
-    [25] = function()
+[25] = function()
         local aa, ab, ac, ad, ae = b(25)
         local af = ab.Parent.Parent
         local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
