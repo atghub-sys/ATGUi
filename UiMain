@@ -898,13 +898,12 @@ local aa = {
             return q
         end
     end,
-    -- แทนที่ [12] Enhanced Notification (ลบของเดิมแล้วใส่อันนี้)
 [12] = function()
     local c, d, e, f, g = b(12)
     local h = d.Parent.Parent
     local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
     local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-    
+
     function o.Init(p, q)
         o.Holder = n(
             "Frame",
@@ -925,21 +924,21 @@ local aa = {
             }
         )
     end
-    
+
     function o.New(p, q)
         q.Title = q.Title or "Notification"
         q.Content = q.Content or "Content"
         q.SubContent = q.SubContent or ""
         q.Duration = q.Duration or nil
         q.Buttons = q.Buttons or {}
-        
+
         local r = {Closed = false}
         r.AcrylicPaint = k.AcrylicPaint()
-        
+
         -- Icon & color mapping
         local s = "rbxassetid://10723415903"
         local t = Color3.fromRGB(76, 194, 255)
-        
+
         if q.Title:lower():find("success") or q.Title:lower():find("complete") then
             s = "rbxassetid://10709790387"
             t = Color3.fromRGB(50, 205, 50)
@@ -950,7 +949,7 @@ local aa = {
             s = "rbxassetid://10709753149"
             t = Color3.fromRGB(255, 180, 0)
         end
-        
+
         r.IconFrame = n(
             "Frame",
             {
@@ -972,7 +971,7 @@ local aa = {
                 })
             }
         )
-        
+
         r.Title = n("TextLabel", {
             Position = UDim2.new(0, 64, 0, 16),
             Text = q.Title,
@@ -987,7 +986,7 @@ local aa = {
             BackgroundTransparency = 1,
             ThemeTag = {TextColor3 = "Text"}
         })
-        
+
         r.ContentLabel = n("TextLabel", {
             FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
             Text = q.Content,
@@ -1000,7 +999,7 @@ local aa = {
             TextWrapped = true,
             ThemeTag = {TextColor3 = "Text"}
         })
-        
+
         r.SubContentLabel = n("TextLabel", {
             FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
             Text = q.SubContent,
@@ -1013,7 +1012,7 @@ local aa = {
             TextWrapped = true,
             ThemeTag = {TextColor3 = "SubText"}
         })
-        
+
         r.LabelHolder = n(
             "Frame",
             {
@@ -1032,7 +1031,73 @@ local aa = {
                 r.SubContentLabel
             }
         )
-        
+
+        -- Buttons container (dynamic)
+        r.ButtonHolder = n(
+            "Frame",
+            {
+                AutomaticSize = Enum.AutomaticSize.Y,
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, 64, 1, -44), -- sits above bottom (progress bar)
+                Size = UDim2.new(1, -78, 0, 0)
+            },
+            {
+                n("UIListLayout", {
+                    SortOrder = Enum.SortOrder.LayoutOrder,
+                    Padding = UDim.new(0, 6),
+                    HorizontalAlignment = Enum.HorizontalAlignment.Right,
+                    FillDirection = Enum.FillDirection.Horizontal
+                })
+            }
+        )
+
+        -- Create each dynamic button
+        if #q.Buttons > 0 then
+            for _, btnData in ipairs(q.Buttons) do
+                local text = btnData.Text or "Button"
+                local color = btnData.Color or Color3.fromRGB(100, 100, 255)
+                -- estimate width (simple): clamp by text length
+                local estWidth = math.clamp(#tostring(text) * 8 + 24, 72, 160)
+
+                local btn = n("TextButton", {
+                    Text = text,
+                    Font = Enum.Font.GothamSemibold,
+                    TextSize = 14,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    Size = UDim2.fromOffset(estWidth, 28),
+                    BackgroundColor3 = color,
+                    BackgroundTransparency = 0.08,
+                    BorderSizePixel = 0,
+                    AutoButtonColor = false
+                }, {
+                    n("UICorner", {CornerRadius = UDim.new(0, 6)})
+                })
+
+                -- hover spring
+                local _, btnSet = j.SpringMotor(0.95, btn, "BackgroundTransparency")
+                j.AddSignal(btn.MouseEnter, function() btnSet(0.02) end)
+                j.AddSignal(btn.MouseLeave, function() btnSet(0.08) end)
+
+                -- click behaviour
+                j.AddSignal(btn.MouseButton1Click, function()
+                    -- safe call to callback
+                    if type(btnData.Callback) == "function" then
+                        local ok, err = pcall(btnData.Callback)
+                        if not ok then
+                            warn("Notification button callback error:", err)
+                        end
+                    end
+                    -- default close unless btnData.KeepOpen == true
+                    if not btnData.KeepOpen then
+                        r:Close()
+                    end
+                end)
+
+                -- parent into holder
+                btn.Parent = r.ButtonHolder
+            end
+        end
+
         r.ProgressBar = n(
             "Frame",
             {
@@ -1044,7 +1109,7 @@ local aa = {
             },
             {n("UICorner", {CornerRadius = UDim.new(0, 2)})}
         )
-        
+
         r.CloseButton = n(
             "TextButton",
             {
@@ -1067,7 +1132,7 @@ local aa = {
                 })
             }
         )
-        
+
         r.Shadow = n("ImageLabel", {
             Size = UDim2.new(1, 30, 1, 30),
             Position = UDim2.fromOffset(-15, -15),
@@ -1079,33 +1144,35 @@ local aa = {
             ImageColor3 = Color3.fromRGB(0, 0, 0),
             ZIndex = 0
         })
-        
+
+        -- Include ButtonHolder in Root children so it renders
         r.Root = n(
             "Frame",
             {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Position = UDim2.fromScale(1, 0)},
-            {r.Shadow, r.AcrylicPaint.Frame, r.IconFrame, r.Title, r.CloseButton, r.LabelHolder, r.ProgressBar}
+            {r.Shadow, r.AcrylicPaint.Frame, r.IconFrame, r.Title, r.CloseButton, r.LabelHolder, r.ButtonHolder, r.ProgressBar}
         )
-        
+
         if q.Content == "" then r.ContentLabel.Visible = false end
         if q.SubContent == "" then r.SubContentLabel.Visible = false end
-        
+
         r.Holder = n("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 100), Parent = o.Holder}, {r.Root})
-        
+
         local u = i.GroupMotor.new({Scale = 1, Offset = 60, Rotation = 5})
         u:onStep(function(v)
             r.Root.Position = UDim2.new(v.Scale, v.Offset, 0, 0)
             r.Root.Rotation = v.Rotation
         end)
-        
+
         j.AddSignal(r.CloseButton.MouseButton1Click, function() r:Close() end)
-        
+
         local w, x = j.SpringMotor(0.95, r.CloseButton, "BackgroundTransparency")
         j.AddSignal(r.CloseButton.MouseEnter, function() x(0.85) end)
         j.AddSignal(r.CloseButton.MouseLeave, function() x(0.95) end)
-        
+
         function r.Open(y)
             local z = r.LabelHolder.AbsoluteSize.Y
-            r.Holder.Size = UDim2.new(1, 0, 0, math.max(68, 56 + z))
+            local extraForButtons = (#q.Buttons > 0) and 40 or 0
+            r.Holder.Size = UDim2.new(1, 0, 0, math.max(68, 56 + z + extraForButtons))
             u:setGoal({Scale = l(0, {frequency = 5, dampingRatio = 0.7}), Offset = l(0, {frequency = 5, dampingRatio = 0.7}), Rotation = l(0, {frequency = 6, dampingRatio = 0.8})})
             r.IconFrame.Size = UDim2.fromOffset(0, 0)
             local A = game:GetService("TweenService")
@@ -1113,21 +1180,27 @@ local aa = {
             task.wait(0.1)
             A:Create(r.IconFrame, B, {Size = UDim2.fromOffset(44, 44)}):Play()
         end
-        
+
         function r.Close(y)
             if not r.Closed then
                 r.Closed = true
                 task.spawn(function()
                     u:setGoal({Scale = l(1, {frequency = 5}), Offset = l(80, {frequency = 5}), Rotation = l(-5, {frequency = 6})})
                     task.wait(0.5)
-                    if e(h).UseAcrylic then r.AcrylicPaint.Model:Destroy() end
-                    r.Holder:Destroy()
+                    if e(h).UseAcrylic then
+                        if r.AcrylicPaint and r.AcrylicPaint.Model then
+                            r.AcrylicPaint.Model:Destroy()
+                        end
+                    end
+                    if r.Holder and r.Holder.Destroy then
+                        r.Holder:Destroy()
+                    end
                 end)
             end
         end
-        
+
         r:Open()
-        
+
         if q.Duration then
             r.ProgressBar.Size = UDim2.new(1, 0, 0, 3)
             local A = game:GetService("TweenService")
@@ -1135,12 +1208,13 @@ local aa = {
             A:Create(r.ProgressBar, B, {Size = UDim2.new(0, 0, 0, 3)}):Play()
             task.delay(q.Duration, function() r:Close() end)
         end
-        
+
         return r
     end
-    
+
     return o
 end,
+
     [13] = function()
     local moduleId, context, utils, factory, signals = b(13)
     local root = context.Parent.Parent
