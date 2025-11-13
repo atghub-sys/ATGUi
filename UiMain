@@ -1141,62 +1141,71 @@ local aa = {
     
     return o
 end,
+    [13] = function()
+    local moduleId, context, utils, factory, signals = b(13)
+    local root = context.Parent.Parent
+    local ui = utils(root.Creator)
+    local create = ui.New
 
--- แทนที่ [13] Enhanced Section (ลบของเดิมแล้วใส่อันนี้)
-[13] = function()
-    local c, d, e, f, g = b(13)
-    local h = d.Parent.Parent
-    local i = e(h.Creator)
-    local j = i.New
-    
-    return function(k, l)
-        local m = {}
-        m.Layout = j("UIListLayout", {Padding = UDim.new(0, 5)})
-        m.Container = j("Frame", {Size = UDim2.new(1, 0, 0, 26), Position = UDim2.fromOffset(0, 30), BackgroundTransparency = 1}, {m.Layout})
-        
-        m.AccentBar = j(
-            "Frame",
-            {Size = UDim2.new(0, 3, 0, 0), Position = UDim2.fromOffset(-3, 8), BackgroundColor3 = Color3.fromRGB(76, 194, 255), BorderSizePixel = 0, ThemeTag = {BackgroundColor3 = "Accent"}},
-            {
-                j("UICorner", {CornerRadius = UDim.new(1, 0)}),
-                j("UIGradient", {Rotation = 90, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 0.3)})})
-            }
-        )
-        
-        m.AccentGlow = j(
-            "Frame",
-            {Size = UDim2.new(0, 12, 1, 0), Position = UDim2.fromOffset(-7, 0), BackgroundColor3 = Color3.fromRGB(76, 194, 255), BackgroundTransparency = 0.7, BorderSizePixel = 0, Parent = m.AccentBar, ThemeTag = {BackgroundColor3 = "Accent"}},
-            {j("UICorner", {CornerRadius = UDim.new(1, 0)}), j("UIGradient", {Rotation = 0, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.5, 0.4), NumberSequenceKeypoint.new(1, 1)})})}
-        )
-        
-        m.TitleLabel = j("TextLabel", {
-            RichText = true, Text = k, TextTransparency = 0,
-            FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
-            TextSize = 20, TextXAlignment = "Left", TextYAlignment = "Center",
-            Size = UDim2.new(1, -20, 0, 22), Position = UDim2.fromOffset(8, 2),
-            ThemeTag = {TextColor3 = "Text"}
+    return function(titleText, parent)
+        local section = {}
+
+        -- UI Layout
+        section.Layout = create("UIListLayout", {
+            Padding = UDim.new(0, 5),
         })
-        
-        m.DecorLine = j(
-            "Frame",
-            {Size = UDim2.new(1, -12, 0, 2), Position = UDim2.fromOffset(6, 26), BackgroundTransparency = 0.85, BorderSizePixel = 0, ThemeTag = {BackgroundColor3 = "Accent"}},
-            {j("UICorner", {CornerRadius = UDim.new(1, 0)}), j("UIGradient", {Rotation = 0, Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.1, 0.3), NumberSequenceKeypoint.new(0.9, 0.3), NumberSequenceKeypoint.new(1, 1)})})}
+
+        -- Container Frame
+        section.Container = create("Frame", {
+            Size = UDim2.new(1, 0, 0, 26),
+            Position = UDim2.fromOffset(0, 24),
+            BackgroundTransparency = 1,
+        }, {
+            section.Layout
+        })
+
+        -- Root Frame
+        section.Root = create("Frame", {
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, 0, 0, 26),
+            LayoutOrder = 7,
+            Parent = parent,
+        }, {
+            -- Title Label
+            create("TextLabel", {
+                RichText = true,
+                Text = titleText,
+                TextTransparency = 0,
+                FontFace = Font.new(
+                    "rbxassetid://12187365364",
+                    Enum.FontWeight.SemiBold,
+                    Enum.FontStyle.Normal
+                ),
+                TextSize = 18,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                TextYAlignment = Enum.TextYAlignment.Center,
+                Size = UDim2.new(1, -16, 0, 18),
+                Position = UDim2.fromOffset(0, 2),
+                ThemeTag = { TextColor3 = "Text" },
+            }),
+
+            section.Container,
+        })
+
+        -- Auto resize when content changes
+        ui.AddSignal(
+            section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"),
+            function()
+                local contentHeight = section.Layout.AbsoluteContentSize.Y
+                section.Container.Size = UDim2.new(1, 0, 0, contentHeight)
+                section.Root.Size = UDim2.new(1, 0, 0, contentHeight + 25)
+            end
         )
-        
-        m.Root = j("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 30), LayoutOrder = 7, Parent = l}, {m.AccentBar, m.TitleLabel, m.DecorLine, m.Container})
-        
-        local n = game:GetService("TweenService")
-        local o = TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-        n:Create(m.AccentBar, o, {Size = UDim2.new(0, 3, 0, 18)}):Play()
-        
-        i.AddSignal(m.Layout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
-            m.Container.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y)
-            m.Root.Size = UDim2.new(1, 0, 0, m.Layout.AbsoluteContentSize.Y + 32)
-        end)
-        
-        return m
+
+        return section
     end
 end,
+
     [14] = function()
         local c, d, e, f, g = b(14)
         local h = d.Parent.Parent
@@ -3681,60 +3690,21 @@ end,
         return c
     end,
 [25] = function()
-    local aa, ab, ac, ad, ae = b(25)
-    local af = ab.Parent.Parent
-    local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
-    aj.__index = aj
-    aj.__type = "Paragraph"
-    
-    function aj.New(c, d)
-        assert(d.Title, "Paragraph - Missing Title")
-        d.Content = d.Content or ""
-        
-        local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
-        e.Frame.BackgroundTransparency = 1 -- เริ่มจากโปร่งใส
-        e.Border.Transparency = 1
-        
-        -- เพิ่ม Gradient Effect
-        local gradient = ai.New("UIGradient", {
-            Rotation = 90,
-            Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.1),
-                NumberSequenceKeypoint.new(1, 0.3)
-            }),
-            Parent = e.Frame
-        })
-        
-        -- Fade In Animation
-        local spring = ah.Spring.new
-        local motor = ah.SingleMotor.new(1)
-        motor:onStep(function(value)
-            e.Frame.BackgroundTransparency = value * 0.92
-            e.Border.Transparency = value * 0.6
-        end)
-        motor:setGoal(spring(0.92, {frequency = 3}))
-        
-        -- Hover Effect
-        local hoverMotor = ah.SingleMotor.new(0)
-        hoverMotor:onStep(function(value)
-            gradient.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.1 - value * 0.05),
-                NumberSequenceKeypoint.new(1, 0.3 - value * 0.1)
-            })
-        end)
-        
-        ai.AddSignal(e.Frame.MouseEnter, function()
-            hoverMotor:setGoal(spring(1, {frequency = 6}))
-        end)
-        
-        ai.AddSignal(e.Frame.MouseLeave, function()
-            hoverMotor:setGoal(spring(0, {frequency = 6}))
-        end)
-        
-        return e
-    end
-    return aj
-end,
+        local aa, ab, ac, ad, ae = b(25)
+        local af = ab.Parent.Parent
+        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+        aj.__index = aj
+        aj.__type = "Paragraph"
+        function aj.New(c, d)
+            assert(d.Title, "Paragraph - Missing Title")
+            d.Content = d.Content or ""
+            local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
+            e.Frame.BackgroundTransparency = 0.92
+            e.Border.Transparency = 0.6
+            return e
+        end
+        return aj
+    end,
     [26] = function()
         local aa, ab, ac, ad, ae = b(26)
         local af, ag = game:GetService "UserInputService", ab.Parent.Parent
