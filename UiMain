@@ -622,30 +622,165 @@ local aa = {
     function r.Create(s)
         local t = {Buttons = 0}
         
-        -- Acrylic effect
+        -- Acrylic Paint
         t.AcrylicPaint = n.AcrylicPaint()
         
-        -- Tint overlay with animation
-        t.TintFrame = q(
+        t.TintFrame =
+            q(
             "TextButton",
             {
                 Text = "",
                 Size = UDim2.fromScale(1, 1),
                 BackgroundColor3 = Color3.fromRGB(0, 0, 0),
                 BackgroundTransparency = 1,
-                Parent = r.Window.Root,
-                ZIndex = 999
+                Parent = r.Window.Root
             },
             {q("UICorner", {CornerRadius = UDim.new(0, 8)})}
         )
         
         local u, v = m.SpringMotor(1, t.TintFrame, "BackgroundTransparency", true)
         
-        -- Icon & color based on dialog type
-        local w = "rbxassetid://10723415903" -- info icon
-        local x = Color3.fromRGB(76, 194, 255) -- blue
+        -- Icon based on dialog type
+        local w = "rbxassetid://10723415903" -- default info icon
+        local x = Color3.fromRGB(76, 194, 255) -- default blue
         
-        -- Shadow
+        t.IconFrame = q(
+            "Frame",
+            {
+                Size = UDim2.fromOffset(48, 48),
+                Position = UDim2.fromOffset(20, 20),
+                BackgroundColor3 = x,
+                BackgroundTransparency = 0.9,
+                BorderSizePixel = 0
+            },
+            {
+                q("UICorner", {CornerRadius = UDim.new(0, 10)}),
+                q("ImageLabel", {
+                    Size = UDim2.fromOffset(28, 28),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    BackgroundTransparency = 1,
+                    Image = w,
+                    ImageColor3 = x
+                })
+            }
+        )
+        
+        t.ButtonHolder =
+            q(
+            "Frame",
+            {
+                Size = UDim2.new(1, -40, 0, 32),
+                AnchorPoint = Vector2.new(0.5, 0),
+                Position = UDim2.new(0.5, 0, 0, 0),
+                BackgroundTransparency = 1
+            },
+            {
+                q(
+                    "UIListLayout",
+                    {
+                        Padding = UDim.new(0, 10),
+                        FillDirection = Enum.FillDirection.Horizontal,
+                        HorizontalAlignment = Enum.HorizontalAlignment.Center,
+                        SortOrder = Enum.SortOrder.LayoutOrder
+                    }
+                )
+            }
+        )
+        
+        t.ButtonHolderFrame =
+            q(
+            "Frame",
+            {
+                Size = UDim2.new(1, 0, 0, 60),
+                Position = UDim2.new(0, 0, 1, -60),
+                BackgroundTransparency = 1
+            },
+            {
+                q("Frame", {
+                    Size = UDim2.new(1, 0, 0, 1), 
+                    Position = UDim2.fromOffset(0, 0),
+                    BackgroundTransparency = 0.92,
+                    ThemeTag = {BackgroundColor3 = "DialogHolderLine"}
+                }),
+                t.ButtonHolder
+            }
+        )
+        
+        t.Title =
+            q(
+            "TextLabel",
+            {
+                FontFace = Font.new(
+                    "rbxasset://fonts/families/GothamSSm.json",
+                    Enum.FontWeight.Bold,
+                    Enum.FontStyle.Normal
+                ),
+                Text = "Dialog",
+                TextColor3 = Color3.fromRGB(240, 240, 240),
+                TextSize = 18,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Size = UDim2.new(1, -100, 0, 20),
+                Position = UDim2.fromOffset(80, 24),
+                BackgroundTransparency = 1,
+                ThemeTag = {TextColor3 = "Text"}
+            }
+        )
+        
+        t.Description =
+            q(
+            "TextLabel",
+            {
+                FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+                Text = "",
+                TextColor3 = Color3.fromRGB(200, 200, 200),
+                TextSize = 14,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                TextYAlignment = Enum.TextYAlignment.Top,
+                Size = UDim2.new(1, -100, 1, -100),
+                Position = UDim2.fromOffset(80, 50),
+                BackgroundTransparency = 1,
+                TextWrapped = true,
+                ThemeTag = {TextColor3 = "SubText"}
+            }
+        )
+        
+        t.ProgressBar = q(
+            "Frame",
+            {
+                Size = UDim2.new(1, 0, 0, 3),
+                Position = UDim2.new(0, 0, 1, -3),
+                BackgroundColor3 = x,
+                BackgroundTransparency = 0.7,
+                BorderSizePixel = 0,
+                Visible = false
+            },
+            {q("UICorner", {CornerRadius = UDim.new(0, 2)})}
+        )
+        
+        t.CloseButton = q(
+            "TextButton",
+            {
+                Text = "",
+                Position = UDim2.new(1, -14, 0, 14),
+                Size = UDim2.fromOffset(24, 24),
+                AnchorPoint = Vector2.new(1, 0),
+                BackgroundTransparency = 0.95,
+                ThemeTag = {BackgroundColor3 = "Element"}
+            },
+            {
+                q("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                q("ImageLabel", {
+                    Image = "rbxassetid://10747384394",
+                    Size = UDim2.fromOffset(14, 14),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    BackgroundTransparency = 1,
+                    ThemeTag = {ImageColor3 = "SubText"}
+                })
+            }
+        )
+        
         t.Shadow = q("ImageLabel", {
             Size = UDim2.new(1, 40, 1, 40),
             Position = UDim2.fromOffset(-20, -20),
@@ -658,109 +793,14 @@ local aa = {
             ZIndex = 0
         })
         
-        -- Icon frame
-        t.IconFrame = q(
-            "Frame",
-            {
-                Size = UDim2.fromOffset(56, 56),
-                Position = UDim2.fromOffset(20, 20),
-                BackgroundColor3 = x,
-                BackgroundTransparency = 0.88,
-                BorderSizePixel = 0
-            },
-            {
-                q("UICorner", {CornerRadius = UDim.new(0, 12)}),
-                q("ImageLabel", {
-                    Size = UDim2.fromOffset(32, 32),
-                    Position = UDim2.fromScale(0.5, 0.5),
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    BackgroundTransparency = 1,
-                    Image = w,
-                    ImageColor3 = x
-                })
-            }
-        )
+        t.Scale = q("UIScale", {Scale = 1})
+        local y, z = m.SpringMotor(1.15, t.Scale, "Scale")
         
-        -- Title
-        t.Title = q(
-            "TextLabel",
-            {
-                FontFace = Font.new(
-                    "rbxasset://fonts/families/GothamSSm.json",
-                    Enum.FontWeight.Bold,
-                    Enum.FontStyle.Normal
-                ),
-                Text = "Dialog",
-                TextColor3 = Color3.fromRGB(240, 240, 240),
-                TextSize = 20,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                Size = UDim2.new(1, -100, 0, 24),
-                Position = UDim2.fromOffset(88, 24),
-                BackgroundTransparency = 1,
-                ThemeTag = {TextColor3 = "Text"}
-            }
-        )
-        
-        -- Content text
-        t.Content = q(
-            "TextLabel",
-            {
-                FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
-                Text = "Dialog content goes here",
-                TextColor3 = Color3.fromRGB(200, 200, 200),
-                TextSize = 14,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                TextYAlignment = Enum.TextYAlignment.Top,
-                Size = UDim2.new(1, -100, 1, -140),
-                Position = UDim2.fromOffset(88, 54),
-                BackgroundTransparency = 1,
-                TextWrapped = true,
-                ThemeTag = {TextColor3 = "SubText"}
-            }
-        )
-        
-        -- Button holder
-        t.ButtonHolder = q(
-            "Frame",
-            {
-                Size = UDim2.new(1, -40, 0, 40),
-                Position = UDim2.new(0, 20, 1, -60),
-                BackgroundTransparency = 1
-            },
-            {
-                q(
-                    "UIListLayout",
-                    {
-                        Padding = UDim.new(0, 12),
-                        FillDirection = Enum.FillDirection.Horizontal,
-                        HorizontalAlignment = Enum.HorizontalAlignment.Right,
-                        SortOrder = Enum.SortOrder.LayoutOrder
-                    }
-                )
-            }
-        )
-        
-        -- Separator line
-        t.Separator = q(
-            "Frame",
-            {
-                Size = UDim2.new(1, 0, 0, 1),
-                Position = UDim2.new(0, 0, 1, -70),
-                BackgroundTransparency = 0.9,
-                BorderSizePixel = 0,
-                ThemeTag = {BackgroundColor3 = "DialogHolderLine"}
-            }
-        )
-        
-        -- Scale for animation
-        t.Scale = q("UIScale", {Scale = 0.8})
-        local y, z = m.SpringMotor(0.8, t.Scale, "Scale")
-        
-        -- Main dialog root with acrylic
-        t.Root = q(
+        t.Root =
+            q(
             "CanvasGroup",
             {
-                Size = UDim2.fromOffset(420, 220),
+                Size = UDim2.fromOffset(420, 200),
                 AnchorPoint = Vector2.new(0.5, 0.5),
                 Position = UDim2.fromScale(0.5, 0.5),
                 GroupTransparency = 1,
@@ -770,8 +810,8 @@ local aa = {
             {
                 q("UICorner", {CornerRadius = UDim.new(0, 12)}),
                 q("UIStroke", {
-                    Transparency = 0.7,
-                    Thickness = 1.5,
+                    Transparency = 0.7, 
+                    Thickness = 1,
                     ThemeTag = {Color = "DialogBorder"}
                 }),
                 t.Shadow,
@@ -779,75 +819,24 @@ local aa = {
                 t.Scale,
                 t.IconFrame,
                 t.Title,
-                t.Content,
-                t.Separator,
-                t.ButtonHolder
+                t.Description,
+                t.ButtonHolderFrame,
+                t.ProgressBar,
+                t.CloseButton
             }
         )
         
         local A, B = m.SpringMotor(1, t.Root, "GroupTransparency")
         
-        -- Rotation spring for entrance
-        local C = l.GroupMotor.new({Scale = 0.8, Rotation = -5, Transparency = 1})
-        C:onStep(function(D)
-            t.Scale.Scale = D.Scale
-            t.Root.Rotation = D.Rotation
-            t.Root.GroupTransparency = D.Transparency
-        end)
-        
-        function t.Open(E)
-            e(k).DialogOpen = true
-            
-            -- Animate icon size
-            t.IconFrame.Size = UDim2.fromOffset(0, 0)
-            local F = game:GetService("TweenService")
-            local G = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
-            task.wait(0.1)
-            F:Create(t.IconFrame, G, {Size = UDim2.fromOffset(56, 56)}):Play()
-            
-            -- Spring animation
-            v(0.7)
-            C:setGoal({
-                Scale = o(1, {frequency = 4, dampingRatio = 0.75}),
-                Rotation = o(0, {frequency = 5, dampingRatio = 0.8}),
-                Transparency = o(0, {frequency = 6, dampingRatio = 1})
-            })
-        end
-        
-        function t.Close(E)
-            e(k).DialogOpen = false
-            
-            -- Smooth close animation
-            C:setGoal({
-                Scale = o(0.85, {frequency = 5}),
-                Rotation = o(5, {frequency = 6}),
-                Transparency = o(1, {frequency = 5})
-            })
-            v(1)
-            
-            task.wait(0.35)
-            
-            -- Cleanup acrylic
-            if e(k).UseAcrylic then
-                if t.AcrylicPaint and t.AcrylicPaint.Model then
-                    t.AcrylicPaint.Model:Destroy()
-                end
-            end
-            
-            t.TintFrame:Destroy()
-        end
-        
-        function t.SetIcon(E, F, G)
-            -- Update icon and color
-            -- F = icon asset id, G = color
-            t.IconFrame.BackgroundColor3 = G
-            t.IconFrame.ImageLabel.ImageColor3 = G
-            t.IconFrame.ImageLabel.Image = F
-        end
+        -- Close button hover effect
+        local C, D = m.SpringMotor(0.95, t.CloseButton, "BackgroundTransparency")
+        m.AddSignal(t.CloseButton.MouseEnter, function() D(0.85) end)
+        m.AddSignal(t.CloseButton.MouseLeave, function() D(0.95) end)
+        m.AddSignal(t.CloseButton.MouseButton1Click, function() t:Close() end)
         
         function t.SetType(E, F)
-            -- Auto set icon based on type: "info", "success", "error", "warning"
-            local G, H
+            local G, H = "rbxassetid://10723415903", Color3.fromRGB(76, 194, 255)
+            
             if F == "success" then
                 G = "rbxassetid://10709790387"
                 H = Color3.fromRGB(50, 205, 50)
@@ -857,60 +846,89 @@ local aa = {
             elseif F == "warning" then
                 G = "rbxassetid://10709753149"
                 H = Color3.fromRGB(255, 180, 0)
-            else -- info
-                G = "rbxassetid://10723415903"
-                H = Color3.fromRGB(76, 194, 255)
             end
-            t:SetIcon(G, H)
+            
+            t.IconFrame.BackgroundColor3 = H
+            t.IconFrame:FindFirstChildOfClass("ImageLabel").ImageColor3 = H
+            t.IconFrame:FindFirstChildOfClass("ImageLabel").Image = G
+            t.ProgressBar.BackgroundColor3 = H
         end
         
-        function t.Button(E, F, G)
+        function t.Open(E)
+            e(k).DialogOpen = true
+            t.Scale.Scale = 1.15
+            v(0.6)
+            B(0)
+            z(1)
+            
+            -- Icon animation
+            t.IconFrame.Size = UDim2.fromOffset(0, 0)
+            local I = game:GetService("TweenService")
+            local J = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
+            task.wait(0.1)
+            I:Create(t.IconFrame, J, {Size = UDim2.fromOffset(48, 48)}):Play()
+        end
+        
+        function t.Close(E)
+            e(k).DialogOpen = false
+            v(1)
+            B(1)
+            z(1.15)
+            
+            task.wait(0.2)
+            
+            if e(k).UseAcrylic then
+                if t.AcrylicPaint and t.AcrylicPaint.Model then
+                    t.AcrylicPaint.Model:Destroy()
+                end
+            end
+            
+            if t.TintFrame then
+                t.TintFrame:Destroy()
+            end
+        end
+        
+        function t.SetDuration(E, K)
+            if K then
+                t.ProgressBar.Visible = true
+                t.ProgressBar.Size = UDim2.new(1, 0, 0, 3)
+                local I = game:GetService("TweenService")
+                local J = TweenInfo.new(K, Enum.EasingStyle.Linear)
+                I:Create(t.ProgressBar, J, {Size = UDim2.new(0, 0, 0, 3)}):Play()
+                task.delay(K, function() t:Close() end)
+            end
+        end
+        
+        function t.Button(E, L, M)
             t.Buttons = t.Buttons + 1
-            F = F or "Button"
-            G = G or function() end
+            L = L or "Button"
+            M = M or function() end
             
-            local H = math.clamp(#tostring(F) * 9 + 32, 90, 180)
+            local N = e(k.Components.Button)("", t.ButtonHolder, true)
+            N.Title.Text = L
+            N.Frame.BackgroundTransparency = 0.08
             
-            local I = q(
-                "TextButton",
-                {
-                    Text = F,
-                    Font = Enum.Font.GothamSemibold,
-                    TextSize = 14,
-                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                    Size = UDim2.fromOffset(H, 36),
-                    BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-                    BackgroundTransparency = 0.05,
-                    BorderSizePixel = 0,
-                    AutoButtonColor = false,
-                    Parent = t.ButtonHolder
-                },
-                {
-                    q("UICorner", {CornerRadius = UDim.new(0, 8)}),
-                    q("UIStroke", {
-                        Transparency = 0.8,
-                        Color = Color3.fromRGB(255, 255, 255)
-                    })
-                }
-            )
+            -- Calculate button width
+            for O, P in next, t.ButtonHolder:GetChildren() do
+                if P:IsA "TextButton" then
+                    P.Size = UDim2.new(1 / t.Buttons, -(((t.Buttons - 1) * 10) / t.Buttons), 0, 32)
+                end
+            end
             
-            -- Hover animation
-            local J, K = m.SpringMotor(0.05, I, "BackgroundTransparency")
-            m.AddSignal(I.MouseEnter, function() K(0) end)
-            m.AddSignal(I.MouseLeave, function() K(0.05) end)
+            -- Button hover effect
+            local Q, R = m.SpringMotor(0.08, N.Frame, "BackgroundTransparency")
+            m.AddSignal(N.Frame.MouseEnter, function() R(0.02) end)
+            m.AddSignal(N.Frame.MouseLeave, function() R(0.08) end)
             
-            -- Click handler
             m.AddSignal(
-                I.MouseButton1Click,
+                N.Frame.MouseButton1Click,
                 function()
-                    e(k):SafeCallback(G)
-                    pcall(function()
-                        t:Close()
-                    end)
+                    e(k):SafeCallback(M)
+                    pcall(function() t:Close() end)
                 end
             )
             
-            return I
+            return N
         end
         
         return t
