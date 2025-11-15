@@ -605,154 +605,319 @@ local aa = {
         end
     end,
     [10] = function()
-        local c, d, e, f, g = b(10)
-        local h, i, j, k =
-            game:GetService "UserInputService",
-            game:GetService "Players".LocalPlayer:GetMouse(),
-            game:GetService "Workspace".CurrentCamera,
-            d.Parent.Parent
-        local l, m = e(k.Packages.Flipper), e(k.Creator)
-        local n, o, p, q = l.Spring.new, l.Instant.new, m.New, {Window = nil}
-        function q.Init(r, s)
-            q.Window = s
-            return q
+    local c, d, e, f, g = b(10)
+    local h, i, j, k =
+        game:GetService "UserInputService",
+        game:GetService "Players".LocalPlayer:GetMouse(),
+        game:GetService "Workspace".CurrentCamera,
+        d.Parent.Parent
+    local l, m, n = e(k.Packages.Flipper), e(k.Creator), e(k.Acrylic)
+    local o, p, q, r = l.Spring.new, l.Instant.new, m.New, {Window = nil}
+    
+    function r.Init(s, t)
+        r.Window = t
+        return r
+    end
+    
+    function r.Create(s)
+        local t = {Buttons = 0}
+        
+        -- Acrylic effect
+        t.AcrylicPaint = n.AcrylicPaint()
+        
+        -- Tint overlay with animation
+        t.TintFrame = q(
+            "TextButton",
+            {
+                Text = "",
+                Size = UDim2.fromScale(1, 1),
+                BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                BackgroundTransparency = 1,
+                Parent = r.Window.Root,
+                ZIndex = 999
+            },
+            {q("UICorner", {CornerRadius = UDim.new(0, 8)})}
+        )
+        
+        local u, v = m.SpringMotor(1, t.TintFrame, "BackgroundTransparency", true)
+        
+        -- Icon & color based on dialog type
+        local w = "rbxassetid://10723415903" -- info icon
+        local x = Color3.fromRGB(76, 194, 255) -- blue
+        
+        -- Shadow
+        t.Shadow = q("ImageLabel", {
+            Size = UDim2.new(1, 40, 1, 40),
+            Position = UDim2.fromOffset(-20, -20),
+            BackgroundTransparency = 1,
+            Image = "rbxassetid://5554236805",
+            ScaleType = Enum.ScaleType.Slice,
+            SliceCenter = Rect.new(23, 23, 277, 277),
+            ImageTransparency = 0.85,
+            ImageColor3 = Color3.fromRGB(0, 0, 0),
+            ZIndex = 0
+        })
+        
+        -- Icon frame
+        t.IconFrame = q(
+            "Frame",
+            {
+                Size = UDim2.fromOffset(56, 56),
+                Position = UDim2.fromOffset(20, 20),
+                BackgroundColor3 = x,
+                BackgroundTransparency = 0.88,
+                BorderSizePixel = 0
+            },
+            {
+                q("UICorner", {CornerRadius = UDim.new(0, 12)}),
+                q("ImageLabel", {
+                    Size = UDim2.fromOffset(32, 32),
+                    Position = UDim2.fromScale(0.5, 0.5),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    BackgroundTransparency = 1,
+                    Image = w,
+                    ImageColor3 = x
+                })
+            }
+        )
+        
+        -- Title
+        t.Title = q(
+            "TextLabel",
+            {
+                FontFace = Font.new(
+                    "rbxasset://fonts/families/GothamSSm.json",
+                    Enum.FontWeight.Bold,
+                    Enum.FontStyle.Normal
+                ),
+                Text = "Dialog",
+                TextColor3 = Color3.fromRGB(240, 240, 240),
+                TextSize = 20,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                Size = UDim2.new(1, -100, 0, 24),
+                Position = UDim2.fromOffset(88, 24),
+                BackgroundTransparency = 1,
+                ThemeTag = {TextColor3 = "Text"}
+            }
+        )
+        
+        -- Content text
+        t.Content = q(
+            "TextLabel",
+            {
+                FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+                Text = "Dialog content goes here",
+                TextColor3 = Color3.fromRGB(200, 200, 200),
+                TextSize = 14,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                TextYAlignment = Enum.TextYAlignment.Top,
+                Size = UDim2.new(1, -100, 1, -140),
+                Position = UDim2.fromOffset(88, 54),
+                BackgroundTransparency = 1,
+                TextWrapped = true,
+                ThemeTag = {TextColor3 = "SubText"}
+            }
+        )
+        
+        -- Button holder
+        t.ButtonHolder = q(
+            "Frame",
+            {
+                Size = UDim2.new(1, -40, 0, 40),
+                Position = UDim2.new(0, 20, 1, -60),
+                BackgroundTransparency = 1
+            },
+            {
+                q(
+                    "UIListLayout",
+                    {
+                        Padding = UDim.new(0, 12),
+                        FillDirection = Enum.FillDirection.Horizontal,
+                        HorizontalAlignment = Enum.HorizontalAlignment.Right,
+                        SortOrder = Enum.SortOrder.LayoutOrder
+                    }
+                )
+            }
+        )
+        
+        -- Separator line
+        t.Separator = q(
+            "Frame",
+            {
+                Size = UDim2.new(1, 0, 0, 1),
+                Position = UDim2.new(0, 0, 1, -70),
+                BackgroundTransparency = 0.9,
+                BorderSizePixel = 0,
+                ThemeTag = {BackgroundColor3 = "DialogHolderLine"}
+            }
+        )
+        
+        -- Scale for animation
+        t.Scale = q("UIScale", {Scale = 0.8})
+        local y, z = m.SpringMotor(0.8, t.Scale, "Scale")
+        
+        -- Main dialog root with acrylic
+        t.Root = q(
+            "CanvasGroup",
+            {
+                Size = UDim2.fromOffset(420, 220),
+                AnchorPoint = Vector2.new(0.5, 0.5),
+                Position = UDim2.fromScale(0.5, 0.5),
+                GroupTransparency = 1,
+                Parent = t.TintFrame,
+                ThemeTag = {BackgroundColor3 = "Dialog"}
+            },
+            {
+                q("UICorner", {CornerRadius = UDim.new(0, 12)}),
+                q("UIStroke", {
+                    Transparency = 0.7,
+                    Thickness = 1.5,
+                    ThemeTag = {Color = "DialogBorder"}
+                }),
+                t.Shadow,
+                t.AcrylicPaint.Frame,
+                t.Scale,
+                t.IconFrame,
+                t.Title,
+                t.Content,
+                t.Separator,
+                t.ButtonHolder
+            }
+        )
+        
+        local A, B = m.SpringMotor(1, t.Root, "GroupTransparency")
+        
+        -- Rotation spring for entrance
+        local C = l.GroupMotor.new({Scale = 0.8, Rotation = -5, Transparency = 1})
+        C:onStep(function(D)
+            t.Scale.Scale = D.Scale
+            t.Root.Rotation = D.Rotation
+            t.Root.GroupTransparency = D.Transparency
+        end)
+        
+        function t.Open(E)
+            e(k).DialogOpen = true
+            
+            -- Animate icon size
+            t.IconFrame.Size = UDim2.fromOffset(0, 0)
+            local F = game:GetService("TweenService")
+            local G = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
+            task.wait(0.1)
+            F:Create(t.IconFrame, G, {Size = UDim2.fromOffset(56, 56)}):Play()
+            
+            -- Spring animation
+            v(0.7)
+            C:setGoal({
+                Scale = o(1, {frequency = 4, dampingRatio = 0.75}),
+                Rotation = o(0, {frequency = 5, dampingRatio = 0.8}),
+                Transparency = o(0, {frequency = 6, dampingRatio = 1})
+            })
         end
-        function q.Create(r)
-            local s = {Buttons = 0}
-            s.TintFrame =
-                p(
+        
+        function t.Close(E)
+            e(k).DialogOpen = false
+            
+            -- Smooth close animation
+            C:setGoal({
+                Scale = o(0.85, {frequency = 5}),
+                Rotation = o(5, {frequency = 6}),
+                Transparency = o(1, {frequency = 5})
+            })
+            v(1)
+            
+            task.wait(0.35)
+            
+            -- Cleanup acrylic
+            if e(k).UseAcrylic then
+                if t.AcrylicPaint and t.AcrylicPaint.Model then
+                    t.AcrylicPaint.Model:Destroy()
+                end
+            end
+            
+            t.TintFrame:Destroy()
+        end
+        
+        function t.SetIcon(E, F, G)
+            -- Update icon and color
+            -- F = icon asset id, G = color
+            t.IconFrame.BackgroundColor3 = G
+            t.IconFrame.ImageLabel.ImageColor3 = G
+            t.IconFrame.ImageLabel.Image = F
+        end
+        
+        function t.SetType(E, F)
+            -- Auto set icon based on type: "info", "success", "error", "warning"
+            local G, H
+            if F == "success" then
+                G = "rbxassetid://10709790387"
+                H = Color3.fromRGB(50, 205, 50)
+            elseif F == "error" then
+                G = "rbxassetid://10734933655"
+                H = Color3.fromRGB(255, 60, 80)
+            elseif F == "warning" then
+                G = "rbxassetid://10709753149"
+                H = Color3.fromRGB(255, 180, 0)
+            else -- info
+                G = "rbxassetid://10723415903"
+                H = Color3.fromRGB(76, 194, 255)
+            end
+            t:SetIcon(G, H)
+        end
+        
+        function t.Button(E, F, G)
+            t.Buttons = t.Buttons + 1
+            F = F or "Button"
+            G = G or function() end
+            
+            local H = math.clamp(#tostring(F) * 9 + 32, 90, 180)
+            
+            local I = q(
                 "TextButton",
                 {
-                    Text = "",
-                    Size = UDim2.fromScale(1, 1),
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    Parent = q.Window.Root
-                },
-                {p("UICorner", {CornerRadius = UDim.new(0, 8)})}
-            )
-            local t, u = m.SpringMotor(1, s.TintFrame, "BackgroundTransparency", true)
-            s.ButtonHolder =
-                p(
-                "Frame",
-                {
-                    Size = UDim2.new(1, -40, 1, -40),
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    Position = UDim2.fromScale(0.5, 0.5),
-                    BackgroundTransparency = 1
+                    Text = F,
+                    Font = Enum.Font.GothamSemibold,
+                    TextSize = 14,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    Size = UDim2.fromOffset(H, 36),
+                    BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+                    BackgroundTransparency = 0.05,
+                    BorderSizePixel = 0,
+                    AutoButtonColor = false,
+                    Parent = t.ButtonHolder
                 },
                 {
-                    p(
-                        "UIListLayout",
-                        {
-                            Padding = UDim.new(0, 10),
-                            FillDirection = Enum.FillDirection.Horizontal,
-                            HorizontalAlignment = Enum.HorizontalAlignment.Center,
-                            SortOrder = Enum.SortOrder.LayoutOrder
-                        }
-                    )
+                    q("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                    q("UIStroke", {
+                        Transparency = 0.8,
+                        Color = Color3.fromRGB(255, 255, 255)
+                    })
                 }
             )
-            s.ButtonHolderFrame =
-                p(
-                "Frame",
-                {
-                    Size = UDim2.new(1, 0, 0, 70),
-                    Position = UDim2.new(0, 0, 1, -70),
-                    ThemeTag = {BackgroundColor3 = "DialogHolder"}
-                },
-                {
-                    p("Frame", {Size = UDim2.new(1, 0, 0, 1), ThemeTag = {BackgroundColor3 = "DialogHolderLine"}}),
-                    s.ButtonHolder
-                }
-            )
-            s.Title =
-                p(
-                "TextLabel",
-                {
-                    FontFace = Font.new(
-                        "rbxasset://fonts/families/GothamSSm.json",
-                        Enum.FontWeight.SemiBold,
-                        Enum.FontStyle.Normal
-                    ),
-                    Text = "Dialog",
-                    TextColor3 = Color3.fromRGB(240, 240, 240),
-                    TextSize = 22,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    Size = UDim2.new(1, 0, 0, 22),
-                    Position = UDim2.fromOffset(20, 25),
-                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    BackgroundTransparency = 1,
-                    ThemeTag = {TextColor3 = "Text"}
-                }
-            )
-            s.Scale = p("UIScale", {Scale = 1})
-            local v, w = m.SpringMotor(1.1, s.Scale, "Scale")
-            s.Root =
-                p(
-                "CanvasGroup",
-                {
-                    Size = UDim2.fromOffset(300, 165),
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    Position = UDim2.fromScale(0.5, 0.5),
-                    GroupTransparency = 1,
-                    Parent = s.TintFrame,
-                    ThemeTag = {BackgroundColor3 = "Dialog"}
-                },
-                {
-                    p("UICorner", {CornerRadius = UDim.new(0, 8)}),
-                    p("UIStroke", {Transparency = 0.5, ThemeTag = {Color = "DialogBorder"}}),
-                    s.Scale,
-                    s.Title,
-                    s.ButtonHolderFrame
-                }
-            )
-            local x, y = m.SpringMotor(1, s.Root, "GroupTransparency")
-            function s.Open(z)
-                e(k).DialogOpen = true
-                s.Scale.Scale = 1.1
-                u(0.75)
-                y(0)
-                w(1)
-            end
-            function s.Close(z)
-                e(k).DialogOpen = false
-                u(1)
-                y(1)
-                w(1.1)
-                s.Root.UIStroke:Destroy()
-                task.wait(0.15)
-                s.TintFrame:Destroy()
-            end
-            function s.Button(z, A, B)
-                s.Buttons = s.Buttons + 1
-                A = A or "Button"
-                B = B or function()
-                    end
-                local C = e(k.Components.Button)("", s.ButtonHolder, true)
-                C.Title.Text = A
-                for D, E in next, s.ButtonHolder:GetChildren() do
-                    if E:IsA "TextButton" then
-                        E.Size = UDim2.new(1 / s.Buttons, -(((s.Buttons - 1) * 10) / s.Buttons), 0, 32)
-                    end
+            
+            -- Hover animation
+            local J, K = m.SpringMotor(0.05, I, "BackgroundTransparency")
+            m.AddSignal(I.MouseEnter, function() K(0) end)
+            m.AddSignal(I.MouseLeave, function() K(0.05) end)
+            
+            -- Click handler
+            m.AddSignal(
+                I.MouseButton1Click,
+                function()
+                    e(k):SafeCallback(G)
+                    pcall(function()
+                        t:Close()
+                    end)
                 end
-                m.AddSignal(
-                    C.Frame.MouseButton1Click,
-                    function()
-                        e(k):SafeCallback(B)
-                        pcall(
-                            function()
-                                s:Close()
-                            end
-                        )
-                    end
-                )
-                return C
-            end
-            return s
+            )
+            
+            return I
         end
-        return q
-    end,
+        
+        return t
+    end
+    
+    return r
+end,
     [11] = function()
         local c, d, e, f, g = b(11)
         local h = d.Parent.Parent
@@ -2837,9 +3002,7 @@ end,
                 Type = "Dropdown",
                 SearchText = "",
                 Callback = j.Callback or function()
-                    end,
-                SearchDebounce = nil,
-                LastSearchText = ""
+                    end
             },
             ac(f.Element)(j.Title, j.Description, h.Container, false)
         m.DescLabel.Size = UDim2.new(1, -170, 0, 14)
@@ -3009,8 +3172,7 @@ end,
                 ScrollBarImageTransparency = 0.95,
                 ScrollBarThickness = 4,
                 BorderSizePixel = 0,
-                CanvasSize = UDim2.fromScale(0, 0),
-                ClipsDescendants = true
+                CanvasSize = UDim2.fromScale(0, 0)
             },
             {s}
         )
@@ -3146,25 +3308,12 @@ end,
             end
         )
         
-        -- Search functionality with debounce (ป้องกันการค้างเมื่อพิมพ์เร็ว)
+        -- Search functionality
         c.AddSignal(
             searchBox:GetPropertyChangedSignal("Text"),
             function()
-                local searchText = searchBox.Text:lower()
-                
-                -- ยกเลิก debounce เก่า
-                if l.SearchDebounce then
-                    l.SearchDebounce:Disconnect()
-                end
-                
-                -- สร้าง debounce ใหม่ (รอ 0.15 วินาที)
-                l.SearchDebounce = task.delay(0.15, function()
-                    if searchText ~= l.LastSearchText then
-                        l.SearchText = searchText
-                        l.LastSearchText = searchText
-                        l:BuildDropdownList()
-                    end
-                end)
+                l.SearchText = searchBox.Text:lower()
+                l:BuildDropdownList()
             end
         )
         
@@ -3178,7 +3327,7 @@ end,
                     l.Value = nil
                 end
                 
-                -- Update buttons without rebuilding (Batch update)
+                -- Update buttons without rebuilding
                 for button, buttonData in pairs(l.Buttons) do
                     buttonData:UpdateButton()
                 end
@@ -3201,7 +3350,7 @@ end,
                         end
                     end
                     
-                    -- Batch update buttons
+                    -- Update buttons without rebuilding
                     for button, buttonData in pairs(l.Buttons) do
                         buttonData:UpdateButton()
                     end
@@ -3221,7 +3370,6 @@ end,
             v.Visible = true
             searchBox.Text = ""
             l.SearchText = ""
-            l.LastSearchText = ""
             w()
             y()
             af:Create(
@@ -3235,12 +3383,6 @@ end,
             if not l.Opened then return end
             l.Opened = false
             A.ScrollingEnabled = true
-            
-            -- ยกเลิก debounce ที่ค้างอยู่
-            if l.SearchDebounce then
-                l.SearchDebounce:Disconnect()
-                l.SearchDebounce = nil
-            end
             
             local closeTween = af:Create(
                 u,
@@ -3271,7 +3413,6 @@ end,
             n.Text = (D == "" and "--" or D)
             clearButton.Visible = hasSelection
         end
-        
         function l.GetActiveValues(B)
             if j.Multi then
                 local C = {}
@@ -3283,216 +3424,168 @@ end,
                 return l.Value and 1 or 0
             end
         end
-        
-        -- ปรับปรุง BuildDropdownList ให้ใช้ Object Pooling และ Batch Processing
         function l.BuildDropdownList(B)
-            local C = l.Values
-            local visibleCount = 0
-            local searchLower = l.SearchText
-            
-            -- นับจำนวนที่จะแสดงก่อน (Pre-calculate)
-            local matchingValues = {}
-            for H, I in ipairs(C) do
-                if searchLower == "" or I:lower():find(searchLower, 1, true) then
-                    table.insert(matchingValues, I)
-                    visibleCount = visibleCount + 1
-                end
-            end
-            
-            -- ถ้ามีมากกว่า 100 รายการ จำกัดการแสดงผลเพื่อป้องกันการค้าง
-            local maxDisplay = 150
-            local shouldLimit = visibleCount > maxDisplay
-            
-            if shouldLimit then
-                local limitedMatching = {}
-                for i = 1, math.min(maxDisplay, #matchingValues) do
-                    limitedMatching[i] = matchingValues[i]
-                end
-                matchingValues = limitedMatching
-            end
-            
-            -- ลบปุ่มเก่าทั้งหมด (Batch deletion)
-            local childrenToRemove = {}
-            for E, F in ipairs(t:GetChildren()) do
+            local C, D = l.Values, {}
+            for E, F in next, t:GetChildren() do
                 if not F:IsA "UIListLayout" then
-                    table.insert(childrenToRemove, F)
+                    F:Destroy()
                 end
             end
-            for _, child in ipairs(childrenToRemove) do
-                child:Destroy()
-            end
-            
-            -- Clear buttons table
-            table.clear(l.Buttons)
-            
-            -- สร้างปุ่มใหม่ (Batch creation with yield every N items)
-            for index, I in ipairs(matchingValues) do
-                local J = {}
-                
-                local K, L =
-                    e(
-                        "Frame",
-                        {
-                            Size = UDim2.fromOffset(4, 14),
-                            BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-                            Position = UDim2.fromOffset(-1, 16),
-                            AnchorPoint = Vector2.new(0, 0.5),
-                            ThemeTag = {BackgroundColor3 = "Accent"}
-                        },
-                        {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
-                    ),
-                    e(
-                        "TextLabel",
-                        {
-                            FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                            Text = I,
-                            TextColor3 = Color3.fromRGB(200, 200, 200),
-                            TextSize = 13,
-                            TextXAlignment = Enum.TextXAlignment.Left,
-                            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                            AutomaticSize = Enum.AutomaticSize.Y,
-                            BackgroundTransparency = 1,
-                            Size = UDim2.fromScale(1, 1),
-                            Position = UDim2.fromOffset(10, 0),
-                            Name = "ButtonLabel",
-                            ThemeTag = {TextColor3 = "Text"}
-                        }
-                    )
-                local M, N =
-                    (e(
-                    "TextButton",
-                    {
-                        Size = UDim2.new(1, -10, 0, 32),
-                        BackgroundTransparency = 1,
-                        ZIndex = 23,
-                        Text = "",
-                        Parent = t,
-                        ThemeTag = {BackgroundColor3 = "DropdownOption"}
-                    },
-                    {
-                        K, 
-                        L, 
-                        e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+            local G = 0
+            for H, I in next, C do
+                if l.SearchText == "" or I:lower():find(l.SearchText, 1, true) then
+                    local J = {}
+                    G = G + 1
+                    local K, L =
                         e(
-                            "UIStroke",
+                            "Frame",
                             {
-                                Transparency = 0.7,
-                                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                                ThemeTag = {Color = "InElementBorder"}
+                                Size = UDim2.fromOffset(4, 14),
+                                BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+                                Position = UDim2.fromOffset(-1, 16),
+                                AnchorPoint = Vector2.new(0, 0.5),
+                                ThemeTag = {BackgroundColor3 = "Accent"}
+                            },
+                            {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
+                        ),
+                        e(
+                            "TextLabel",
+                            {
+                                FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                                Text = I,
+                                TextColor3 = Color3.fromRGB(200, 200, 200),
+                                TextSize = 13,
+                                TextXAlignment = Enum.TextXAlignment.Left,
+                                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                AutomaticSize = Enum.AutomaticSize.Y,
+                                BackgroundTransparency = 1,
+                                Size = UDim2.fromScale(1, 1),
+                                Position = UDim2.fromOffset(10, 0),
+                                Name = "ButtonLabel",
+                                ThemeTag = {TextColor3 = "Text"}
                             }
                         )
-                    }
-                ))
-                
-                if j.Multi then
-                    N = l.Value[I]
-                else
-                    N = l.Value == I
-                end
-                
-                local O, P = c.SpringMotor(1, M, "BackgroundTransparency")
-                local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
-                local S = d.SingleMotor.new(6)
-                S:onStep(
-                    function(T)
-                        K.Size = UDim2.new(0, 4, 0, T)
-                    end
-                )
-                
-                c.AddSignal(
-                    M.MouseEnter,
-                    function()
-                        P(N and 0.85 or 0.89)
-                    end
-                )
-                c.AddSignal(
-                    M.MouseLeave,
-                    function()
-                        P(N and 0.89 or 1)
-                    end
-                )
-                c.AddSignal(
-                    M.MouseButton1Down,
-                    function()
-                        P(0.92)
-                    end
-                )
-                c.AddSignal(
-                    M.MouseButton1Up,
-                    function()
-                        P(N and 0.85 or 0.89)
-                    end
-                )
-                
-                function J.UpdateButton(T)
+                    local M, N =
+                        (e(
+                        "TextButton",
+                        {
+                            Size = UDim2.new(1, -10, 0, 32),
+                            BackgroundTransparency = 1,
+                            ZIndex = 23,
+                            Text = "",
+                            Parent = t,
+                            ThemeTag = {BackgroundColor3 = "DropdownOption"}
+                        },
+                        {
+                            K, 
+                            L, 
+                            e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                            e(
+                                "UIStroke",
+                                {
+                                    Transparency = 0.7,
+                                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                                    ThemeTag = {Color = "InElementBorder"}
+                                }
+                            )
+                        }
+                    ))
                     if j.Multi then
                         N = l.Value[I]
-                        if N then
-                            P(0.89)
-                        end
                     else
                         N = l.Value == I
-                        P(N and 0.89 or 1)
                     end
-                    S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6}))
-                    R(N and 0 or 1)
-                end
-                
-                L.InputBegan:Connect(
-                    function(T)
-                        if
-                            T.UserInputType == Enum.UserInputType.MouseButton1 or
-                                T.UserInputType == Enum.UserInputType.Touch
-                         then
-                            local U = not N
-                            if l:GetActiveValues() == 1 and not U and not j.AllowNull then
-                            else
-                                if j.Multi then
-                                    N = U
-                                    l.Value[I] = N and true or nil
+                    local O, P = c.SpringMotor(1, M, "BackgroundTransparency")
+                    local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
+                    local S = d.SingleMotor.new(6)
+                    S:onStep(
+                        function(T)
+                            K.Size = UDim2.new(0, 4, 0, T)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseEnter,
+                        function()
+                            P(N and 0.85 or 0.89)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseLeave,
+                        function()
+                            P(N and 0.89 or 1)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseButton1Down,
+                        function()
+                            P(0.92)
+                        end
+                    )
+                    c.AddSignal(
+                        M.MouseButton1Up,
+                        function()
+                            P(N and 0.85 or 0.89)
+                        end
+                    )
+                    function J.UpdateButton(T)
+                        if j.Multi then
+                            N = l.Value[I]
+                            if N then
+                                P(0.89)
+                            end
+                        else
+                            N = l.Value == I
+                            P(N and 0.89 or 1)
+                        end
+                        S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6}))
+                        R(N and 0 or 1)
+                    end
+                    L.InputBegan:Connect(
+                        function(T)
+                            if
+                                T.UserInputType == Enum.UserInputType.MouseButton1 or
+                                    T.UserInputType == Enum.UserInputType.Touch
+                             then
+                                local U = not N
+                                if l:GetActiveValues() == 1 and not U and not j.AllowNull then
                                 else
-                                    N = U
-                                    l.Value = N and I or nil
-                                    -- Batch update all buttons
-                                    for V, W in pairs(l.Buttons) do
-                                        W:UpdateButton()
+                                    if j.Multi then
+                                        N = U
+                                        l.Value[I] = N and true or nil
+                                    else
+                                        N = U
+                                        l.Value = N and I or nil
+                                        for V, W in next, D do
+                                            W:UpdateButton()
+                                        end
                                     end
+                                    J:UpdateButton()
+                                    l:Display()
+                                    k:SafeCallback(l.Callback, l.Value)
+                                    k:SafeCallback(l.Changed, l.Value)
                                 end
-                                J:UpdateButton()
-                                l:Display()
-                                k:SafeCallback(l.Callback, l.Value)
-                                k:SafeCallback(l.Changed, l.Value)
                             end
                         end
-                    end
-                )
-                
-                J:UpdateButton()
-                l.Buttons[M] = J
-                
-                -- Yield ทุกๆ 20 items เพื่อให้เฟรมไม่ตก
-                if index % 20 == 0 then
-                    task.wait()
+                    )
+                    J:UpdateButton()
+                    D[M] = J
+                    l.Buttons[M] = J
                 end
             end
-            
             l:Display()
             z()
             y()
         end
-        
         function l.SetValues(B, C)
             if C then
                 l.Values = C
             end
             l:BuildDropdownList()
         end
-        
         function l.OnChanged(B, C)
             l.Changed = C
             C(l.Value)
         end
-        
         function l.SetValue(B, C)
             if l.Multi then
                 local D = {}
@@ -3513,18 +3606,12 @@ end,
             k:SafeCallback(l.Callback, l.Value)
             k:SafeCallback(l.Changed, l.Value)
         end
-        
         function l.Destroy(B)
-            if l.SearchDebounce then
-                l.SearchDebounce:Disconnect()
-            end
             m:Destroy()
             k.Options[i] = nil
         end
-        
         l:BuildDropdownList()
         l:Display()
-        
         local B = {}
         if type(j.Default) == "string" then
             local C = table.find(l.Values, j.Default)
@@ -3541,7 +3628,6 @@ end,
         elseif type(j.Default) == "number" and l.Values[j.Default] ~= nil then
             table.insert(B, j.Default)
         end
-        
         if next(B) then
             for C = 1, #B do
                 local D = B[C]
@@ -3557,7 +3643,6 @@ end,
             l:BuildDropdownList()
             l:Display()
         end
-        
         k.Options[i] = l
         return l
     end
