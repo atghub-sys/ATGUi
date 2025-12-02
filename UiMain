@@ -3732,13 +3732,20 @@ local aa = {
                         local J = {}
                         G = G + 1
 
-                        -- Use custom color if provided, otherwise use default/theme color
-                        local textColorProps = {}
+                        -- Use custom color for background if provided
+                        local bgColor = Color3.fromRGB(255, 255, 255)
+                        local bgTransparency = 1
+
                         if customColor then
-                            textColorProps.TextColor3 = customColor
-                        else
-                            textColorProps.TextColor3 = Color3.fromRGB(200, 200, 200)
-                            textColorProps.ThemeTag = {TextColor3 = "Text"}
+                            -- ทำให้สีอ่อนลงโดยผสมกับสีดำ/ขาว และเพิ่มความโปร่งใส
+                            local r, g, b = customColor.R * 255, customColor.G * 255, customColor.B * 255
+                            -- ลดความเข้มของสี 70% (ผสมกับสีเทาเข้ม)
+                            bgColor = Color3.fromRGB(
+                                math.floor(r * 0.3 + 30),
+                                math.floor(g * 0.3 + 30),
+                                math.floor(b * 0.3 + 30)
+                            )
+                            bgTransparency = 0.85  -- โปร่งใส 85%
                         end
 
                         local K, L =
@@ -3766,8 +3773,8 @@ local aa = {
                                     Size = UDim2.fromScale(1, 1),
                                     Position = UDim2.fromOffset(10, 0),
                                     Name = "ButtonLabel",
-                                    TextColor3 = textColorProps.TextColor3,
-                                    ThemeTag = textColorProps.ThemeTag
+                                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                                    ThemeTag = {TextColor3 = "Text"}
                                 }
                             )
                         local M, N =
@@ -3775,11 +3782,12 @@ local aa = {
                             "TextButton",
                             {
                                 Size = UDim2.new(1, -10, 0, 32),
-                                BackgroundTransparency = 1,
+                                BackgroundColor3 = bgColor,
+                                BackgroundTransparency = bgTransparency,
                                 ZIndex = 23,
                                 Text = "",
                                 Parent = t,
-                                ThemeTag = {BackgroundColor3 = "DropdownOption"}
+                                ThemeTag = customColor and {} or {BackgroundColor3 = "DropdownOption"}
                             },
                             {
                                 K,
@@ -3800,7 +3808,13 @@ local aa = {
                         else
                             N = l.Value == I
                         end
-                        local O, P = c.SpringMotor(1, M, "BackgroundTransparency")
+
+                        -- ปรับค่า transparency ตามว่ามีสีกำหนดหรือไม่
+                        local defaultTransparency = customColor and bgTransparency or 1
+                        local hoverTransparency = customColor and math.max(bgTransparency - 0.15, 0.5) or 0.89
+                        local selectedTransparency = customColor and math.max(bgTransparency - 0.2, 0.4) or 0.89
+
+                        local O, P = c.SpringMotor(defaultTransparency, M, "BackgroundTransparency")
                         local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
                         local S = d.SingleMotor.new(6)
                         S:onStep(
@@ -3811,36 +3825,36 @@ local aa = {
                         c.AddSignal(
                             M.MouseEnter,
                             function()
-                                P(N and 0.85 or 0.89)
+                                P(N and selectedTransparency or hoverTransparency)
                             end
                         )
                         c.AddSignal(
                             M.MouseLeave,
                             function()
-                                P(N and 0.89 or 1)
+                                P(N and selectedTransparency or defaultTransparency)
                             end
                         )
                         c.AddSignal(
                             M.MouseButton1Down,
                             function()
-                                P(0.92)
+                                P(customColor and 0.3 or 0.92)
                             end
                         )
                         c.AddSignal(
                             M.MouseButton1Up,
                             function()
-                                P(N and 0.85 or 0.89)
+                                P(N and selectedTransparency or hoverTransparency)
                             end
                         )
                         function J.UpdateButton(T)
                             if j.Multi then
                                 N = l.Value[I]
                                 if N then
-                                    P(0.89)
+                                    P(selectedTransparency)
                                 end
                             else
                                 N = l.Value == I
-                                P(N and 0.89 or 1)
+                                P(N and selectedTransparency or defaultTransparency)
                             end
                             S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6}))
                             R(N and 0 or 1)
