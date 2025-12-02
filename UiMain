@@ -3625,6 +3625,11 @@ local aa = {
 
             -- Parse color code from text
             local function parseColorCode(text)
+                -- ตรวจสอบว่า text เป็น string หรือไม่
+                if type(text) ~= "string" then
+                    return nil, tostring(text)
+                end
+
                 local colorPattern = "^%[COLOR:(%d+),(%d+),(%d+)%](.+)$"
                 local r, g, b, cleanText = text:match(colorPattern)
                 if r and g and b and cleanText then
