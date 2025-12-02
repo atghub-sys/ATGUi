@@ -3737,15 +3737,14 @@ local aa = {
                         local bgTransparency = 1
 
                         if customColor then
-                            -- ทำให้สีอ่อนลงโดยผสมกับสีดำ/ขาว และเพิ่มความโปร่งใส
+                            -- ใช้สี 60% ของสีต้นฉบับ เพื่อให้เห็นสีชัดเจนขึ้น
                             local r, g, b = customColor.R * 255, customColor.G * 255, customColor.B * 255
-                            -- ลดความเข้มของสี 70% (ผสมกับสีเทาเข้ม)
                             bgColor = Color3.fromRGB(
-                                math.floor(r * 0.3 + 30),
-                                math.floor(g * 0.3 + 30),
-                                math.floor(b * 0.3 + 30)
+                                math.floor(r * 0.6 + 15),
+                                math.floor(g * 0.6 + 15),
+                                math.floor(b * 0.6 + 15)
                             )
-                            bgTransparency = 0.85  -- โปร่งใส 85%
+                            bgTransparency = 0.65  -- โปร่งใส 65% (ลดลงจาก 85% เพื่อให้เห็นสีชัดขึ้น)
                         end
 
                         local K, L =
@@ -3763,7 +3762,11 @@ local aa = {
                             e(
                                 "TextLabel",
                                 {
-                                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
+                                    FontFace = Font.new(
+                                        "rbxasset://fonts/families/GothamSSm.json",
+                                        Enum.FontWeight.Medium,  -- เปลี่ยนจาก Regular เป็น Medium เพื่อให้ข้อความเด่นขึ้น
+                                        Enum.FontStyle.Normal
+                                    ),
                                     Text = cleanText,
                                     TextSize = 13,
                                     TextXAlignment = Enum.TextXAlignment.Left,
@@ -3774,6 +3777,8 @@ local aa = {
                                     Position = UDim2.fromOffset(10, 0),
                                     Name = "ButtonLabel",
                                     TextColor3 = Color3.fromRGB(240, 240, 240),
+                                    TextStrokeTransparency = 0.8,  -- เพิ่ม text stroke เพื่อให้อ่านง่ายขึ้น
+                                    TextStrokeColor3 = Color3.fromRGB(0, 0, 0),
                                     ThemeTag = {TextColor3 = "Text"}
                                 }
                             )
@@ -3811,8 +3816,8 @@ local aa = {
 
                         -- ปรับค่า transparency ตามว่ามีสีกำหนดหรือไม่
                         local defaultTransparency = customColor and bgTransparency or 1
-                        local hoverTransparency = customColor and math.max(bgTransparency - 0.15, 0.5) or 0.89
-                        local selectedTransparency = customColor and math.max(bgTransparency - 0.2, 0.4) or 0.89
+                        local hoverTransparency = customColor and math.max(bgTransparency - 0.2, 0.3) or 0.89
+                        local selectedTransparency = customColor and math.max(bgTransparency - 0.3, 0.2) or 0.89
 
                         local O, P = c.SpringMotor(defaultTransparency, M, "BackgroundTransparency")
                         local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
