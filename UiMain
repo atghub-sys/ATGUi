@@ -3296,7 +3296,7 @@ local aa = {
                     Size = UDim2.fromOffset(160, 32),
                     Position = UDim2.new(1, -10, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5),
-                    BackgroundTransparency = 0.85,
+                    BackgroundTransparency = 0.5,
                     Parent = m.Frame,
                     ThemeTag = {BackgroundColor3 = "DropdownFrame"}
                 },
@@ -3311,33 +3311,21 @@ local aa = {
                             ThemeTag = {Color = "InElementBorder"}
                         }
                     ),
-                    e(
-                        "UIGradient",
-                        {
-                            Color = ColorSequence.new({
-                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-                                ColorSequenceKeypoint.new(1, Color3.fromRGB(240, 240, 240))
-                            }),
-                            Rotation = 90,
-                            Transparency = NumberSequence.new({
-                                NumberSequenceKeypoint.new(0, 0.98),
-                                NumberSequenceKeypoint.new(1, 0.95)
-                            })
-                        }
-                    ),
                     o,
                     n
                 }
             )
 
             -- Add hover effect for dropdown button
-            local pHoverMotor = c.SpringMotor(0.85, p, "BackgroundTransparency")
+            local pHoverMotor = c.SpringMotor(0.5, p, "BackgroundTransparency")
             c.AddSignal(p.MouseEnter, function()
-                pHoverMotor(0.75)
-                af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 180}):Play()
+                pHoverMotor(0.3)
+                if not l.Opened then
+                    af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 180}):Play()
+                end
             end)
             c.AddSignal(p.MouseLeave, function()
-                pHoverMotor(0.85)
+                pHoverMotor(0.5)
                 if not l.Opened then
                     af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 0}):Play()
                 end
@@ -3350,7 +3338,7 @@ local aa = {
                 {
                     Size = UDim2.new(1, -50, 0, 34),
                     Position = UDim2.fromOffset(5, 5),
-                    BackgroundTransparency = 0.85,
+                    BackgroundTransparency = 0.3,
                     PlaceholderText = "🔍 Search...",
                     Text = "",
                     TextColor3 = Color3.fromRGB(255, 255, 255),
@@ -3371,20 +3359,6 @@ local aa = {
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                             Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
-                        }
-                    ),
-                    e(
-                        "UIGradient",
-                        {
-                            Color = ColorSequence.new({
-                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-                                ColorSequenceKeypoint.new(1, Color3.fromRGB(240, 240, 240))
-                            }),
-                            Rotation = 90,
-                            Transparency = NumberSequence.new({
-                                NumberSequenceKeypoint.new(0, 0.97),
-                                NumberSequenceKeypoint.new(1, 0.94)
-                            })
                         }
                     )
                 }
@@ -3411,7 +3385,7 @@ local aa = {
                     Size = UDim2.fromOffset(34, 34),
                     Position = UDim2.new(1, -5, 0, 5),
                     AnchorPoint = Vector2.new(1, 0),
-                    BackgroundTransparency = 0.85,
+                    BackgroundTransparency = 0.4,
                     Text = "✕",
                     TextColor3 = Color3.fromRGB(255, 100, 100),
                     TextSize = 18,
@@ -3429,33 +3403,25 @@ local aa = {
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                             Thickness = 1.2
                         }
-                    ),
-                    e(
-                        "UIGradient",
-                        {
-                            Color = ColorSequence.new({
-                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 120, 120)),
-                                ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
-                            }),
-                            Rotation = 90,
-                            Transparency = NumberSequence.new({
-                                NumberSequenceKeypoint.new(0, 0.95),
-                                NumberSequenceKeypoint.new(1, 0.92)
-                            })
-                        }
                     )
                 }
             )
 
             -- Clear button hover effect
-            local clearHoverMotor = c.SpringMotor(0.85, clearButton, "BackgroundTransparency")
+            local clearHoverMotor = c.SpringMotor(0.4, clearButton, "BackgroundTransparency")
             c.AddSignal(clearButton.MouseEnter, function()
-                clearHoverMotor(0.65)
+                clearHoverMotor(0.2)
                 af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 90}):Play()
             end)
             c.AddSignal(clearButton.MouseLeave, function()
-                clearHoverMotor(0.85)
+                clearHoverMotor(0.4)
                 af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 0}):Play()
+            end)
+
+            -- Reset hover state when button is clicked
+            c.AddSignal(clearButton.MouseButton1Click, function()
+                clearButton.Rotation = 0
+                clearHoverMotor(0.4)
             end)
 
             -- Select All Button (เฉพาะ Multi-select) with modern design
@@ -3468,7 +3434,7 @@ local aa = {
                     {
                         Size = UDim2.new(1, -10, 0, 32),
                         Position = UDim2.fromOffset(5, 44),
-                        BackgroundTransparency = 0.85,
+                        BackgroundTransparency = 0.35,
                         Text = "✓ Select All",
                         TextColor3 = Color3.fromRGB(76, 194, 255),
                         TextSize = 13,
@@ -3485,31 +3451,17 @@ local aa = {
                                 Thickness = 1.2,
                                 ThemeTag = {Color = "Accent"}
                             }
-                        ),
-                        e(
-                            "UIGradient",
-                            {
-                                Color = ColorSequence.new({
-                                    ColorSequenceKeypoint.new(0, Color3.fromRGB(76, 194, 255)),
-                                    ColorSequenceKeypoint.new(1, Color3.fromRGB(56, 174, 235))
-                                }),
-                                Rotation = 90,
-                                Transparency = NumberSequence.new({
-                                    NumberSequenceKeypoint.new(0, 0.96),
-                                    NumberSequenceKeypoint.new(1, 0.93)
-                                })
-                            }
                         )
                     }
                 )
 
                 -- Select All button hover effect
-                local selectAllHoverMotor = c.SpringMotor(0.85, selectAllButton, "BackgroundTransparency")
+                local selectAllHoverMotor = c.SpringMotor(0.35, selectAllButton, "BackgroundTransparency")
                 c.AddSignal(selectAllButton.MouseEnter, function()
-                    selectAllHoverMotor(0.7)
+                    selectAllHoverMotor(0.2)
                 end)
                 c.AddSignal(selectAllButton.MouseLeave, function()
-                    selectAllHoverMotor(0.85)
+                    selectAllHoverMotor(0.35)
                 end)
             end
 
@@ -3527,13 +3479,13 @@ local aa = {
                     BottomImage = "rbxassetid://6889812791",
                     MidImage = "rbxassetid://6889812721",
                     TopImage = "rbxassetid://6276641225",
-                    ScrollBarImageColor3 = Color3.fromRGB(76, 194, 255),
-                    ScrollBarImageTransparency = 0.8,
+                    ScrollBarImageTransparency = 0.6,
                     ScrollBarThickness = 5,
                     BorderSizePixel = 0,
                     CanvasSize = UDim2.fromScale(0, 0),
                     ScrollingDirection = Enum.ScrollingDirection.Y,
-                    ElasticBehavior = Enum.ElasticBehavior.WhenScrollable
+                    ElasticBehavior = Enum.ElasticBehavior.WhenScrollable,
+                    ThemeTag = {ScrollBarImageColor3 = "Accent"}
                 },
                 {s}
             )
@@ -3577,7 +3529,7 @@ local aa = {
                 "Frame",
                 {
                     Size = UDim2.fromScale(1, 0.5),
-                    BackgroundTransparency = 0.05,
+                    BackgroundTransparency = 0.15,
                     ThemeTag = {BackgroundColor3 = "DropdownHolder"}
                 },
                 uChildren
@@ -3679,22 +3631,26 @@ local aa = {
                 end
             )
 
-            -- Search functionality with debounce for better performance
+            -- Performance: Debounce search to reduce lag
+            local searchDebounce = nil
+
+            -- Search functionality with optimized debounce for better performance
             c.AddSignal(
                 searchBox:GetPropertyChangedSignal("Text"),
                 function()
                     if searchDebounce then
-                        searchDebounce:Disconnect()
+                        task.cancel(searchDebounce)
                     end
 
-                    searchDebounce = game:GetService("RunService").Heartbeat:Connect(function()
-                        if searchDebounce then
-                            searchDebounce:Disconnect()
-                            searchDebounce = nil
-                        end
+                    local currentText = searchBox.Text:lower()
 
-                        l.SearchText = searchBox.Text:lower()
-                        l:BuildDropdownList()
+                    -- Use task.delay for better performance (150ms debounce)
+                    searchDebounce = task.delay(0.15, function()
+                        if searchBox.Text:lower() == currentText then
+                            l.SearchText = currentText
+                            l:BuildDropdownList()
+                        end
+                        searchDebounce = nil
                     end)
                 end
             )
@@ -3744,10 +3700,6 @@ local aa = {
                 )
             end
 
-            -- Performance: Debounce search to reduce lag
-            local searchDebounce = nil
-            local searchDelay = 0.15 -- 150ms delay
-
             -- Parse color code from text
             local function parseColorCode(text)
                 -- ตรวจสอบว่า text เป็น string หรือไม่
@@ -3783,7 +3735,7 @@ local aa = {
                 af:Create(
                     u,
                     TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-                    {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.05}
+                    {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.15}
                 ):Play()
             end
 
@@ -3849,12 +3801,17 @@ local aa = {
             end
             function l.BuildDropdownList(B)
                 local C, D = l.Values, {}
+
+                -- Performance optimization: Batch destroy operations
                 for E, F in next, t:GetChildren() do
                     if not F:IsA "UIListLayout" then
                         F:Destroy()
                     end
                 end
+
+                l.Buttons = {}
                 local G = 0
+
                 for H, I in next, C do
                     -- Parse color and clean text
                     local customColor, cleanText = parseColorCode(I)
