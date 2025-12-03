@@ -3260,19 +3260,20 @@ local aa = {
                     {
                         FontFace = Font.new(
                             "rbxasset://fonts/families/GothamSSm.json",
-                            Enum.FontWeight.Regular,
+                            Enum.FontWeight.Medium,
                             Enum.FontStyle.Normal
                         ),
                         Text = "Value",
-                        TextColor3 = Color3.fromRGB(240, 240, 240),
+                        TextColor3 = Color3.fromRGB(255, 255, 255),
                         TextSize = 13,
                         TextXAlignment = Enum.TextXAlignment.Left,
                         Size = UDim2.new(1, -30, 0, 14),
-                        Position = UDim2.new(0, 8, 0.5, 0),
+                        Position = UDim2.new(0, 10, 0.5, 0),
                         AnchorPoint = Vector2.new(0, 0.5),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         BackgroundTransparency = 1,
                         TextTruncate = Enum.TextTruncate.AtEnd,
+                        TextStrokeTransparency = 0.9,
                         ThemeTag = {TextColor3 = "Text"}
                     }
                 ),
@@ -3280,10 +3281,11 @@ local aa = {
                     "ImageLabel",
                     {
                         Image = "rbxassetid://10709790948",
-                        Size = UDim2.fromOffset(16, 16),
+                        Size = UDim2.fromOffset(18, 18),
                         AnchorPoint = Vector2.new(1, 0.5),
                         Position = UDim2.new(1, -8, 0.5, 0),
                         BackgroundTransparency = 1,
+                        ImageTransparency = 0.2,
                         ThemeTag = {ImageColor3 = "SubText"}
                     }
                 )
@@ -3291,21 +3293,36 @@ local aa = {
                 e(
                 "TextButton",
                 {
-                    Size = UDim2.fromOffset(160, 30),
+                    Size = UDim2.fromOffset(160, 32),
                     Position = UDim2.new(1, -10, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5),
-                    BackgroundTransparency = 0.9,
+                    BackgroundTransparency = 0.85,
                     Parent = m.Frame,
                     ThemeTag = {BackgroundColor3 = "DropdownFrame"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                    e("UICorner", {CornerRadius = UDim.new(0, 6)}),
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.5,
+                            Transparency = 0.4,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
+                        }
+                    ),
+                    e(
+                        "UIGradient",
+                        {
+                            Color = ColorSequence.new({
+                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                                ColorSequenceKeypoint.new(1, Color3.fromRGB(240, 240, 240))
+                            }),
+                            Rotation = 90,
+                            Transparency = NumberSequence.new({
+                                NumberSequenceKeypoint.new(0, 0.98),
+                                NumberSequenceKeypoint.new(1, 0.95)
+                            })
                         }
                     ),
                     o,
@@ -3313,66 +3330,135 @@ local aa = {
                 }
             )
 
-            -- Search Box
+            -- Add hover effect for dropdown button
+            local pHoverMotor = c.SpringMotor(0.85, p, "BackgroundTransparency")
+            c.AddSignal(p.MouseEnter, function()
+                pHoverMotor(0.75)
+                af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 180}):Play()
+            end)
+            c.AddSignal(p.MouseLeave, function()
+                pHoverMotor(0.85)
+                if not l.Opened then
+                    af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 0}):Play()
+                end
+            end)
+
+            -- Search Box with modern styling
             local searchBox =
                 e(
                 "TextBox",
                 {
-                    Size = UDim2.new(1, -50, 0, 30),
+                    Size = UDim2.new(1, -50, 0, 34),
                     Position = UDim2.fromOffset(5, 5),
-                    BackgroundTransparency = 0.9,
+                    BackgroundTransparency = 0.85,
                     PlaceholderText = "🔍 Search...",
                     Text = "",
-                    TextColor3 = Color3.fromRGB(240, 240, 240),
-                    PlaceholderColor3 = Color3.fromRGB(150, 150, 150),
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    PlaceholderColor3 = Color3.fromRGB(160, 160, 160),
                     TextSize = 13,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium),
+                    ClearTextOnFocus = false,
                     ThemeTag = {BackgroundColor3 = "Input", TextColor3 = "Text"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
-                    e("UIPadding", {PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8)}),
+                    e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                    e("UIPadding", {PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10)}),
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.5,
+                            Transparency = 0.4,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
+                        }
+                    ),
+                    e(
+                        "UIGradient",
+                        {
+                            Color = ColorSequence.new({
+                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                                ColorSequenceKeypoint.new(1, Color3.fromRGB(240, 240, 240))
+                            }),
+                            Rotation = 90,
+                            Transparency = NumberSequence.new({
+                                NumberSequenceKeypoint.new(0, 0.97),
+                                NumberSequenceKeypoint.new(1, 0.94)
+                            })
                         }
                     )
                 }
             )
 
-            -- Clear Button (X)
+            -- Search box focus effect
+            local searchStroke = searchBox:FindFirstChildOfClass("UIStroke")
+            c.AddSignal(searchBox.Focused, function()
+                if searchStroke then
+                    af:Create(searchStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Transparency = 0.1}):Play()
+                end
+            end)
+            c.AddSignal(searchBox.FocusLost, function()
+                if searchStroke then
+                    af:Create(searchStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Transparency = 0.4}):Play()
+                end
+            end)
+
+            -- Clear Button (X) with better styling
             local clearButton =
                 e(
                 "TextButton",
                 {
-                    Size = UDim2.fromOffset(30, 30),
-                    Position = UDim2.new(1, -10, 0, 5),
+                    Size = UDim2.fromOffset(34, 34),
+                    Position = UDim2.new(1, -5, 0, 5),
                     AnchorPoint = Vector2.new(1, 0),
-                    BackgroundTransparency = 0.9,
-                    Text = "❌",
-                    TextColor3 = Color3.fromRGB(255, 80, 80),
-                    TextSize = 16,
+                    BackgroundTransparency = 0.85,
+                    Text = "✕",
+                    TextColor3 = Color3.fromRGB(255, 100, 100),
+                    TextSize = 18,
                     Visible = false,
+                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold),
                     ThemeTag = {BackgroundColor3 = "DialogButton"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                    e("UICorner", {CornerRadius = UDim.new(0, 6)}),
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.5,
-                            Color = Color3.fromRGB(255, 80, 80),
-                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                            Transparency = 0.3,
+                            Color = Color3.fromRGB(255, 100, 100),
+                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                            Thickness = 1.2
+                        }
+                    ),
+                    e(
+                        "UIGradient",
+                        {
+                            Color = ColorSequence.new({
+                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 120, 120)),
+                                ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
+                            }),
+                            Rotation = 90,
+                            Transparency = NumberSequence.new({
+                                NumberSequenceKeypoint.new(0, 0.95),
+                                NumberSequenceKeypoint.new(1, 0.92)
+                            })
                         }
                     )
                 }
             )
 
-            -- Select All Button (เฉพาะ Multi-select)
+            -- Clear button hover effect
+            local clearHoverMotor = c.SpringMotor(0.85, clearButton, "BackgroundTransparency")
+            c.AddSignal(clearButton.MouseEnter, function()
+                clearHoverMotor(0.65)
+                af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 90}):Play()
+            end)
+            c.AddSignal(clearButton.MouseLeave, function()
+                clearHoverMotor(0.85)
+                af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 0}):Play()
+            end)
+
+            -- Select All Button (เฉพาะ Multi-select) with modern design
             local selectAllButton = nil
 
             if j.Multi then
@@ -3380,32 +3466,56 @@ local aa = {
                     e(
                     "TextButton",
                     {
-                        Size = UDim2.new(1, -10, 0, 28),
-                        Position = UDim2.fromOffset(5, 40),
-                        BackgroundTransparency = 0.9,
-                        Text = "✅ Select All",
+                        Size = UDim2.new(1, -10, 0, 32),
+                        Position = UDim2.fromOffset(5, 44),
+                        BackgroundTransparency = 0.85,
+                        Text = "✓ Select All",
                         TextColor3 = Color3.fromRGB(76, 194, 255),
                         TextSize = 13,
-                        FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium),
+                        FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.SemiBold),
                         ThemeTag = {BackgroundColor3 = "DialogButton"}
                     },
                     {
-                        e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                        e("UICorner", {CornerRadius = UDim.new(0, 6)}),
                         e(
                             "UIStroke",
                             {
-                                Transparency = 0.5,
+                                Transparency = 0.3,
                                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                                Thickness = 1.2,
                                 ThemeTag = {Color = "Accent"}
+                            }
+                        ),
+                        e(
+                            "UIGradient",
+                            {
+                                Color = ColorSequence.new({
+                                    ColorSequenceKeypoint.new(0, Color3.fromRGB(76, 194, 255)),
+                                    ColorSequenceKeypoint.new(1, Color3.fromRGB(56, 174, 235))
+                                }),
+                                Rotation = 90,
+                                Transparency = NumberSequence.new({
+                                    NumberSequenceKeypoint.new(0, 0.96),
+                                    NumberSequenceKeypoint.new(1, 0.93)
+                                })
                             }
                         )
                     }
                 )
+
+                -- Select All button hover effect
+                local selectAllHoverMotor = c.SpringMotor(0.85, selectAllButton, "BackgroundTransparency")
+                c.AddSignal(selectAllButton.MouseEnter, function()
+                    selectAllHoverMotor(0.7)
+                end)
+                c.AddSignal(selectAllButton.MouseLeave, function()
+                    selectAllHoverMotor(0.85)
+                end)
             end
 
-            local s = e("UIListLayout", {Padding = UDim.new(0, 3)})
-            local scrollYPos = j.Multi and 73 or 40
-            local scrollYSize = j.Multi and -78 or -45
+            local s = e("UIListLayout", {Padding = UDim.new(0, 4)})
+            local scrollYPos = j.Multi and 81 or 44
+            local scrollYSize = j.Multi and -86 or -49
 
             local t =
                 e(
@@ -3417,11 +3527,13 @@ local aa = {
                     BottomImage = "rbxassetid://6889812791",
                     MidImage = "rbxassetid://6889812721",
                     TopImage = "rbxassetid://6276641225",
-                    ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
-                    ScrollBarImageTransparency = 0.95,
-                    ScrollBarThickness = 4,
+                    ScrollBarImageColor3 = Color3.fromRGB(76, 194, 255),
+                    ScrollBarImageTransparency = 0.8,
+                    ScrollBarThickness = 5,
                     BorderSizePixel = 0,
-                    CanvasSize = UDim2.fromScale(0, 0)
+                    CanvasSize = UDim2.fromScale(0, 0),
+                    ScrollingDirection = Enum.ScrollingDirection.Y,
+                    ElasticBehavior = Enum.ElasticBehavior.WhenScrollable
                 },
                 {s}
             )
@@ -3430,8 +3542,16 @@ local aa = {
                 searchBox,
                 clearButton,
                 t,
-                e("UICorner", {CornerRadius = UDim.new(0, 7)}),
-                e("UIStroke", {ApplyStrokeMode = Enum.ApplyStrokeMode.Border, ThemeTag = {Color = "DropdownBorder"}}),
+                e("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                e(
+                    "UIStroke",
+                    {
+                        Thickness = 1.5,
+                        Transparency = 0.6,
+                        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                        ThemeTag = {Color = "DropdownBorder"}
+                    }
+                ),
                 e(
                     "ImageLabel",
                     {
@@ -3439,10 +3559,11 @@ local aa = {
                         Image = "http://www.roblox.com/asset/?id=5554236805",
                         ScaleType = Enum.ScaleType.Slice,
                         SliceCenter = Rect.new(23, 23, 277, 277),
-                        Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30),
-                        Position = UDim2.fromOffset(-15, -15),
+                        Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(40, 40),
+                        Position = UDim2.fromOffset(-20, -20),
                         ImageColor3 = Color3.fromRGB(0, 0, 0),
-                        ImageTransparency = 0.1
+                        ImageTransparency = 0.05,
+                        ZIndex = 0
                     }
                 )
             }
@@ -3454,7 +3575,11 @@ local aa = {
             local u =
                 e(
                 "Frame",
-                {Size = UDim2.fromScale(1, 0.5), ThemeTag = {BackgroundColor3 = "DropdownHolder"}},
+                {
+                    Size = UDim2.fromScale(1, 0.5),
+                    BackgroundTransparency = 0.05,
+                    ThemeTag = {BackgroundColor3 = "DropdownHolder"}
+                },
                 uChildren
             )
 
@@ -3508,8 +3633,8 @@ local aa = {
 
             local x = 170
             local y = function()
-                local maxHeight = 230
-                local contentHeight = s.AbsoluteContentSize.Y + (j.Multi and 83 or 50)
+                local maxHeight = 280
+                local contentHeight = s.AbsoluteContentSize.Y + (j.Multi and 91 or 54)
                 local finalHeight = math.min(contentHeight, maxHeight)
                 v.Size = UDim2.fromOffset(x, finalHeight)
             end
@@ -3650,10 +3775,15 @@ local aa = {
                 l.SearchText = ""
                 w()
                 y()
+
+                -- Smooth opening animation
+                u.Size = UDim2.fromScale(1, 0.3)
+                u.BackgroundTransparency = 1
+                af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 180}):Play()
                 af:Create(
                     u,
-                    TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
-                    {Size = UDim2.fromScale(1, 1)}
+                    TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                    {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.05}
                 ):Play()
             end
 
@@ -3664,11 +3794,13 @@ local aa = {
                 l.Opened = false
                 A.ScrollingEnabled = true
 
+                -- Smooth closing animation
+                af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 0}):Play()
                 local closeTween =
                     af:Create(
                     u,
-                    TweenInfo.new(0.15, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
-                    {Size = UDim2.fromScale(1, 0.5)}
+                    TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.In),
+                    {Size = UDim2.fromScale(1, 0.3), BackgroundTransparency = 1}
                 )
                 closeTween:Play()
                 closeTween.Completed:Connect(
@@ -3751,20 +3883,32 @@ local aa = {
                             e(
                                 "Frame",
                                 {
-                                    Size = UDim2.fromOffset(4, 14),
+                                    Size = UDim2.fromOffset(5, 16),
                                     BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-                                    Position = UDim2.fromOffset(-1, 16),
+                                    Position = UDim2.fromOffset(0, 17),
                                     AnchorPoint = Vector2.new(0, 0.5),
                                     ThemeTag = {BackgroundColor3 = "Accent"}
                                 },
-                                {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
+                                {
+                                    e("UICorner", {CornerRadius = UDim.new(0, 2.5)}),
+                                    e(
+                                        "UIGradient",
+                                        {
+                                            Color = ColorSequence.new({
+                                                ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 210, 255)),
+                                                ColorSequenceKeypoint.new(1, Color3.fromRGB(76, 194, 255))
+                                            }),
+                                            Rotation = 90
+                                        }
+                                    )
+                                }
                             ),
                             e(
                                 "TextLabel",
                                 {
                                     FontFace = Font.new(
                                         "rbxasset://fonts/families/GothamSSm.json",
-                                        Enum.FontWeight.Medium,  -- เปลี่ยนจาก Regular เป็น Medium เพื่อให้ข้อความเด่นขึ้น
+                                        Enum.FontWeight.SemiBold,
                                         Enum.FontStyle.Normal
                                     ),
                                     Text = cleanText,
@@ -3774,10 +3918,10 @@ local aa = {
                                     AutomaticSize = Enum.AutomaticSize.Y,
                                     BackgroundTransparency = 1,
                                     Size = UDim2.fromScale(1, 1),
-                                    Position = UDim2.fromOffset(10, 0),
+                                    Position = UDim2.fromOffset(12, 0),
                                     Name = "ButtonLabel",
-                                    TextColor3 = Color3.fromRGB(240, 240, 240),
-                                    TextStrokeTransparency = 0.8,  -- เพิ่ม text stroke เพื่อให้อ่านง่ายขึ้น
+                                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                                    TextStrokeTransparency = 0.85,
                                     TextStrokeColor3 = Color3.fromRGB(0, 0, 0),
                                     ThemeTag = {TextColor3 = "Text"}
                                 }
@@ -3786,7 +3930,7 @@ local aa = {
                             (e(
                             "TextButton",
                             {
-                                Size = UDim2.new(1, -10, 0, 32),
+                                Size = UDim2.new(1, -10, 0, 34),
                                 BackgroundColor3 = bgColor,
                                 BackgroundTransparency = bgTransparency,
                                 ZIndex = 23,
@@ -3797,11 +3941,12 @@ local aa = {
                             {
                                 K,
                                 L,
-                                e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                                e("UICorner", {CornerRadius = UDim.new(0, 7)}),
                                 e(
                                     "UIStroke",
                                     {
-                                        Transparency = 0.7,
+                                        Transparency = 0.6,
+                                        Thickness = 1.2,
                                         ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                                         ThemeTag = {Color = "InElementBorder"}
                                     }
@@ -3824,7 +3969,7 @@ local aa = {
                         local S = d.SingleMotor.new(6)
                         S:onStep(
                             function(T)
-                                K.Size = UDim2.new(0, 4, 0, T)
+                                K.Size = UDim2.new(0, 5, 0, T)
                             end
                         )
                         c.AddSignal(
@@ -3861,7 +4006,7 @@ local aa = {
                                 N = l.Value == I
                                 P(N and selectedTransparency or defaultTransparency)
                             end
-                            S:setGoal(d.Spring.new(N and 14 or 6, {frequency = 6}))
+                            S:setGoal(d.Spring.new(N and 16 or 6, {frequency = 7, dampingRatio = 0.8}))
                             R(N and 0 or 1)
                         end
                         L.InputBegan:Connect(
