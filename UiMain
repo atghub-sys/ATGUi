@@ -1897,6 +1897,8 @@ local aa = {
         local h, i = game:GetService "TextService", d.Parent.Parent
         local j, k = e(i.Packages.Flipper), e(i.Creator)
         local l = k.New
+        local tweenService = game:GetService("TweenService")
+
         return function(m, n)
             n = n or false
             local o = {}
@@ -1904,8 +1906,12 @@ local aa = {
                 l(
                 "TextBox",
                 {
-                    FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                    TextColor3 = Color3.fromRGB(200, 200, 200),
+                    FontFace = Font.new(
+                        "rbxasset://fonts/families/GothamSSm.json",
+                        Enum.FontWeight.Medium,
+                        Enum.FontStyle.Normal
+                    ),
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
                     TextSize = 14,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     TextYAlignment = Enum.TextYAlignment.Center,
@@ -1913,7 +1919,8 @@ local aa = {
                     AutomaticSize = Enum.AutomaticSize.Y,
                     BackgroundTransparency = 1,
                     Size = UDim2.fromScale(1, 1),
-                    Position = UDim2.fromOffset(10, 0),
+                    Position = UDim2.fromOffset(12, 0),
+                    ClearTextOnFocus = false,
                     ThemeTag = {TextColor3 = "Text", PlaceholderColor3 = "SubText"}
                 }
             )
@@ -1923,8 +1930,8 @@ local aa = {
                 {
                     BackgroundTransparency = 1,
                     ClipsDescendants = true,
-                    Position = UDim2.new(0, 6, 0, 0),
-                    Size = UDim2.new(1, -12, 1, 0)
+                    Position = UDim2.new(0, 8, 0, 0),
+                    Size = UDim2.new(1, -16, 1, 0)
                 },
                 {o.Input}
             )
@@ -1932,32 +1939,49 @@ local aa = {
                 l(
                 "Frame",
                 {
-                    Size = UDim2.new(1, -4, 0, 1),
-                    Position = UDim2.new(0, 2, 1, 0),
+                    Size = UDim2.new(1, -6, 0, 2),
+                    Position = UDim2.new(0, 3, 1, -1),
                     AnchorPoint = Vector2.new(0, 1),
-                    BackgroundTransparency = n and 0.5 or 0,
+                    BackgroundTransparency = n and 0.7 or 0,
                     ThemeTag = {BackgroundColor3 = n and "InputIndicator" or "DialogInputLine"}
+                },
+                {
+                    l("UICorner", {CornerRadius = UDim.new(1, 0)}),
+                    l(
+                        "UIGradient",
+                        {
+                            Color = ColorSequence.new({
+                                ColorSequenceKeypoint.new(0, Color3.fromRGB(76, 194, 255)),
+                                ColorSequenceKeypoint.new(0.5, Color3.fromRGB(100, 210, 255)),
+                                ColorSequenceKeypoint.new(1, Color3.fromRGB(76, 194, 255))
+                            })
+                        }
+                    )
                 }
             )
+
+            local frameStroke = l(
+                "UIStroke",
+                {
+                    ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                    Thickness = 1.2,
+                    Transparency = n and 0.5 or 0.65,
+                    ThemeTag = {Color = n and "InElementBorder" or "DialogButtonBorder"}
+                }
+            )
+
             o.Frame =
                 l(
                 "Frame",
                 {
-                    Size = UDim2.new(0, 0, 0, 30),
-                    BackgroundTransparency = n and 0.9 or 0,
+                    Size = UDim2.new(0, 0, 0, 36),
+                    BackgroundTransparency = n and 0.92 or 0,
                     Parent = m,
                     ThemeTag = {BackgroundColor3 = n and "Input" or "DialogInput"}
                 },
                 {
-                    l("UICorner", {CornerRadius = UDim.new(0, 4)}),
-                    l(
-                        "UIStroke",
-                        {
-                            ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                            Transparency = n and 0.5 or 0.65,
-                            ThemeTag = {Color = n and "InElementBorder" or "DialogButtonBorder"}
-                        }
-                    ),
+                    l("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                    frameStroke,
                     o.Indicator,
                     o.Container
                 }
@@ -1987,9 +2011,31 @@ local aa = {
                 o.Input.Focused,
                 function()
                     p()
-                    o.Indicator.Size = UDim2.new(1, -2, 0, 2)
-                    o.Indicator.Position = UDim2.new(0, 1, 1, 0)
-                    o.Indicator.BackgroundTransparency = 0
+                    -- Smooth indicator animation
+                    tweenService:Create(
+                        o.Indicator,
+                        TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                        {
+                            Size = UDim2.new(1, -4, 0, 3),
+                            Position = UDim2.new(0, 2, 1, -1),
+                            BackgroundTransparency = 0
+                        }
+                    ):Play()
+
+                    -- Stroke animation
+                    tweenService:Create(
+                        frameStroke,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Transparency = 0.2, Thickness = 1.5}
+                    ):Play()
+
+                    -- Background glow
+                    tweenService:Create(
+                        o.Frame,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {BackgroundTransparency = n and 0.88 or 0}
+                    ):Play()
+
                     k.OverrideTag(o.Frame, {BackgroundColor3 = n and "InputFocused" or "DialogHolder"})
                     k.OverrideTag(o.Indicator, {BackgroundColor3 = "Accent"})
                 end
@@ -1998,9 +2044,31 @@ local aa = {
                 o.Input.FocusLost,
                 function()
                     p()
-                    o.Indicator.Size = UDim2.new(1, -4, 0, 1)
-                    o.Indicator.Position = UDim2.new(0, 2, 1, 0)
-                    o.Indicator.BackgroundTransparency = 0.5
+                    -- Smooth indicator return
+                    tweenService:Create(
+                        o.Indicator,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {
+                            Size = UDim2.new(1, -6, 0, 2),
+                            Position = UDim2.new(0, 3, 1, -1),
+                            BackgroundTransparency = n and 0.7 or 0
+                        }
+                    ):Play()
+
+                    -- Stroke return
+                    tweenService:Create(
+                        frameStroke,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Transparency = n and 0.5 or 0.65, Thickness = 1.2}
+                    ):Play()
+
+                    -- Background return
+                    tweenService:Create(
+                        o.Frame,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {BackgroundTransparency = n and 0.92 or 0}
+                    ):Play()
+
                     k.OverrideTag(o.Frame, {BackgroundColor3 = n and "Input" or "DialogInput"})
                     k.OverrideTag(o.Indicator, {BackgroundColor3 = n and "InputIndicator" or "DialogInputLine"})
                 end
