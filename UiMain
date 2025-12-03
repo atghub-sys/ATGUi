@@ -3296,7 +3296,7 @@ local aa = {
                     Size = UDim2.fromOffset(160, 32),
                     Position = UDim2.new(1, -10, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5),
-                    BackgroundTransparency = 0.5,
+                    BackgroundTransparency = 0,
                     Parent = m.Frame,
                     ThemeTag = {BackgroundColor3 = "DropdownFrame"}
                 },
@@ -3305,7 +3305,7 @@ local aa = {
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.4,
+                            Transparency = 0,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                             Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
@@ -3317,15 +3317,12 @@ local aa = {
             )
 
             -- Add hover effect for dropdown button
-            local pHoverMotor = c.SpringMotor(0.5, p, "BackgroundTransparency")
             c.AddSignal(p.MouseEnter, function()
-                pHoverMotor(0.3)
                 if not l.Opened then
                     af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 180}):Play()
                 end
             end)
             c.AddSignal(p.MouseLeave, function()
-                pHoverMotor(0.5)
                 if not l.Opened then
                     af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 0}):Play()
                 end
@@ -3338,7 +3335,7 @@ local aa = {
                 {
                     Size = UDim2.new(1, -50, 0, 34),
                     Position = UDim2.fromOffset(5, 5),
-                    BackgroundTransparency = 0.3,
+                    BackgroundTransparency = 0,
                     PlaceholderText = "🔍 Search...",
                     Text = "",
                     TextColor3 = Color3.fromRGB(255, 255, 255),
@@ -3355,7 +3352,7 @@ local aa = {
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.4,
+                            Transparency = 0,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                             Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
@@ -3363,19 +3360,6 @@ local aa = {
                     )
                 }
             )
-
-            -- Search box focus effect
-            local searchStroke = searchBox:FindFirstChildOfClass("UIStroke")
-            c.AddSignal(searchBox.Focused, function()
-                if searchStroke then
-                    af:Create(searchStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Transparency = 0.1}):Play()
-                end
-            end)
-            c.AddSignal(searchBox.FocusLost, function()
-                if searchStroke then
-                    af:Create(searchStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Transparency = 0.4}):Play()
-                end
-            end)
 
             -- Clear Button (X) with better styling
             local clearButton =
@@ -3385,7 +3369,7 @@ local aa = {
                     Size = UDim2.fromOffset(34, 34),
                     Position = UDim2.new(1, -5, 0, 5),
                     AnchorPoint = Vector2.new(1, 0),
-                    BackgroundTransparency = 0.4,
+                    BackgroundTransparency = 0,
                     Text = "✕",
                     TextColor3 = Color3.fromRGB(255, 100, 100),
                     TextSize = 18,
@@ -3398,7 +3382,7 @@ local aa = {
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.3,
+                            Transparency = 0,
                             Color = Color3.fromRGB(255, 100, 100),
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                             Thickness = 1.2
@@ -3408,20 +3392,16 @@ local aa = {
             )
 
             -- Clear button hover effect
-            local clearHoverMotor = c.SpringMotor(0.4, clearButton, "BackgroundTransparency")
             c.AddSignal(clearButton.MouseEnter, function()
-                clearHoverMotor(0.2)
                 af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 90}):Play()
             end)
             c.AddSignal(clearButton.MouseLeave, function()
-                clearHoverMotor(0.4)
                 af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 0}):Play()
             end)
 
             -- Reset hover state when button is clicked
             c.AddSignal(clearButton.MouseButton1Click, function()
                 clearButton.Rotation = 0
-                clearHoverMotor(0.4)
             end)
 
             -- Select All Button (เฉพาะ Multi-select) with modern design
@@ -3434,7 +3414,7 @@ local aa = {
                     {
                         Size = UDim2.new(1, -10, 0, 32),
                         Position = UDim2.fromOffset(5, 44),
-                        BackgroundTransparency = 0.35,
+                        BackgroundTransparency = 0,
                         Text = "✓ Select All",
                         TextColor3 = Color3.fromRGB(76, 194, 255),
                         TextSize = 13,
@@ -3446,7 +3426,7 @@ local aa = {
                         e(
                             "UIStroke",
                             {
-                                Transparency = 0.3,
+                                Transparency = 0,
                                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                                 Thickness = 1.2,
                                 ThemeTag = {Color = "Accent"}
@@ -3454,15 +3434,6 @@ local aa = {
                         )
                     }
                 )
-
-                -- Select All button hover effect
-                local selectAllHoverMotor = c.SpringMotor(0.35, selectAllButton, "BackgroundTransparency")
-                c.AddSignal(selectAllButton.MouseEnter, function()
-                    selectAllHoverMotor(0.2)
-                end)
-                c.AddSignal(selectAllButton.MouseLeave, function()
-                    selectAllHoverMotor(0.35)
-                end)
             end
 
             local s = e("UIListLayout", {Padding = UDim.new(0, 4)})
@@ -3529,7 +3500,7 @@ local aa = {
                 "Frame",
                 {
                     Size = UDim2.fromScale(1, 0.5),
-                    BackgroundTransparency = 0.15,
+                    BackgroundTransparency = 0,
                     ThemeTag = {BackgroundColor3 = "DropdownHolder"}
                 },
                 uChildren
@@ -3735,7 +3706,7 @@ local aa = {
                 af:Create(
                     u,
                     TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
-                    {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0.15}
+                    {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 0}
                 ):Play()
             end
 
