@@ -811,7 +811,7 @@ local aa = {
                 k(
                 "Frame",
                 {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, ThemeTag = {BackgroundColor3 = "Hover"}},
-                {k("UICorner", {CornerRadius = UDim.new(0, 4)})}
+                {k("UICorner", {CornerRadius = UDim.new(0, 8)})}
             )
             p.Frame =
                 k(
