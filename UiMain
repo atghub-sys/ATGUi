@@ -3428,13 +3428,14 @@ local aa = {
                 e(
                 "TextButton",
                 {
-                    Size = UDim2.fromOffset(34, 34),
-                    Position = UDim2.new(1, -5, 0, 5),
-                    AnchorPoint = Vector2.new(1, 0),
-                    BackgroundTransparency = 0.9,
+                    Size = UDim2.fromOffset(0, 0),
+                    Position = UDim2.new(1, -22, 0, 22),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    BackgroundTransparency = 1,
                     Text = "❌",
                     TextColor3 = Color3.fromRGB(255, 80, 80),
                     TextSize = 16,
+                    TextTransparency = 1,
                     Visible = false,
                     ThemeTag = {BackgroundColor3 = "DialogButton"}
                 },
@@ -3443,7 +3444,7 @@ local aa = {
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0.5,
+                            Transparency = 1,
                             Color = Color3.fromRGB(255, 80, 80),
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                         }
@@ -3681,10 +3682,53 @@ local aa = {
                 end
             )
 
-            -- Clear button functionality
+            -- Clear button functionality with hover effects
+            local clearBgTransparency = c.SpringMotor(0.9, clearButton, "BackgroundTransparency")
+
+            c.AddSignal(
+                clearButton.MouseEnter,
+                function()
+                    clearBgTransparency(0.8)
+                    -- Scale up slightly on hover
+                    af:Create(
+                        clearButton,
+                        TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Size = UDim2.fromOffset(38, 38)}
+                    ):Play()
+                end
+            )
+
+            c.AddSignal(
+                clearButton.MouseLeave,
+                function()
+                    clearBgTransparency(0.9)
+                    -- Scale back to normal
+                    af:Create(
+                        clearButton,
+                        TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Size = UDim2.fromOffset(34, 34)}
+                    ):Play()
+                end
+            )
+
             c.AddSignal(
                 clearButton.MouseButton1Click,
                 function()
+                    -- Bounce animation on click
+                    local bounceSequence = af:Create(
+                        clearButton,
+                        TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Size = UDim2.fromOffset(30, 30)}
+                    )
+                    bounceSequence:Play()
+                    bounceSequence.Completed:Connect(function()
+                        af:Create(
+                            clearButton,
+                            TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                            {Size = UDim2.fromOffset(34, 34)}
+                        ):Play()
+                    end)
+
                     if j.Multi then
                         l.Value = {}
                     else
@@ -3745,6 +3789,67 @@ local aa = {
             -- Performance: Debounce search to reduce lag
             local searchDebounce = nil
             local searchDelay = 0.15 -- 150ms delay
+
+            -- Clear button animation helper
+            local clearButtonStroke = clearButton:FindFirstChildOfClass("UIStroke")
+            local isClearButtonVisible = false
+
+            local function showClearButton()
+                if isClearButtonVisible then return end
+                isClearButtonVisible = true
+                clearButton.Visible = true
+
+                -- Animate size, transparency, and rotation
+                af:Create(
+                    clearButton,
+                    TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                    {
+                        Size = UDim2.fromOffset(34, 34),
+                        BackgroundTransparency = 0.9,
+                        TextTransparency = 0,
+                        Rotation = 0
+                    }
+                ):Play()
+
+                if clearButtonStroke then
+                    af:Create(
+                        clearButtonStroke,
+                        TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Transparency = 0.5}
+                    ):Play()
+                end
+            end
+
+            local function hideClearButton()
+                if not isClearButtonVisible then return end
+                isClearButtonVisible = false
+
+                -- Animate out with rotation
+                local hideTween = af:Create(
+                    clearButton,
+                    TweenInfo.new(0.25, Enum.EasingStyle.Back, Enum.EasingDirection.In),
+                    {
+                        Size = UDim2.fromOffset(0, 0),
+                        BackgroundTransparency = 1,
+                        TextTransparency = 1,
+                        Rotation = 90
+                    }
+                )
+
+                if clearButtonStroke then
+                    af:Create(
+                        clearButtonStroke,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+                        {Transparency = 1}
+                    ):Play()
+                end
+
+                hideTween:Play()
+                hideTween.Completed:Connect(function()
+                    clearButton.Visible = false
+                    clearButton.Rotation = -90
+                end)
+            end
 
             -- Parse color code from text
             local function parseColorCode(text)
@@ -3834,7 +3939,13 @@ local aa = {
                     hasSelection = l.Value ~= nil and l.Value ~= ""
                 end
                 n.Text = (D == "" and "--" or D)
-                clearButton.Visible = hasSelection
+
+                -- Animate clear button visibility
+                if hasSelection then
+                    showClearButton()
+                else
+                    hideClearButton()
+                end
             end
             function l.GetActiveValues(B)
                 if j.Multi then
