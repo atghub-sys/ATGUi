@@ -3395,8 +3395,22 @@ local aa = {
                 "UIStroke",
                 {
                     Transparency = 0.5,
+                    Thickness = 1.2,
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                     ThemeTag = {Color = "InElementBorder"}
+                }
+            )
+
+            -- Search icon
+            local searchIcon = e(
+                "ImageLabel",
+                {
+                    Image = "rbxassetid://10734896812",
+                    Size = UDim2.fromOffset(18, 18),
+                    Position = UDim2.fromOffset(10, 8),
+                    BackgroundTransparency = 1,
+                    ImageTransparency = 0.3,
+                    ThemeTag = {ImageColor3 = "SubText"}
                 }
             )
 
@@ -3406,20 +3420,46 @@ local aa = {
                 {
                     Size = UDim2.new(1, -50, 0, 34),
                     Position = UDim2.fromOffset(5, 5),
-                    BackgroundTransparency = 0.9,
-                    PlaceholderText = "🔍 Search...",
+                    BackgroundTransparency = 0.92,
+                    PlaceholderText = "Type to search...",
                     Text = "",
-                    TextColor3 = Color3.fromRGB(240, 240, 240),
-                    PlaceholderColor3 = Color3.fromRGB(150, 150, 150),
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
+                    PlaceholderColor3 = Color3.fromRGB(160, 160, 160),
                     TextSize = 13,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+                    FontFace = Font.new(
+                        "rbxasset://fonts/families/GothamSSm.json",
+                        Enum.FontWeight.Medium,
+                        Enum.FontStyle.Normal
+                    ),
+                    ClearTextOnFocus = false,
                     ThemeTag = {BackgroundColor3 = "Input", TextColor3 = "Text"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 8)}),
-                    e("UIPadding", {PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8)}),
-                    searchBoxStroke
+                    e("UICorner", {CornerRadius = UDim.new(0, 9)}),
+                    e("UIPadding", {
+                        PaddingLeft = UDim.new(0, 36),
+                        PaddingRight = UDim.new(0, 8),
+                        PaddingTop = UDim.new(0, 2),
+                        PaddingBottom = UDim.new(0, 2)
+                    }),
+                    searchBoxStroke,
+                    searchIcon,
+                    e(
+                        "UIGradient",
+                        {
+                            Enabled = false,
+                            Color = ColorSequence.new({
+                                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                                ColorSequenceKeypoint.new(1, Color3.fromRGB(240, 240, 240))
+                            }),
+                            Rotation = 90,
+                            Transparency = NumberSequence.new({
+                                NumberSequenceKeypoint.new(0, 0.92),
+                                NumberSequenceKeypoint.new(1, 0.95)
+                            })
+                        }
+                    )
                 }
             )
 
@@ -3647,18 +3687,56 @@ local aa = {
                 end
             )
 
-            -- Search box focus animation
+            -- Search box focus animation with icon pulse
             c.AddSignal(
                 searchBox.Focused,
                 function()
-                    af:Create(searchBoxStroke, TweenInfo.new(0.2), {Transparency = 0.2}):Play()
+                    -- Animate stroke
+                    af:Create(
+                        searchBoxStroke,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Transparency = 0.15, Thickness = 1.5}
+                    ):Play()
+
+                    -- Animate search icon - pulse and brighten
+                    af:Create(
+                        searchIcon,
+                        TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.Out),
+                        {Size = UDim2.fromOffset(20, 20), ImageTransparency = 0.1}
+                    ):Play()
+
+                    -- Subtle background glow
+                    af:Create(
+                        searchBox,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {BackgroundTransparency = 0.88}
+                    ):Play()
                 end
             )
 
             c.AddSignal(
                 searchBox.FocusLost,
                 function()
-                    af:Create(searchBoxStroke, TweenInfo.new(0.2), {Transparency = 0.5}):Play()
+                    -- Revert stroke
+                    af:Create(
+                        searchBoxStroke,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Transparency = 0.5, Thickness = 1.2}
+                    ):Play()
+
+                    -- Revert search icon
+                    af:Create(
+                        searchIcon,
+                        TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {Size = UDim2.fromOffset(18, 18), ImageTransparency = 0.3}
+                    ):Play()
+
+                    -- Revert background
+                    af:Create(
+                        searchBox,
+                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                        {BackgroundTransparency = 0.92}
+                    ):Play()
                 end
             )
 
@@ -3666,6 +3744,23 @@ local aa = {
             c.AddSignal(
                 searchBox:GetPropertyChangedSignal("Text"),
                 function()
+                    -- Icon animation when typing
+                    if searchBox.Text ~= "" then
+                        -- Spin icon slightly when searching
+                        af:Create(
+                            searchIcon,
+                            TweenInfo.new(0.15, Enum.EasingStyle.Linear),
+                            {Rotation = 15}
+                        ):Play()
+                        task.delay(0.15, function()
+                            af:Create(
+                                searchIcon,
+                                TweenInfo.new(0.15, Enum.EasingStyle.Linear),
+                                {Rotation = 0}
+                            ):Play()
+                        end)
+                    end
+
                     if searchDebounce then
                         searchDebounce:Disconnect()
                     end
