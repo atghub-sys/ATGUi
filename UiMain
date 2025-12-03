@@ -3260,20 +3260,19 @@ local aa = {
                     {
                         FontFace = Font.new(
                             "rbxasset://fonts/families/GothamSSm.json",
-                            Enum.FontWeight.Medium,
+                            Enum.FontWeight.Regular,
                             Enum.FontStyle.Normal
                         ),
                         Text = "Value",
-                        TextColor3 = Color3.fromRGB(255, 255, 255),
+                        TextColor3 = Color3.fromRGB(240, 240, 240),
                         TextSize = 13,
                         TextXAlignment = Enum.TextXAlignment.Left,
                         Size = UDim2.new(1, -30, 0, 14),
-                        Position = UDim2.new(0, 10, 0.5, 0),
+                        Position = UDim2.new(0, 8, 0.5, 0),
                         AnchorPoint = Vector2.new(0, 0.5),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         BackgroundTransparency = 1,
                         TextTruncate = Enum.TextTruncate.AtEnd,
-                        TextStrokeTransparency = 0.9,
                         ThemeTag = {TextColor3 = "Text"}
                     }
                 ),
@@ -3281,11 +3280,10 @@ local aa = {
                     "ImageLabel",
                     {
                         Image = "rbxassetid://10709790948",
-                        Size = UDim2.fromOffset(18, 18),
+                        Size = UDim2.fromOffset(16, 16),
                         AnchorPoint = Vector2.new(1, 0.5),
                         Position = UDim2.new(1, -8, 0.5, 0),
                         BackgroundTransparency = 1,
-                        ImageTransparency = 0.2,
                         ThemeTag = {ImageColor3 = "SubText"}
                     }
                 )
@@ -3293,21 +3291,20 @@ local aa = {
                 e(
                 "TextButton",
                 {
-                    Size = UDim2.fromOffset(160, 32),
+                    Size = UDim2.fromOffset(160, 30),
                     Position = UDim2.new(1, -10, 0.5, 0),
                     AnchorPoint = Vector2.new(1, 0.5),
-                    BackgroundTransparency = 0,
+                    BackgroundTransparency = 0.9,
                     Parent = m.Frame,
                     ThemeTag = {BackgroundColor3 = "DropdownFrame"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0,
+                            Transparency = 0.5,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                            Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
                         }
                     ),
@@ -3316,95 +3313,66 @@ local aa = {
                 }
             )
 
-            -- Add hover effect for dropdown button
-            c.AddSignal(p.MouseEnter, function()
-                if not l.Opened then
-                    af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 180}):Play()
-                end
-            end)
-            c.AddSignal(p.MouseLeave, function()
-                if not l.Opened then
-                    af:Create(o, TweenInfo.new(0.2, Enum.EasingStyle.Quart), {Rotation = 0}):Play()
-                end
-            end)
-
-            -- Search Box with modern styling
+            -- Search Box
             local searchBox =
                 e(
                 "TextBox",
                 {
-                    Size = UDim2.new(1, -50, 0, 34),
+                    Size = UDim2.new(1, -50, 0, 30),
                     Position = UDim2.fromOffset(5, 5),
-                    BackgroundTransparency = 0,
+                    BackgroundTransparency = 0.9,
                     PlaceholderText = "🔍 Search...",
                     Text = "",
-                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                    PlaceholderColor3 = Color3.fromRGB(160, 160, 160),
-                    TextSize = 13,
+                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                    PlaceholderColor3 = Color3.fromRGB(178, 178, 178),
+                    TextSize = 12,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium),
                     ClearTextOnFocus = false,
-                    ThemeTag = {BackgroundColor3 = "Input", TextColor3 = "Text"}
+                    ThemeTag = {BackgroundColor3 = "Input"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 6)}),
-                    e("UIPadding", {PaddingLeft = UDim.new(0, 10), PaddingRight = UDim.new(0, 10)}),
+                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
+                    e("UIPadding", {PaddingLeft = UDim.new(0, 8)}),
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0,
+                            Transparency = 0.5,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                            Thickness = 1.2,
                             ThemeTag = {Color = "InElementBorder"}
                         }
                     )
                 }
             )
 
-            -- Clear Button (X) with better styling
+            -- Clear Button (X)
             local clearButton =
                 e(
                 "TextButton",
                 {
-                    Size = UDim2.fromOffset(34, 34),
+                    Size = UDim2.fromOffset(30, 30),
                     Position = UDim2.new(1, -5, 0, 5),
                     AnchorPoint = Vector2.new(1, 0),
-                    BackgroundTransparency = 0,
-                    Text = "✕",
-                    TextColor3 = Color3.fromRGB(255, 100, 100),
-                    TextSize = 18,
+                    BackgroundTransparency = 0.9,
+                    Text = "❌",
+                    TextColor3 = Color3.fromRGB(204, 204, 204),
+                    TextSize = 16,
                     Visible = false,
-                    FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold),
                     ThemeTag = {BackgroundColor3 = "DialogButton"}
                 },
                 {
-                    e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                    e("UICorner", {CornerRadius = UDim.new(0, 5)}),
                     e(
                         "UIStroke",
                         {
-                            Transparency = 0,
-                            Color = Color3.fromRGB(255, 100, 100),
+                            Transparency = 0.5,
                             ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                            Thickness = 1.2
+                            ThemeTag = {Color = "InElementBorder"}
                         }
                     )
                 }
             )
 
-            -- Clear button hover effect
-            c.AddSignal(clearButton.MouseEnter, function()
-                af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 90}):Play()
-            end)
-            c.AddSignal(clearButton.MouseLeave, function()
-                af:Create(clearButton, TweenInfo.new(0.15, Enum.EasingStyle.Quad), {Rotation = 0}):Play()
-            end)
-
-            -- Reset hover state when button is clicked
-            c.AddSignal(clearButton.MouseButton1Click, function()
-                clearButton.Rotation = 0
-            end)
-
-            -- Select All Button (เฉพาะ Multi-select) with modern design
+            -- Select All Button (เฉพาะ Multi-select)
             local selectAllButton = nil
 
             if j.Multi then
@@ -3412,24 +3380,22 @@ local aa = {
                     e(
                     "TextButton",
                     {
-                        Size = UDim2.new(1, -10, 0, 32),
-                        Position = UDim2.fromOffset(5, 44),
-                        BackgroundTransparency = 0,
-                        Text = "✓ Select All",
-                        TextColor3 = Color3.fromRGB(76, 194, 255),
-                        TextSize = 13,
-                        FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.SemiBold),
+                        Size = UDim2.new(1, -10, 0, 28),
+                        Position = UDim2.fromOffset(5, 40),
+                        BackgroundTransparency = 0.9,
+                        Text = "✅ Select All",
+                        TextColor3 = Color3.fromRGB(204, 204, 204),
+                        TextSize = 12,
                         ThemeTag = {BackgroundColor3 = "DialogButton"}
                     },
                     {
-                        e("UICorner", {CornerRadius = UDim.new(0, 6)}),
+                        e("UICorner", {CornerRadius = UDim.new(0, 5)}),
                         e(
                             "UIStroke",
                             {
-                                Transparency = 0,
+                                Transparency = 0.5,
                                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                                Thickness = 1.2,
-                                ThemeTag = {Color = "Accent"}
+                                ThemeTag = {Color = "InElementBorder"}
                             }
                         )
                     }
@@ -3437,8 +3403,8 @@ local aa = {
             end
 
             local s = e("UIListLayout", {Padding = UDim.new(0, 4)})
-            local scrollYPos = j.Multi and 81 or 44
-            local scrollYSize = j.Multi and -86 or -49
+            local scrollYPos = j.Multi and 73 or 40
+            local scrollYSize = j.Multi and -78 or -45
 
             local t =
                 e(
@@ -3450,13 +3416,13 @@ local aa = {
                     BottomImage = "rbxassetid://6889812791",
                     MidImage = "rbxassetid://6889812721",
                     TopImage = "rbxassetid://6276641225",
-                    ScrollBarImageTransparency = 0.6,
+                    ScrollBarImageColor3 = Color3.fromRGB(86, 86, 86),
+                    ScrollBarImageTransparency = 0,
                     ScrollBarThickness = 5,
                     BorderSizePixel = 0,
                     CanvasSize = UDim2.fromScale(0, 0),
                     ScrollingDirection = Enum.ScrollingDirection.Y,
-                    ElasticBehavior = Enum.ElasticBehavior.WhenScrollable,
-                    ThemeTag = {ScrollBarImageColor3 = "Accent"}
+                    ElasticBehavior = Enum.ElasticBehavior.WhenScrollable
                 },
                 {s}
             )
@@ -3465,11 +3431,11 @@ local aa = {
                 searchBox,
                 clearButton,
                 t,
-                e("UICorner", {CornerRadius = UDim.new(0, 8)}),
+                e("UICorner", {CornerRadius = UDim.new(0, 6)}),
                 e(
                     "UIStroke",
                     {
-                        Thickness = 1.5,
+                        Thickness = 1,
                         Transparency = 0.6,
                         ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                         ThemeTag = {Color = "DropdownBorder"}
@@ -3485,7 +3451,7 @@ local aa = {
                         Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(40, 40),
                         Position = UDim2.fromOffset(-20, -20),
                         ImageColor3 = Color3.fromRGB(0, 0, 0),
-                        ImageTransparency = 0.05,
+                        ImageTransparency = 0.4,
                         ZIndex = 0
                     }
                 )
@@ -3500,7 +3466,7 @@ local aa = {
                 "Frame",
                 {
                     Size = UDim2.fromScale(1, 0.5),
-                    BackgroundTransparency = 0,
+                    BackgroundTransparency = 0.15,
                     ThemeTag = {BackgroundColor3 = "DropdownHolder"}
                 },
                 uChildren
@@ -3811,45 +3777,33 @@ local aa = {
                             e(
                                 "Frame",
                                 {
-                                    Size = UDim2.fromOffset(5, 16),
+                                    Size = UDim2.fromOffset(4, 14),
                                     BackgroundColor3 = Color3.fromRGB(76, 194, 255),
-                                    Position = UDim2.fromOffset(0, 17),
+                                    Position = UDim2.fromOffset(0, 15),
                                     AnchorPoint = Vector2.new(0, 0.5),
                                     ThemeTag = {BackgroundColor3 = "Accent"}
                                 },
-                                {
-                                    e("UICorner", {CornerRadius = UDim.new(0, 2.5)}),
-                                    e(
-                                        "UIGradient",
-                                        {
-                                            Color = ColorSequence.new({
-                                                ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 210, 255)),
-                                                ColorSequenceKeypoint.new(1, Color3.fromRGB(76, 194, 255))
-                                            }),
-                                            Rotation = 90
-                                        }
-                                    )
-                                }
+                                {e("UICorner", {CornerRadius = UDim.new(0, 2)})}
                             ),
                             e(
                                 "TextLabel",
                                 {
                                     FontFace = Font.new(
                                         "rbxasset://fonts/families/GothamSSm.json",
-                                        Enum.FontWeight.SemiBold,
+                                        Enum.FontWeight.Regular,
                                         Enum.FontStyle.Normal
                                     ),
                                     Text = cleanText,
-                                    TextSize = 13,
+                                    TextSize = 12,
                                     TextXAlignment = Enum.TextXAlignment.Left,
                                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                                     AutomaticSize = Enum.AutomaticSize.Y,
                                     BackgroundTransparency = 1,
                                     Size = UDim2.fromScale(1, 1),
-                                    Position = UDim2.fromOffset(12, 0),
+                                    Position = UDim2.fromOffset(10, 0),
                                     Name = "ButtonLabel",
-                                    TextColor3 = Color3.fromRGB(255, 255, 255),
-                                    TextStrokeTransparency = 0.85,
+                                    TextColor3 = Color3.fromRGB(240, 240, 240),
+                                    TextStrokeTransparency = 0.9,
                                     TextStrokeColor3 = Color3.fromRGB(0, 0, 0),
                                     ThemeTag = {TextColor3 = "Text"}
                                 }
@@ -3858,7 +3812,7 @@ local aa = {
                             (e(
                             "TextButton",
                             {
-                                Size = UDim2.new(1, -10, 0, 34),
+                                Size = UDim2.new(1, -10, 0, 30),
                                 BackgroundColor3 = bgColor,
                                 BackgroundTransparency = bgTransparency,
                                 ZIndex = 23,
@@ -3869,12 +3823,11 @@ local aa = {
                             {
                                 K,
                                 L,
-                                e("UICorner", {CornerRadius = UDim.new(0, 7)}),
+                                e("UICorner", {CornerRadius = UDim.new(0, 6)}),
                                 e(
                                     "UIStroke",
                                     {
-                                        Transparency = 0.6,
-                                        Thickness = 1.2,
+                                        Transparency = 0.5,
                                         ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                                         ThemeTag = {Color = "InElementBorder"}
                                     }
@@ -3889,15 +3842,15 @@ local aa = {
 
                         -- ปรับค่า transparency ตามว่ามีสีกำหนดหรือไม่
                         local defaultTransparency = customColor and bgTransparency or 1
-                        local hoverTransparency = customColor and math.max(bgTransparency - 0.2, 0.3) or 0.89
-                        local selectedTransparency = customColor and math.max(bgTransparency - 0.3, 0.2) or 0.89
+                        local hoverTransparency = customColor and math.max(bgTransparency - 0.2, 0.3) or 0.9
+                        local selectedTransparency = customColor and math.max(bgTransparency - 0.3, 0.2) or 0.9
 
                         local O, P = c.SpringMotor(defaultTransparency, M, "BackgroundTransparency")
                         local Q, R = c.SpringMotor(1, K, "BackgroundTransparency")
-                        local S = d.SingleMotor.new(6)
+                        local S = d.SingleMotor.new(4)
                         S:onStep(
                             function(T)
-                                K.Size = UDim2.new(0, 5, 0, T)
+                                K.Size = UDim2.new(0, 4, 0, T)
                             end
                         )
                         c.AddSignal(
@@ -3915,7 +3868,7 @@ local aa = {
                         c.AddSignal(
                             M.MouseButton1Down,
                             function()
-                                P(customColor and 0.3 or 0.92)
+                                P(customColor and 0.3 or 0.95)
                             end
                         )
                         c.AddSignal(
