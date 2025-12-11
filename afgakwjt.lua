@@ -14,10 +14,9 @@ local SaveManager = {} do
 	SaveManager.Parser = {
 		Toggle = {
 			Save = function(idx, object) 
-				-- ตรวจสอบว่าค่าตรงกับ Default หรือไม่
 				local defaultValue = SaveManager.DefaultValues[idx]
 				if defaultValue ~= nil and defaultValue == object.Value then
-					return nil -- ไม่ต้อง save ถ้าค่าเท่ากับ default
+					return nil -- ไม่ต้อง save
 				end
 				return { type = "Toggle", idx = idx, value = object.Value } 
 			end,
@@ -30,7 +29,7 @@ local SaveManager = {} do
 		Slider = {
 			Save = function(idx, object)
 				local defaultValue = SaveManager.DefaultValues[idx]
-				if defaultValue ~= nil and tostring(defaultValue) == tostring(object.Value) then
+				if defaultValue ~= nil and tonumber(defaultValue) == tonumber(object.Value) then
 					return nil
 				end
 				return { type = "Slider", idx = idx, value = tostring(object.Value) }
@@ -44,9 +43,38 @@ local SaveManager = {} do
 		Dropdown = {
 			Save = function(idx, object)
 				local defaultValue = SaveManager.DefaultValues[idx]
-				if defaultValue ~= nil and defaultValue == object.Value then
-					return nil
+				
+				-- ตรวจสอบ Multi Dropdown
+				if object.Multi then
+					if defaultValue ~= nil then
+						local isDefault = true
+						-- เช็คว่าทุกค่าตรงกับ default หรือไม่
+						for k, v in pairs(object.Value) do
+							if defaultValue[k] ~= v then
+								isDefault = false
+								break
+							end
+						end
+						-- เช็คว่า default มีค่าที่ไม่อยู่ใน object.Value หรือไม่
+						if isDefault then
+							for k, v in pairs(defaultValue) do
+								if object.Value[k] ~= v then
+									isDefault = false
+									break
+								end
+							end
+						end
+						if isDefault then
+							return nil
+						end
+					end
+				else
+					-- Single Dropdown
+					if defaultValue ~= nil and defaultValue == object.Value then
+						return nil
+					end
 				end
+				
 				return { type = "Dropdown", idx = idx, value = object.Value, multi = object.Multi }
 			end,
 			Load = function(idx, data)
@@ -59,13 +87,18 @@ local SaveManager = {} do
 			Save = function(idx, object)
 				local hexValue = object.Value:ToHex()
 				local defaultValue = SaveManager.DefaultValues[idx]
+				local defaultTransparency = SaveManager.DefaultValues[idx .. "_transparency"]
+				
 				if defaultValue ~= nil then
 					local defaultHex = defaultValue:ToHex()
-					if defaultHex == hexValue and object.Transparency == (SaveManager.DefaultValues[idx .. "_transparency"] or 0) then
+					local currentTransparency = object.Transparency or 0
+					local defTrans = defaultTransparency or 0
+					
+					if defaultHex == hexValue and currentTransparency == defTrans then
 						return nil
 					end
 				end
-				return { type = "Colorpicker", idx = idx, value = hexValue, transparency = object.Transparency }
+				return { type = "Colorpicker", idx = idx, value = hexValue, transparency = object.Transparency or 0 }
 			end,
 			Load = function(idx, data)
 				if SaveManager.Options[idx] then 
@@ -164,15 +197,67 @@ local SaveManager = {} do
 	function SaveManager:SetLibrary(library)
 		self.Library = library
 		self.Options = library.Options
+		
+		-- Hook เข้าไปใน Library เพื่อจับค่า Default อัตโนมัติ
+		self:HookLibraryElements()
 	end
 
-	-- บันทึกค่า Default ของแต่ละ Option
-	function SaveManager:RegisterDefaultValue(idx, value, extraData)
-		self.DefaultValues[idx] = value
-		if extraData then
-			for k, v in pairs(extraData) do
-				self.DefaultValues[idx .. "_" .. k] = v
+	-- Hook เข้าไปดักจับการสร้าง Element
+	function SaveManager:HookLibraryElements()
+		if not self.Library then return end
+		
+		local function hookAddMethod(tab, methodName, elementType)
+			if not tab[methodName] then return end
+			
+			local originalMethod = tab[methodName]
+			tab[methodName] = function(self, idx, config)
+				local result = originalMethod(self, idx, config)
+				
+				-- บันทึกค่า Default
+				task.defer(function()
+					if config and SaveManager.Options[idx] then
+						if elementType == "Toggle" and config.Default ~= nil then
+							SaveManager.DefaultValues[idx] = config.Default
+						elseif elementType == "Slider" and config.Default ~= nil then
+							SaveManager.DefaultValues[idx] = config.Default
+						elseif elementType == "Dropdown" then
+							if config.Multi and config.Default then
+								-- Multi Dropdown: เก็บเป็น table
+								local defaultTable = {}
+								if type(config.Default) == "table" then
+									for _, v in ipairs(config.Default) do
+										defaultTable[v] = true
+									end
+								end
+								SaveManager.DefaultValues[idx] = defaultTable
+							elseif config.Default ~= nil then
+								-- Single Dropdown
+								SaveManager.DefaultValues[idx] = config.Default
+							end
+						elseif elementType == "Colorpicker" and config.Default ~= nil then
+							SaveManager.DefaultValues[idx] = config.Default
+							SaveManager.DefaultValues[idx .. "_transparency"] = config.Transparency or 0
+						elseif elementType == "Keybind" then
+							SaveManager.DefaultValues[idx] = config.Default or "None"
+							SaveManager.DefaultValues[idx .. "_mode"] = config.Mode or "Toggle"
+						elseif elementType == "Input" and config.Default ~= nil then
+							SaveManager.DefaultValues[idx] = config.Default
+						end
+					end
+				end)
+				
+				return result
 			end
+		end
+		
+		-- Hook ทุก Tab ที่มีใน Window
+		for _, tab in pairs(self.Library.Tabs or {}) do
+			hookAddMethod(tab, "AddToggle", "Toggle")
+			hookAddMethod(tab, "AddSlider", "Slider")
+			hookAddMethod(tab, "AddDropdown", "Dropdown")
+			hookAddMethod(tab, "AddColorpicker", "Colorpicker")
+			hookAddMethod(tab, "AddKeybind", "Keybind")
+			hookAddMethod(tab, "AddInput", "Input")
 		end
 	end
 
