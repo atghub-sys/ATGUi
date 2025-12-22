@@ -257,7 +257,7 @@ end
 
 -- ============================================================================
 -- ATG HUB - AUTO-TRANSLATION SYSTEM
--- Powered by LibreTranslate API (translate.atgofficial.net)
+-- Powered by Google Gemini 2.5 Flash API (translate.atgofficial.net)
 --
 -- USAGE EXAMPLE:
 --
@@ -311,48 +311,86 @@ do
         return source .. "_" .. target .. "_" .. text
     end
 
-    -- Translate text using API
-    function TranslationSystem:TranslateText(text, targetLang)
+    -- Check if text contains emoji (protect from corruption)
+    local function hasEmoji(text)
+        -- Common emoji Unicode ranges
+        for i = 1, #text do
+            local byte = string.byte(text, i)
+            -- Emoji ranges: UTF-8 4-byte sequences (emojis)
+            if byte >= 240 then
+                return true
+            end
+        end
+        return false
+    end
+
+    -- Translate text using Gemini API (Async, one-by-one with instant display)
+    function TranslationSystem:TranslateText(text, targetLang, callback)
         if not self.Enabled or not text or text == "" then
+            if callback then callback(text) end
             return text
         end
 
         -- Skip if target is same as source
         if targetLang == self.SourceLanguage then
+            if callback then callback(text) end
+            return text
+        end
+
+        -- Skip if text contains emoji (prevent corruption)
+        if hasEmoji(text) then
+            if callback then callback(text) end
             return text
         end
 
         -- Check cache first
         local cacheKey = getCacheKey(self.SourceLanguage, targetLang, text)
         if self.Cache[cacheKey] then
+            if callback then callback(self.Cache[cacheKey]) end
             return self.Cache[cacheKey]
         end
 
-        -- Call Translation API
-        local success, result = pcall(function()
-            local requestBody = HttpService:JSONEncode({
-                q = text,
-                source = self.SourceLanguage,
-                target = targetLang
-            })
+        -- Async individual API call (instant display when done)
+        task.spawn(function()
+            local success, result = pcall(function()
+                local requestBody = HttpService:JSONEncode({
+                    q = text,
+                    source = self.SourceLanguage,
+                    target = targetLang
+                })
 
-            local response = game:HttpPost(
-                self.API_URL .. "/translate",
-                requestBody,
-                Enum.HttpContentType.ApplicationJson,
-                false
-            )
+                local response = request({
+                    Url = self.API_URL .. "/translate",
+                    Method = "POST",
+                    Headers = {["Content-Type"] = "application/json"},
+                    Body = requestBody
+                })
 
-            local data = HttpService:JSONDecode(response)
-            return data.translatedText or text
+                if not response or not response.Success then
+                    error("Request failed")
+                end
+
+                local data = HttpService:JSONDecode(response.Body)
+                return data.translatedText or text
+            end)
+
+            if success and result then
+                -- Cache the translation
+                self.Cache[cacheKey] = result
+
+                -- Update UI immediately (instant display!)
+                if callback then
+                    callback(result)
+                end
+            else
+                -- Fallback to original text
+                if callback then
+                    callback(text)
+                end
+            end
         end)
 
-        if success and result then
-            self.Cache[cacheKey] = result
-            return result
-        else
-            return text -- Return original on error
-        end
+        return text -- Return original immediately (will update async)
     end
 
     -- Register text element for auto-translation
@@ -368,6 +406,9 @@ do
             Property = propertyName
         }
 
+        -- Debug: Show registration
+        -- print(string.format("[TranslationSystem] Registered: '%s'", originalText:sub(1, 30)))
+
         -- Translate immediately if not English
         if self.CurrentLanguage ~= self.SourceLanguage then
             self:UpdateText(textObject)
@@ -376,18 +417,21 @@ do
         return textObject
     end
 
-    -- Update single text element
+    -- Update single text element (Async)
     function TranslationSystem:UpdateText(textObject)
         local registry = self.Registry[textObject]
         if not registry then
             return
         end
 
-        local translated = self:TranslateText(registry.OriginalText, self.CurrentLanguage)
-        textObject[registry.Property] = translated
+        self:TranslateText(registry.OriginalText, self.CurrentLanguage, function(translated)
+            if textObject and textObject.Parent then
+                textObject[registry.Property] = translated
+            end
+        end)
     end
 
-    -- Update all registered text elements
+    -- Update all registered text elements (Async)
     function TranslationSystem:UpdateAllText()
         for textObject, registry in pairs(self.Registry) do
             if textObject and textObject.Parent then
@@ -417,11 +461,25 @@ do
         return options
     end
 
-    -- Get language code from dropdown index
-    function TranslationSystem:GetLanguageCode(index)
-        if self.AvailableLanguages[index] then
-            return self.AvailableLanguages[index].code
+    -- Get language code from dropdown value (index or string)
+    function TranslationSystem:GetLanguageCode(value)
+        -- If value is a number (index), use it directly
+        if type(value) == "number" then
+            if self.AvailableLanguages[value] then
+                return self.AvailableLanguages[value].code
+            end
         end
+
+        -- If value is a string (language name with flag), find matching language
+        if type(value) == "string" then
+            for _, lang in ipairs(self.AvailableLanguages) do
+                local displayName = lang.flag .. " " .. lang.name
+                if displayName == value then
+                    return lang.code
+                end
+            end
+        end
+
         return "en"
     end
 
@@ -1388,6 +1446,11 @@ local aa = {
 			q.Duration = q.Duration or nil
 			q.Buttons = q.Buttons or {}
 
+			-- Store originals for translation
+			local originalTitle = q.Title
+			local originalContent = q.Content
+			local originalSubContent = q.SubContent
+
 			local r = {Closed = false}
 			r.AcrylicPaint = k.AcrylicPaint()
 
@@ -1463,7 +1526,7 @@ local aa = {
 					}
 				)
 			-- Register Title for translation
-			TranslationSystem:Register(r.Title, q.Title, "Text")
+			TranslationSystem:Register(r.Title, originalTitle, "Text")
 
 			r.ContentLabel =
 				n(
@@ -1486,7 +1549,7 @@ local aa = {
 					}
 				)
 			-- Register Content for translation
-			TranslationSystem:Register(r.ContentLabel, q.Content, "Text")
+			TranslationSystem:Register(r.ContentLabel, originalContent, "Text")
 
 			r.SubContentLabel =
 				n(
@@ -1505,8 +1568,8 @@ local aa = {
 					}
 				)
 			-- Register SubContent for translation
-			if q.SubContent ~= "" then
-				TranslationSystem:Register(r.SubContentLabel, q.SubContent, "Text")
+			if originalSubContent ~= "" then
+				TranslationSystem:Register(r.SubContentLabel, originalSubContent, "Text")
 			end
 
 			r.LabelHolder =
@@ -7645,7 +7708,7 @@ do
 	end
 	local C = function(C, D, E)
 		local F, G, H, I, J = ac({}, {__mode = "k"}), function(F)
-			ad(F .. " is not a valid (virtual) member of " .. C .. ' "' .. D .. '"', 1)
+			ad(F .. " is not a valid (virtual) member of " .. C .. " \"" .. D .. "\"", 1)
 		end, function(F)
 			ad("Unable to assign (virtual) property " .. F .. ". Property is read only", 1)
 		end, (ae(true))
